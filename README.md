@@ -1,1 +1,3 @@
-# CS157A_Group19_HW
+# What Can I Cook?
+
+A recipe search app
