@@ -10,12 +10,23 @@
 </head>
 <body>
 	<%
-	String ingredient = request.getParameter("ingredient-input");%>
-	<!--  h1>Ingredient List:  ingredient %> </h1-->
-	
+	String ingredient = request.getParameter("ingredient-input");
+	%>
+	<%
+	String category = request.getParameter("food-cat");
+	%>
+	<h1>
+		Food Category:
+		<%=category%>
+	</h1>
+
 	<table border="1">
 		<tr>
-			<td>Recipe Name</td>
+			<td>Recipe Name:</td>
+			<td>Serving Size:</td>
+			<td>Prep Time:</td>
+			<td>Cook Time:</td>
+			<td>Calories:</td>
 		</tr>
 		<%
 		String db = "CS157A";
@@ -29,21 +40,30 @@
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/WhatCanICook?autoReconnect=true&useSSL=false", user,
 			password);
 
-			out.println("Recipes that use " + ingredient);
-
 			Statement stmt = con.createStatement();
-			String query = "";
-			if (ingredient == null) {
-				query = "SELECT DISTINCT recipeName FROM RecipeIngredients";
-			} else {
-				query = "SELECT DISTINCT recipeName FROM RecipeIngredients WHERE ingredientName = '" + ingredient + "'";
+			String query = "SELECT * FROM RecipeSummary";
+			if (!ingredient.equals("")) {
+				out.println("Recipes that use " + ingredient);
+				query = query + " WHERE name IN (SELECT DISTINCT recipeName FROM RecipeIngredients WHERE ingredientName = '"
+				+ ingredient + "')";
+				if(!category.equals("all")){
+					query = query + " AND name IN (SELECT DISTINCT recipeName FROM RecipeCategory WHERE categoryName = '"
+							+ category + "')";
+				}
 			}
-			//out.println("Query: " + query);
+			else{
+				if(!category.equals("all")){
+					query = query + " WHERE name IN (SELECT DISTINCT recipeName FROM RecipeCategory WHERE categoryName = '"
+							+ category + "')";
+				}
+			}
+			//out.println("Query: " + query + "\n");
 			ResultSet rs = stmt.executeQuery(query);
-			
 
 			while (rs.next()) {
-				out.println("<tr>" + "<td>" + rs.getString(1) + " </td>" + "</tr>");
+				out.println("<tr>" + "<td>" + rs.getString(1) + " </td>" + "<td>" + rs.getString(2) + " </td>" + "<td>"
+				+ rs.getString(3) + " </td>" + "<td>" + rs.getString(4) + " </td>" + "<td>" + rs.getString(5) + " </td>"
+				+ "</tr>");
 			}
 			rs.close();
 			stmt.close();
