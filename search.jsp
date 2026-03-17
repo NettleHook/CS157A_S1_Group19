@@ -6,8 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Recipes</title>
+<link href="reset.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<%
+	String ingredient = request.getParameter("ingredient-input");%>
+	<!--  h1>Ingredient List:  ingredient %> </h1-->
+	
 	<table border="1">
 		<tr>
 			<td>Recipe Name</td>
@@ -24,13 +29,18 @@
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/WhatCanICook?autoReconnect=true&useSSL=false", user,
 			password);
 
-			out.println(db + " database successfully opened.<br/><br/>");
-
-			out.println("Initial test in fetch from \"Recipes\": <br/>");
+			out.println("Recipes that use " + ingredient);
 
 			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT * FROM RecipeSummary");
+			String query = "";
+			if (ingredient == null) {
+				query = "SELECT DISTINCT recipeName FROM RecipeIngredients";
+			} else {
+				query = "SELECT DISTINCT recipeName FROM RecipeIngredients WHERE ingredientName = '" + ingredient + "'";
+			}
+			//out.println("Query: " + query);
+			ResultSet rs = stmt.executeQuery(query);
+			
 
 			while (rs.next()) {
 				out.println("<tr>" + "<td>" + rs.getString(1) + " </td>" + "</tr>");

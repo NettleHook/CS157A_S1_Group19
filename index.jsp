@@ -6,6 +6,7 @@
 <meta charset="UTF-8" />
 <title>What Can I Cook?</title>
 <link href="favicon.ico" rel="icon" type="image/x-icon" />
+<link href="reset.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -21,9 +22,9 @@
 	<div id="title-box">
 		<h1>What Can I Cook?</h1>
 	</div>
-	<form id="recipe-search" action="search.jsp" method = "POST">
+	<form id="recipe-search" action="search.jsp" method="POST">
 		<label for="ingredient-input">Ingredients:</label><br> <input
-			type="text" id="ingredient-input"> <br> <label
+			type="text" id="ingredient-input" name = "ingredient-input"> <br> <label
 			for="diet-cat">Diet:</label><br>
 		<div id="diet-cat">
 			<input type="checkbox" id="keto" value="Keto"> <label
@@ -53,7 +54,14 @@
 			<input type="radio" id="main-dishes" name="food-cat"> <label
 				for="main-dishes">Main Dishes</label>
 		</div>
-		<input type="submit" value="Submit">
+		<label for="prep-time">Prep Time:</label><br> <input type="number"
+			id="prep-time-hours"><input type="number"
+			id="prep-time-minutes"><br> <label for="cook-time">Cooking
+			Time:</label><br> <input type="number" id="cook-time-hours"><input type="number" id="cook-time-minutess"> <br> <label
+			for="serving-size">Serving Size:</label><br> <input type="number"
+			id="serving-size"> <br> <label for="calories">Calorie Cap:</label><br>
+		<input type="number" id="calories"> <br> <input
+			type="submit" value="Submit">
 	</form>
 
 </body>
