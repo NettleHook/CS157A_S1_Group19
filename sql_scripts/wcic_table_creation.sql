@@ -1,26 +1,26 @@
 CREATE TABLE guests (
-    session_id VARCHAR(50) PRIMARY KEY
+    session_id VARCHAR(255) PRIMARY KEY
 );
 
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(50),
-    password VARCHAR(50) NOT NULL,
+    username VARCHAR(255),
+    password VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (username)
 );
 
 CREATE TABLE ingredients (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
+    name VARCHAR(255),
     PRIMARY KEY (id),
     UNIQUE (name)
 );
 
 CREATE TABLE recipe_summaries (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
-    serving_size VARCHAR(50),
+    name VARCHAR(255),
+    serving_size VARCHAR(255),
     prep_time_min INT,
     cook_time_min INT,
     calories INT,
@@ -36,21 +36,21 @@ CREATE TABLE recipe_full (
 
 CREATE TABLE categories (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
+    name VARCHAR(255),
     PRIMARY KEY (id),
     UNIQUE (name)
 );
 
 CREATE TABLE diets (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
+    name VARCHAR(255),
     PRIMARY KEY (id),
     UNIQUE (name)
 );
 
 CREATE TABLE units (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
+    name VARCHAR(255),
     PRIMARY KEY (id),
     UNIQUE (name)
 );
@@ -126,7 +126,7 @@ CREATE TABLE user_ingredient_lists (
 );
 
 CREATE TABLE guest_ingredient_lists (
-    session_id VARCHAR(50) NOT NULL,
+    session_id VARCHAR(255) NOT NULL,
     ingredient_id INT NOT NULL,
     unit_id INT NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
