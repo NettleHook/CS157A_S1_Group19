@@ -4,7 +4,7 @@ CREATE TABLE guests (
 
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(255),
+    username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (username)
@@ -12,15 +12,15 @@ CREATE TABLE users (
 
 CREATE TABLE ingredients (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (name)
 );
 
 CREATE TABLE recipe_summaries (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
-    serving_size VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    serving_size INT,
     prep_time_min INT,
     cook_time_min INT,
     calories INT,
@@ -36,21 +36,21 @@ CREATE TABLE recipe_full (
 
 CREATE TABLE categories (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (name)
 );
 
 CREATE TABLE diets (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (name)
 );
 
 CREATE TABLE units (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE (name)
 );
