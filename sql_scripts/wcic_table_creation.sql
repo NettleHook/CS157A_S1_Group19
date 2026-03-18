@@ -31,7 +31,7 @@ CREATE TABLE recipe_full (
     recipe_id INT NOT NULL,
     description TEXT NOT NULL,
     PRIMARY KEY (recipe_id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id)
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id) ON DELETE CASCADE
 );
 
 CREATE TABLE categories (
@@ -59,7 +59,7 @@ CREATE TABLE recipe_categories (
     recipe_id INT NOT NULL,
     category_id INT NOT NULL,
     PRIMARY KEY (recipe_id, category_id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
@@ -77,7 +77,7 @@ CREATE TABLE recipe_ingredients (
     unit_id INT NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (recipe_id, ingredient_id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id) ON DELETE CASCADE,
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
     FOREIGN KEY (unit_id) REFERENCES units(id)
 );
@@ -86,31 +86,31 @@ CREATE TABLE liked_recipes (
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     PRIMARY KEY (user_id, recipe_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id) ON DELETE CASCADE
 );
 
 CREATE TABLE bookmarked_recipes (
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     PRIMARY KEY (user_id, recipe_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id) ON DELETE CASCADE
 );
 
 CREATE TABLE uploaded_recipes (
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     PRIMARY KEY (user_id, recipe_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_diets (
     user_id INT NOT NULL,
     diet_id INT NOT NULL,
     PRIMARY KEY (user_id, diet_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (diet_id) REFERENCES diets(id)
 );
 
@@ -120,7 +120,7 @@ CREATE TABLE user_ingredient_lists (
     unit_id INT NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (user_id , ingredient_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
     FOREIGN KEY (unit_id) REFERENCES units(id)
 );
@@ -131,7 +131,7 @@ CREATE TABLE guest_ingredient_lists (
     unit_id INT NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (session_id, ingredient_id),
-    FOREIGN KEY (session_id) REFERENCES guests(session_id),
+    FOREIGN KEY (session_id) REFERENCES guests(session_id) ON DELETE CASCADE,
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
     FOREIGN KEY (unit_id) REFERENCES units(id)
 );
