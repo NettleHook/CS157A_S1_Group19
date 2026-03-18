@@ -3,89 +3,135 @@ CREATE TABLE guests (
 );
 
 CREATE TABLE users (
-    user_id VARCHAR(50) PRIMARY KEY,
-    password VARCHAR(50) NOT NULL
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50),
+    password VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (username)
 );
 
 CREATE TABLE ingredients (
-    name VARCHAR(50) PRIMARY KEY
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50),
+    PRIMARY KEY (id),
+    UNIQUE (name)
 );
 
 CREATE TABLE recipe_summaries (
-    name VARCHAR(50) PRIMARY KEY,
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50),
     serving_size VARCHAR(50),
     prep_time_min INT,
     cook_time_min INT,
-    calories INT
+    calories INT,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE recipe_full (
-    recipe_name VARCHAR(50) PRIMARY KEY,
-    ingredient_list VARCHAR(1000)  NOT NULL,
-    steps VARCHAR(10000)  NOT NULL
+    recipe_id INT NOT NULL,
+    description TEXT NOT NULL,
+    PRIMARY KEY (recipe_id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id)
 );
 
 CREATE TABLE categories (
-    name VARCHAR(50) PRIMARY KEY
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50),
+    PRIMARY KEY (id),
+    UNIQUE (name)
 );
 
 CREATE TABLE diets (
-    name VARCHAR(50) PRIMARY KEY
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50),
+    PRIMARY KEY (id),
+    UNIQUE (name)
+);
+
+CREATE TABLE units (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50),
+    PRIMARY KEY (id),
+    UNIQUE (name)
 );
 
 CREATE TABLE recipe_categories (
-    recipe_name VARCHAR(50),
-    category_name VARCHAR(50),
-    PRIMARY KEY (recipe_name , category_name)
+    recipe_id INT NOT NULL,
+    category_id INT NOT NULL,
+    PRIMARY KEY (recipe_id, category_id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
 CREATE TABLE recipe_diets (
-    recipe_name VARCHAR(50),
-    diet_name VARCHAR(50),
-    PRIMARY KEY (recipe_name , diet_name)
+    recipe_id INT NOT NULL,
+    diet_id INT NOT NULL,
+    PRIMARY KEY (recipe_id, diet_id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id),
+    FOREIGN KEY (diet_id) REFERENCES diets(id)
 );
 
 CREATE TABLE recipe_ingredients (
-    recipe_name VARCHAR(50),
-    ingredient_name VARCHAR(50),
-    amounts VARCHAR(50)  NOT NULL,
-    PRIMARY KEY (recipe_name , ingredient_name)
+    recipe_id INT NOT NULL,
+    ingredient_id INT NOT NULL,
+    unit_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (recipe_id, ingredient_id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id),
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
+    FOREIGN KEY (unit_id) REFERENCES units(id)
 );
 
 CREATE TABLE liked_recipes (
-    user_id VARCHAR(50),
-    recipe_name VARCHAR(50),
-    PRIMARY KEY (user_id , recipe_name)
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    PRIMARY KEY (user_id, recipe_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id)
 );
 
 CREATE TABLE bookmarked_recipes (
-    user_id VARCHAR(50),
-    recipe_name VARCHAR(50),
-    PRIMARY KEY (user_id , recipe_name)
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    PRIMARY KEY (user_id, recipe_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id)
 );
 
 CREATE TABLE uploaded_recipes (
-    user_id VARCHAR(50),
-    recipe_name VARCHAR(50),
-    PRIMARY KEY (user_id , recipe_name)
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    PRIMARY KEY (user_id, recipe_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id)
 );
 
 CREATE TABLE user_diets (
-    user_id VARCHAR(50),
-    diet VARCHAR(50),
-    PRIMARY KEY (user_id , diet)
+    user_id INT NOT NULL,
+    diet_id INT NOT NULL,
+    PRIMARY KEY (user_id, diet_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (diet_id) REFERENCES diets(id)
 );
 
 CREATE TABLE user_ingredient_lists (
-    user_id VARCHAR(50),
-    ingredient_name VARCHAR(50),
-    amount VARCHAR(50),
-    PRIMARY KEY (user_id , ingredient_name)
+    user_id INT NOT NULL,
+    ingredient_id INT NOT NULL,
+    unit_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (user_id , ingredient_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
+    FOREIGN KEY (unit_id) REFERENCES units(id)
 );
 
 CREATE TABLE guest_ingredient_lists (
-    session_id VARCHAR(50),
-    ingredient_name VARCHAR(50),
-    amount VARCHAR(50),
-    PRIMARY KEY (session_id , ingredient_name)
+    session_id VARCHAR(50) NOT NULL,
+    ingredient_id INT NOT NULL,
+    unit_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (session_id, ingredient_id),
+    FOREIGN KEY (session_id) REFERENCES guests(session_id),
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
+    FOREIGN KEY (unit_id) REFERENCES units(id)
 );
