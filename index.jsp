@@ -13,6 +13,27 @@
 <link href="styles/style.css" rel="stylesheet" type="text/css">
 </head>
 
+<script>
+  function addIngredient() {
+    const container = document.getElementById('ingredients');
+    const row = document.createElement('div');
+    row.className = 'ingredient-row';
+    row.innerHTML = `
+      <input type="text" name="ingredient-input" placeholder="Enter ingredient" />
+      <button type="button" onclick="removeIngredient(this)">Remove</button>
+    `;
+    container.appendChild(row);
+  }
+
+  function removeIngredient(btn) {
+    const row = btn.parentElement;
+    // Keep at least one ingredient row
+    if (document.querySelectorAll('.ingredient-row').length > 1) {
+      row.remove();
+    }
+  }
+</script>
+
 <body>
 	<div class="layout">
 		<nav>
@@ -30,12 +51,14 @@
 		</nav>
 		<main>
 			<form class="recipe-search" id="recipe-search" action="search.jsp" method="POST">
-				<div class="ingredients">
+				<div class="ingredients" id="ingredients">
 					<label for="ingredients">Ingredients:</label>
-					<div>
-						<input type="text" id="ingredient-input" name="ingredient-input">
+					<div class = "ingredient-row">
+						<input type="text" id="ingredient-input" name="ingredient-input" placeholder="Enter ingredient">
+						<button type="button" onclick="removeIngredient(this)">Remove</button>
 					</div>
 				</div>
+				<button type="button" onclick="addIngredient()">+ Add Ingredient</button>
 				<div class="diet-cat" id="diet-cat">
 					<label for="diet-cat">Diet:</label>
 					<div>
@@ -53,8 +76,6 @@
 							<input type="radio" id="<%= option.id() %>" name="food-cat" value="<%= option.id() %>">
 							<label for="<%= option.id() %>"><%= option.text() %></label>
 						<% } %>
-						<input type="radio" id="all" name="food-cat" value="all" checked>
-						<label for="main-dishes">All</label>
 					</div>
 				</div>
 				<div class="serving-size">
