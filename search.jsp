@@ -49,7 +49,7 @@
 		String db = "CS157A";
 		String user; // assumes database name is the same as username
 		user = "root";
-		String password = "n3ttl3h00k";
+		String password = "password";
 		try {
 			java.sql.Connection con;
 			Class.forName("com.mysql.jdbc.Driver");
