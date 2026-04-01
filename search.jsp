@@ -32,6 +32,24 @@
         }
     }
 	%>
+	<%
+	String dietId = request.getParameter("diet-cat");
+	String diet = null;
+
+    for (Constants.Option option : Constants.DIETS) {
+        if (option.id().equals(dietId)) {
+            diet = option.text();
+            break;
+        }
+    }
+	%>
+	<%
+	String servSize = request.getParameter("serving-size");
+	String prepTime = request.getParameter("prep-time-hours")*60 + request.getParameter("prep-time-minutes");
+	String cookTime = request.getParameter("cook-time-hours")*60 + request.getParameter("cook-time-minutes");
+	String calories = request.getParameter("calories-size");
+	
+	%>
 	<h1>
 		Food Category:
 		<%=category%>
@@ -57,33 +75,54 @@
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/WhatCanICook?autoReconnect=true&useSSL=false", user,
 			password);
 
-			String query = "SELECT * FROM RecipeSummary";
-			List<String> params = new ArrayList<>(); // collect all bind values in order
+			List<String> conditions = new ArrayList<>();
+		    List<String> params = new ArrayList<>();
 
-			if (ingredients != null) {
-				out.println("Recipes that use " + ingredients);
-				//Assuming "ALL" search
-				String placeholders = String.join(",", Collections.nCopies(ingredients.size(), "?"));
+		    if (ingredients != null) {
+		        String placeholders = String.join(", ", Collections.nCopies(ingredients.size(), "?"));
+		        conditions.add("name IN (SELECT recipeName FROM RecipeIngredients WHERE ingredientName IN ("
+		                + placeholders + ") GROUP BY recipeName HAVING COUNT(*) = " + ingredients.size() + ")");
+		        params.addAll(ingredients);
+		    }
 
-				query += " WHERE name IN (SELECT recipeName FROM RecipeIngredients WHERE ingredientName IN (" + placeholders
-				+ ") GROUP BY recipeName HAVING COUNT(*) = " + ingredients.size() + ")";
-				params.addAll(ingredients); // add ingredient placeholders
-				if (!category.equals("All")) {
-			query += " AND name IN (SELECT DISTINCT recipeName FROM RecipeCategory WHERE categoryName = ?)";
-			params.add(category); // add category placeholder
-				}
-			} else {
-				if (!category.equals("All")) {
-			query += " WHERE name IN (SELECT DISTINCT recipeName FROM RecipeCategory WHERE categoryName = ?)";
-			params.add(category); // add category placeholder
-				}
-			}
+		    if (category != "All") {
+		        conditions.add("name IN (SELECT DISTINCT recipeName FROM RecipeCategory WHERE categoryName = ?)");
+		        params.add(category);
+		    }
+		    //convert to using this field for views ? Or only for logged in users
 
-			PreparedStatement stmt = con.prepareStatement(query);
-			// Bind each ingredient to its placeholder (PreparedStatement index is 1-based)
-			for (int i = 0; i < params.size(); i++) {
-				stmt.setString(i + 1, params.get(i));
-			}
+		    if (diet != null) {
+		        conditions.add("name IN (SELECT DISTINCT recipeName FROM RecipeDiets WHERE dietName = ?)");
+		        params.add(diet);
+		    }
+		    //Keep this equals to, or at least servSize?
+		    if (servSize != null) {
+		        conditions.add("ServingSize = ?");
+		        params.add(servSize);
+		    }
+		    if (prepTime != null) {
+		        conditions.add("prepTime = ?");
+		        params.add(prepTime);
+		    }
+		    if (cookTime != null) {
+		        conditions.add("cookTime = ?");
+		        params.add(cookTime);
+		    }
+		    if (calories != null) {
+		        conditions.add("calories <= ?");
+		        params.add(calories);
+		    }
+		    // Build the final query
+		    String query = "SELECT * FROM RecipeSummary";
+		    if (!conditions.isEmpty()) {
+		        query += " WHERE " + String.join(" AND ", conditions);
+		    }
+		 // Bind each ingredient to its placeholder (PreparedStatement index is 1-based)
+		    PreparedStatement stmt = con.prepareStatement(query);
+		    for (int i = 0; i < params.size(); i++) {
+		        stmt.setString(i + 1, params.get(i));
+		    }
+
 			out.println("Query: " + stmt + "\n");
 			ResultSet rs = stmt.executeQuery();
 
