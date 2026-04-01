@@ -11,10 +11,8 @@ CREATE TABLE users (
 );
 
 CREATE TABLE ingredients (
-    id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE (name)
+    PRIMARY KEY (name)
 );
 
 CREATE TABLE recipe_summaries (
@@ -73,12 +71,12 @@ CREATE TABLE recipe_diets (
 
 CREATE TABLE recipe_ingredients (
     recipe_id INT NOT NULL,
-    ingredient_id INT NOT NULL,
+    ingredient_id VARCHAR(255) NOT NULL,
     unit_id INT NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (recipe_id, ingredient_id),
     FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id) ON DELETE CASCADE,
-    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(name),
     FOREIGN KEY (unit_id) REFERENCES units(id)
 );
 
@@ -116,22 +114,22 @@ CREATE TABLE user_diets (
 
 CREATE TABLE user_ingredient_lists (
     user_id INT NOT NULL,
-    ingredient_id INT NOT NULL,
+    ingredient_id VARCHAR(255) NOT NULL,
     unit_id INT NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (user_id , ingredient_id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(name),
     FOREIGN KEY (unit_id) REFERENCES units(id)
 );
 
 CREATE TABLE guest_ingredient_lists (
     session_id VARCHAR(255) NOT NULL,
-    ingredient_id INT NOT NULL,
+    ingredient_id VARCHAR(255) NOT NULL,
     unit_id INT NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (session_id, ingredient_id),
     FOREIGN KEY (session_id) REFERENCES guests(session_id) ON DELETE CASCADE,
-    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(name),
     FOREIGN KEY (unit_id) REFERENCES units(id)
 );
