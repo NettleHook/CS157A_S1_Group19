@@ -78,31 +78,31 @@
 						<% } %>
 					</div>
 				</div>
-				<div class="serving-size">
+				<div class="serving-size-div">
 					<label for="serving-size">Serving Size:</label>
-					<input type="number" id="serving-size"> 
+					<input type="number" id="serving-size" name="serving-size"> 
 				</div>
-				<div class="prep-time">
+				<div class="prep-time-div">
 					<label for="prep-time">Prep Time:</label>
 					<div>
-						<input type="number"id="prep-time-hours">
-						<input type="number" id="prep-time-minutes">
+						<input type="number"id="prep-time-hours" name="prep-time-hours">
+						<input type="number" id="prep-time-minutes" name="prep-time-minutes">
 					</div>
 				</div>
-				<div class="cook-time">
+				<div class="cook-time-div">
 					<label for="cook-time">Cooking Time:</label>
 					<div>
-						<input type="number" id="cook-time-hours">
-						<input type="number" id="cook-time-minutes"> 
+						<input type="number" id="cook-time-hours" name="cook-time-hours">
+						<input type="number" id="cook-time-minutes" name="cook-time-minutes"> 
 					</div>
 				</div>
-				<div class="calories">
+				<div class="calories-div">
 					<label for="calories">Calorie Cap:</label>
-					<input type="number" id="calories">
+					<input type="number" id="calories" name = "calories">
 				</div>
 				<input type="submit" value="Submit">
 			</form>
-		<main>
+		</main>
 	</div>
 </body>
 
