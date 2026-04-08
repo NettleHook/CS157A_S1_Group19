@@ -12,6 +12,17 @@
 <link href="reset.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<%!
+	private String getTime(String hour, String minute) {
+		int minutes = 0;
+		if (hour != null){
+			minutes = Integer.parseInt(hour)*60;
+		}
+		if (minute!= null){
+			minutes += Integer.parseInt(minute);
+		}
+		return minutes + "";
+	}%>
 	<%
 	String[] ingredient = request.getParameterValues("ingredient-input");
 
@@ -19,9 +30,6 @@
 	List<String> ingredients = Arrays.stream(ingredient).map(String::trim).filter(s -> !s.isEmpty()) // drop blank inputs
 			.collect(Collectors.toList());
 
-	out.println(ingredients);
-	%>
-	<%
 	String categoryId = request.getParameter("food-cat");
 	String category = null;
 
@@ -31,8 +39,6 @@
             break;
         }
     }
-	%>
-	<%
 	String dietId = request.getParameter("diet-cat");
 	String diet = null;
 
@@ -42,11 +48,9 @@
             break;
         }
     }
-	%>
-	<%
 	String servSize = request.getParameter("serving-size");
-	String prepTime = request.getParameter("prep-time-hours")*60 + request.getParameter("prep-time-minutes");
-	String cookTime = request.getParameter("cook-time-hours")*60 + request.getParameter("cook-time-minutes");
+	String prepTime = getTime(request.getParameter("prep-time-hours"), request.getParameter("prep-time-minutes"));
+	String cookTime = getTime(request.getParameter("cook-time-hours"), request.getParameter("cook-time-minutes"));
 	String calories = request.getParameter("calories-size");
 	
 	%>
@@ -55,14 +59,6 @@
 		<%=category%>
 	</h1>
 
-	<table border="1">
-		<tr>
-			<td>Recipe Name:</td>
-			<td>Serving Size:</td>
-			<td>Prep Time:</td>
-			<td>Cook Time:</td>
-			<td>Calories:</td>
-		</tr>
 		<%
 		String db = "CS157A";
 		String user; // assumes database name is the same as username
@@ -78,34 +74,34 @@
 			List<String> conditions = new ArrayList<>();
 		    List<String> params = new ArrayList<>();
 
-		    if (ingredients != null) {
+		    if (ingredients != null && !ingredients.isEmpty()) {
 		        String placeholders = String.join(", ", Collections.nCopies(ingredients.size(), "?"));
-		        conditions.add("name IN (SELECT recipeName FROM RecipeIngredients WHERE ingredientName IN ("
-		                + placeholders + ") GROUP BY recipeName HAVING COUNT(*) = " + ingredients.size() + ")");
+		        conditions.add("id IN (SELECT recipe_id FROM recipe_ingredients WHERE ingredient_id IN ("
+		                + placeholders + ") GROUP BY recipe_id HAVING COUNT(*) = " + ingredients.size() + ")");
 		        params.addAll(ingredients);
 		    }
 
-		    if (category != "All") {
-		        conditions.add("name IN (SELECT DISTINCT recipeName FROM RecipeCategory WHERE categoryName = ?)");
+		    if (category != "All" && category != null) {
+		        conditions.add("id IN (SELECT DISTINCT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = ?))");
 		        params.add(category);
 		    }
 		    //convert to using this field for views ? Or only for logged in users
 
 		    if (diet != null) {
-		        conditions.add("name IN (SELECT DISTINCT recipeName FROM RecipeDiets WHERE dietName = ?)");
+		        conditions.add("id IN (SELECT DISTINCT recipe_id FROM recipe_diets WHERE dietName = ?)");
 		        params.add(diet);
 		    }
 		    //Keep this equals to, or at least servSize?
 		    if (servSize != null) {
-		        conditions.add("ServingSize = ?");
+		        conditions.add("serving_size = ?");
 		        params.add(servSize);
 		    }
-		    if (prepTime != null) {
-		        conditions.add("prepTime = ?");
+		    if (!prepTime.equals("0")) {
+		        conditions.add("prep_time_min = ?");
 		        params.add(prepTime);
 		    }
-		    if (cookTime != null) {
-		        conditions.add("cookTime = ?");
+		    if (!cookTime.equals("0")) {
+		        conditions.add("cook_time_min = ?");
 		        params.add(cookTime);
 		    }
 		    if (calories != null) {
@@ -113,7 +109,7 @@
 		        params.add(calories);
 		    }
 		    // Build the final query
-		    String query = "SELECT * FROM RecipeSummary";
+		    String query = "SELECT * FROM recipe_summaries";
 		    if (!conditions.isEmpty()) {
 		        query += " WHERE " + String.join(" AND ", conditions);
 		    }
@@ -123,13 +119,25 @@
 		        stmt.setString(i + 1, params.get(i));
 		    }
 
-			out.println("Query: " + stmt + "\n");
+			//out.println("Query: " + stmt + "\n");
 			ResultSet rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				out.println("<tr>" + "<td>" + rs.getString(1) + " </td>" + "<td>" + rs.getString(2) + " </td>" + "<td>"
-				+ rs.getString(3) + " </td>" + "<td>" + rs.getString(4) + " </td>" + "<td>" + rs.getString(5) + " </td>"
+			if(rs.next()){
+				out.println("<table border='1'>"+
+						"<tr>"+
+				"<td>Recipe Name:</td>"+
+				"<td>Serving Size:</td>"+
+				"<td>Prep Time:</td>"+
+				"<td>Cook Time:</td>"+
+				"<td>Calories:</td>"+
+				"</tr>");
+			
+			do {
+				out.println("<tr>" + "<td>" + rs.getString(2) + " </td>" + "<td>" + rs.getString(3) + " </td>" + "<td>"
+				+ rs.getString(4) + " </td>" + "<td>" + rs.getString(5) + " </td>" + "<td>" + rs.getString(6) + " </td>"
 				+ "</tr>");
+			}while (rs.next());
+			} else{
+			out.println("<p> No recipes found.<a href = './index.jsp'> Try another search </a></p>");
 			}
 			rs.close();
 			stmt.close();
