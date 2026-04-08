@@ -30,4 +30,5 @@ INSERT INTO Ingredients(name) VALUES
 ('ladyfingers'),
 ('rum'),
 ('coffee'),
-('heavy whipping cream');
+('heavy whipping cream'),
+('espresso');
