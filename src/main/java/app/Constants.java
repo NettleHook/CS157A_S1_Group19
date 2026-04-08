@@ -10,7 +10,8 @@ public class Constants {
         new Option("salads", "Salads"), 
         new Option("dressings-sauces", "Dressings and Sauces"),
         new Option("snacks", "Snacks"),
-        new Option("main-dishes", "Main Dishes") 
+        new Option("main-dishes", "Main Dishes"),
+        new Option("all", "All")
     };
 
     public static final Option[] DIETS = { 
