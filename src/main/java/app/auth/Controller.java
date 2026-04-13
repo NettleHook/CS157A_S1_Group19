@@ -11,9 +11,7 @@ public class Controller {
         char[] password = req.getParameter("password").toCharArray();
 
         try {
-            boolean isSuccess = Service.login(username, password);
-
-            if (isSuccess) {
+            if (Service.login(username, password)) {
                 res.setStatus(200);
             } else {
                 res.setStatus(401);
@@ -29,9 +27,11 @@ public class Controller {
         char[] password = req.getParameter("password").toCharArray();
 
         try {
-            Service.signup(username, password);
-
-            res.setStatus(201);
+            if (Service.signup(username, password)) {
+                res.setStatus(201);
+            } else {
+                res.setStatus(400);
+            }
         } catch (SQLException e) {
             res.setStatus(409);
             

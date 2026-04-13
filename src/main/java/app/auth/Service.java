@@ -38,7 +38,7 @@ public class Service {
         return isVerified;
     }
 
-    public static boolean  signup(String username, char[] password) throws SQLException {
+    public static boolean signup(String username, char[] password) throws SQLException {
         if (!validateUsername(username) || !validatePassword(password)) {
             return false;
         }
