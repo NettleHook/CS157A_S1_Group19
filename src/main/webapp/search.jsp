@@ -130,9 +130,9 @@
 			+ "<td>Prep Time:</td>" + "<td>Cook Time:</td>" + "<td>Calories:</td>" + "</tr>");
 
 			do {
-		out.println("<tr>" + "<td>" + rs.getString(2) + " </td>" + "<td>" + rs.getString(3) + " </td>" + "<td>"
-				+ rs.getString(4) + " </td>" + "<td>" + rs.getString(5) + " </td>" + "<td>" + rs.getString(6)
-				+ " </td>" + "</tr>");
+				out.println("<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + rs.getString(1) + "'>" + rs.getString(2) + "</a></td>" + "<td>" + rs.getString(3) + " </td>" + "<td>"
+						+ rs.getString(4) + " </td>" + "<td>" + rs.getString(5) + " </td>" + "<td>" + rs.getString(6)
+						+ " </td>" + "</tr>");
 			} while (rs.next());
 			out.println("</table>");
 		} else {
