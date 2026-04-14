@@ -41,12 +41,12 @@
 				<div id="title-box">
 					<h1>What Can I Cook?</h1>
 				</div>
-				<a href="${index.jsp}">Search</a>
+				<a href="index.jsp">Search</a>
 			</div>
 			<div class="center"> </div>
 			<div class="end">
-				<a href="">Log In</a>
-				<a href="">Sign Up</a>
+				<a href="login.jsp">Log In</a>
+				<a href="signup.jsp">Sign Up</a>
 			</div>
 		</nav>
 		<main>
