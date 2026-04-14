@@ -58,6 +58,25 @@ public class Controller {
         }
     }
 
+    public static void logout(HttpServletRequest req, HttpServletResponse res) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if ("SESSION_ID".equals(c.getName())) {
+                    Service.logout(c.getValue());
+                    
+                    c.setValue("");
+                    c.setPath("/");
+                    c.setHttpOnly(true);
+                    c.setSecure(true);
+                    c.setMaxAge(0); 
+                    res.addCookie(c);
+                }
+            }
+        }
+        res.setStatus(200);
+    }   
+
     public static void validate(HttpServletRequest req, HttpServletResponse res) {
         String sessionId = req.getParameter("sessionId");
 

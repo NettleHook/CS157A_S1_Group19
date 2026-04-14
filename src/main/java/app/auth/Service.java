@@ -47,6 +47,7 @@ public class Service {
         return sessionId;
     }
 
+    // Do not expose success state to client
     public static boolean logout(String sessionId) {
         if (sessions.containsKey(sessionId)) {
             sessions.remove(sessionId);

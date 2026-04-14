@@ -16,6 +16,7 @@ public class AuthRoutes {
         switch (path) {
             case "/login" -> Controller.login(req, res);
             case "/signup" -> Controller.signup(req, res);
+            case "/logout" -> Controller.logout(req, res);
         }
     }
 
