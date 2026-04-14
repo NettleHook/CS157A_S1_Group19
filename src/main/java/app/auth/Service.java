@@ -6,14 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import app.Database;
 
 public class Service {
-    public static boolean login(String username, char[] password) throws SQLException {
+    private static final Map<String, String> sessions = new HashMap<>();
+
+    public static String login(String username, char[] password) throws SQLException {
         if (!validateUsername(username) || !validatePassword(password)) {
-            return false;
+            return null;
         }
 
         String query = """
@@ -31,11 +36,23 @@ public class Service {
             }
         }
 
-        if (hash == null) return false;
-        
         boolean isVerified = Auth.verify(hash, password);
         Arrays.fill(password, '0');
-        return isVerified;
+        if (hash == null || !isVerified) {
+            return null;
+        }
+        
+        String sessionId = generateSessionId();
+        sessions.put(sessionId, username);
+        return sessionId;
+    }
+
+    public static boolean logout(String sessionId) {
+        if (sessions.containsKey(sessionId)) {
+            sessions.remove(sessionId);
+            return true;
+        }
+        return false;
     }
 
     public static boolean signup(String username, char[] password) throws SQLException {
@@ -61,6 +78,10 @@ public class Service {
         return true;
     }
 
+    public static boolean validate(String sessionId) {
+        return sessions.containsKey(sessionId);
+    }
+
     private static boolean validateUsername(String username) {
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9._-]$");
         return pattern.matcher(username).matches();
@@ -70,5 +91,9 @@ public class Service {
         Pattern pattern = Pattern.compile("^(?!.*[\\s'\\\"=]).{8,}$");
         CharBuffer buffer = CharBuffer.wrap(password);
         return pattern.matcher(buffer).matches();
+    }
+    
+    public static String generateSessionId() {
+        return UUID.randomUUID().toString();
     }
 }
