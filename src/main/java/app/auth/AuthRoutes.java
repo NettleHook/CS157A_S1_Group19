@@ -16,6 +16,15 @@ public class AuthRoutes {
         switch (path) {
             case "/login" -> Controller.login(req, res);
             case "/signup" -> Controller.signup(req, res);
+        }
+    }
+
+    public static void handleGetRoutes(HttpServletRequest req, HttpServletResponse res) throws StreamWriteException, IOException {
+        String path = req.getPathInfo();
+
+        if (path == null) return;
+
+        switch (path) {
             case "/validate" -> Controller.validate(req, res);
         }
     }
