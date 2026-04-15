@@ -30,21 +30,23 @@ public class Service {
             WHERE username = ?
         """;
 
-        String hash;
+        String hash = null;
         try (Connection con = Database.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(query)) {
                 stmt.setString(1, username);
-                ResultSet res = stmt.executeQuery();
-                hash = res.getString("password");
+                try (ResultSet res = stmt.executeQuery()) {
+                    if (res.next()) {
+                        hash = res.getString("password");
+                    }
+                }
             }
         }
 
-        boolean isVerified = Auth.verify(hash, password);
+        boolean isValid = (hash != null && Auth.verify(hash, password));
         Arrays.fill(password, '0');
-        if (hash == null || !isVerified) {
-            return null;
-        }
-        
+
+        if (!isValid) return null;
+
         String sessionId = generateSessionId();
         sessions.put(sessionId, username);
         return sessionId;
