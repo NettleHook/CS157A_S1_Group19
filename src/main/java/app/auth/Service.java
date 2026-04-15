@@ -16,6 +16,9 @@ import app.Database;
 public class Service {
     private static final Map<String, String> sessions = new HashMap<>();
 
+    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9._-]+$");
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?!.*[\\s'\\\"=]).{8,}$");
+
     public static String login(String username, char[] password) throws SQLException {
         if (!validateUsername(username) || !validatePassword(password)) {
             return null;
@@ -84,14 +87,14 @@ public class Service {
     }
 
     private static boolean validateUsername(String username) {
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9._-]$");
-        return pattern.matcher(username).matches();
+        boolean isMatch = USERNAME_PATTERN.matcher(username).matches();
+        return isMatch;
     }
 
     private static boolean validatePassword(char[] password) {
-        Pattern pattern = Pattern.compile("^(?!.*[\\s'\\\"=]).{8,}$");
         CharBuffer buffer = CharBuffer.wrap(password);
-        return pattern.matcher(buffer).matches();
+        boolean isMatch = PASSWORD_PATTERN.matcher(buffer).matches();
+        return isMatch;
     }
     
     public static String generateSessionId() {
