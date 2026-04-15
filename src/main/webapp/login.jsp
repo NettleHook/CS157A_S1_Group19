@@ -34,9 +34,13 @@
         const form = document.getElementById("login-form");
         const data = new FormData(form);
 
-        const res = await fetch("auth/login", {
+        const payload = Object.fromEntries(data.entries());
+        const res = await fetch("api/auth/login", {
             method: "POST",
-            body: new URLSearchParams(data)
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
         });
 
         if (res.ok) {

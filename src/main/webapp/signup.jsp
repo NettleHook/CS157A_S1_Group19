@@ -38,9 +38,13 @@
         const form = document.getElementById("signup-form");
         const data = new FormData(form);
 
-        const res = await fetch("auth/signup", {
+        const payload = Object.fromEntries(data.entries());
+        const res = await fetch("api/auth/signup", {
             method: "POST",
-            body: new URLSearchParams(data)
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
         });
 
         if (res.status === 201) {
