@@ -99,7 +99,7 @@ public class AuthService {
         return isMatch;
     }
     
-    public static String generateSessionId() {
+    private static String generateSessionId() {
         return UUID.randomUUID().toString();
     }
 }
