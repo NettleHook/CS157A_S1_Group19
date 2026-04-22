@@ -14,9 +14,9 @@ public class AuthRoutes {
         if (path == null) return;
 
         switch (path) {
-            case "/login" -> Controller.login(req, res);
-            case "/signup" -> Controller.signup(req, res);
-            case "/logout" -> Controller.logout(req, res);
+            case "/login" -> AuthController.login(req, res);
+            case "/signup" -> AuthController.signup(req, res);
+            case "/logout" -> AuthController.logout(req, res);
         }
     }
 
@@ -26,7 +26,7 @@ public class AuthRoutes {
         if (path == null) return;
 
         switch (path) {
-            case "/validate" -> Controller.validate(req, res);
+            case "/validate" -> AuthController.validate(req, res);
         }
     }
 }

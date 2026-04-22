@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Controller {
+public class AuthController {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private static final String SESSION_ID = "SESSION_ID"; 
@@ -22,7 +22,7 @@ public class Controller {
     public static void login(HttpServletRequest req, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
         try {
             UserCredentials cred = getUserCredentials(req);
-            String sessionId = Service.login(cred.username(), cred.password());
+            String sessionId = AuthService.login(cred.username(), cred.password());
             
             if (sessionId != null) {
                 Cookie cookie = new Cookie(SESSION_ID, sessionId);
@@ -47,7 +47,7 @@ public class Controller {
     public static void signup(HttpServletRequest req, HttpServletResponse res) {
         try {
             UserCredentials cred = getUserCredentials(req);
-            if (Service.signup(cred.username(), cred.password())) {
+            if (AuthService.signup(cred.username(), cred.password())) {
                 res.setStatus(201);
             } else {
                 res.setStatus(400);
@@ -65,7 +65,7 @@ public class Controller {
         if (cookies != null) {
             for (Cookie c : cookies) {
                 if (SESSION_ID.equals(c.getName())) {
-                    Service.logout(c.getValue());
+                    AuthService.logout(c.getValue());
                     
                     c.setValue("");
                     c.setPath("/");
@@ -83,7 +83,7 @@ public class Controller {
         String sessionId = AuthMiddleware.getSessionId(req, res);
 
         try {
-            if (Service.validate(sessionId)) {
+            if (AuthService.validate(sessionId)) {
                 res.setStatus(200);
                 writeUserData(sessionId, res);
             } else {

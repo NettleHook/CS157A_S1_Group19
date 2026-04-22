@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 import app.Database;
 
-public class Service {
+public class AuthService {
     private static final Map<String, String> sessions = new HashMap<>();
 
     private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9._-]+$");
