@@ -16,7 +16,8 @@ A recipe search app!
 - new page featuring full recipe information
 
 #### Login System
-
+- Passwords are encrypted
+- Session-based authentication
 
 ### To be implemented:
 #### Search and results:
