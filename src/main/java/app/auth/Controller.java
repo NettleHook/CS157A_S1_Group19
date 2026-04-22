@@ -80,14 +80,7 @@ public class Controller {
     }   
 
     public static void validate(HttpServletRequest req, HttpServletResponse res) {
-        String authHeader = req.getHeader(SESSION_ID);
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            res.setStatus(401);
-            return;
-        }
-
-        String sessionId = authHeader.substring(7);
+        String sessionId = AuthMiddleware.getSessionId(req, res);
 
         try {
             if (Service.validate(sessionId)) {
@@ -100,7 +93,7 @@ public class Controller {
             res.setStatus(500);
         }
     }
-
+    
     private static void writeUserData(String username, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
