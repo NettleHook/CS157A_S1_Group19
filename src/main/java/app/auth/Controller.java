@@ -17,13 +17,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Controller {
     private static final ObjectMapper mapper = new ObjectMapper();
 
+    private static final String SESSION_ID = "SESSION_ID"; 
+
     public static void login(HttpServletRequest req, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
         try {
             UserCredentials cred = getUserCredentials(req);
             String sessionId = Service.login(cred.username(), cred.password());
             
             if (sessionId != null) {
-                Cookie cookie = new Cookie("SESSION_ID", sessionId);
+                Cookie cookie = new Cookie(SESSION_ID, sessionId);
                 cookie.setHttpOnly(true);
                 cookie.setSecure(true);
                 cookie.setPath("/");
@@ -62,7 +64,7 @@ public class Controller {
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (Cookie c : cookies) {
-                if ("SESSION_ID".equals(c.getName())) {
+                if (SESSION_ID.equals(c.getName())) {
                     Service.logout(c.getValue());
                     
                     c.setValue("");
@@ -78,11 +80,18 @@ public class Controller {
     }   
 
     public static void validate(HttpServletRequest req, HttpServletResponse res) {
-        String sessionId = req.getParameter("sessionId");
+        String authHeader = req.getHeader(SESSION_ID);
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            res.setStatus(401);
+            return;
+        }
+
+        String sessionId = authHeader.substring(7);
 
         try {
             if (Service.validate(sessionId)) {
-                res.setStatus(201);
+                res.setStatus(200);
                 writeUserData(sessionId, res);
             } else {
                 res.setStatus(401);
