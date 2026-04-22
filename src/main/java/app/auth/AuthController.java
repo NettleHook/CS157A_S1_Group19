@@ -23,8 +23,9 @@ public class AuthController {
         try {
             UserCredentials cred = getUserCredentials(req);
             String sessionId = AuthService.login(cred.username(), cred.password());
+            UserSession userSession = AuthService.getUserSession(sessionId);
             
-            if (sessionId != null) {
+            if (userSession != null) {
                 Cookie cookie = new Cookie(SESSION_ID, sessionId);
                 cookie.setHttpOnly(true);
                 cookie.setSecure(true);
@@ -34,7 +35,7 @@ public class AuthController {
 
                 res.setStatus(200);
 
-                writeUserData(cred.username(), res);
+                writeUserData(userSession, res);
             } else {
                 res.setStatus(401);
             }
@@ -81,11 +82,12 @@ public class AuthController {
 
     public static void validate(HttpServletRequest req, HttpServletResponse res) {
         String sessionId = AuthMiddleware.getSessionId(req, res);
+        UserSession userSession = AuthService.getUserSession(sessionId);
 
         try {
-            if (AuthService.validate(sessionId)) {
+            if (userSession != null) {
                 res.setStatus(200);
-                writeUserData(sessionId, res);
+                writeUserData(userSession, res);
             } else {
                 res.setStatus(401);
             }
@@ -94,12 +96,13 @@ public class AuthController {
         }
     }
     
-    private static void writeUserData(String username, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
+    private static void writeUserData(UserSession userSession, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
 
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("username", username);
+        responseData.put("userId", userSession.getUserId());
+        responseData.put("username", userSession.getUsername());
         mapper.writeValue(res.getWriter(), responseData);
     }
 

@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import app.Database;
 
 public class AuthService {
-    private static final Map<String, String> sessions = new HashMap<>();
+    private static final Map<String, UserSession> sessions = new HashMap<>();
 
     private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9._-]+$");
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?!.*[\\s'\\\"=]).{8,}$");
@@ -25,30 +25,32 @@ public class AuthService {
         }
 
         String query = """
-            SELECT password
+            SELECT user_id, password
             FROM users
             WHERE username = ?
         """;
 
+        int userId = -1;
         String hash = null;
         try (Connection con = Database.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(query)) {
                 stmt.setString(1, username);
                 try (ResultSet res = stmt.executeQuery()) {
                     if (res.next()) {
+                        userId = res.getInt("user_id");
                         hash = res.getString("password");
                     }
                 }
             }
         }
 
-        boolean isValid = (hash != null && Auth.verify(hash, password));
+        boolean isValid = (userId != -1 && hash != null && Auth.verify(hash, password));
         Arrays.fill(password, '0');
 
         if (!isValid) return null;
 
         String sessionId = generateSessionId();
-        sessions.put(sessionId, username);
+        sessions.put(sessionId, new UserSession(userId, hash));
         return sessionId;
     }
 
@@ -86,6 +88,10 @@ public class AuthService {
 
     public static boolean validate(String sessionId) {
         return sessions.containsKey(sessionId);
+    }
+
+    public static UserSession getUserSession(String sessionId) {
+        return sessions.get(sessionId);
     }
 
     private static boolean validateUsername(String username) {
