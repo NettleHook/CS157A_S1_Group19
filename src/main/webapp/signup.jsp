@@ -35,7 +35,7 @@
         const data = new FormData(form);
 
         const payload = Object.fromEntries(data.entries());
-        const res = await fetch("api/auth/signup", {
+        const res = await fetch("api/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
