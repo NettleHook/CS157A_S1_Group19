@@ -11,10 +11,6 @@
         <form id="signup-form">
             <table style="margin: 0 auto; background: #e9f5ff; padding: 20px; border-radius: 10px;">
                 <tr>
-                    <td>Email:</td>
-                    <td><input type="email" name="email" required /></td>
-                </tr>
-                <tr>
                     <td>Username:</td>
                     <td><input type="text" name="username" required /></td>
                 </tr>
