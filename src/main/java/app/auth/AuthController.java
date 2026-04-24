@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import app.api.ApiResponse;
 import app.utils.JsonUtils;
 
 public class AuthController {
@@ -100,16 +101,10 @@ public class AuthController {
     }
     
     private static void writeUserData(UserSession userSession, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
-        res.setContentType("application/json");
-        res.setCharacterEncoding("UTF-8");
-
-        Map<String, Object> response = new HashMap<>();
-        Map<String, Object> responseData = new HashMap<>();
-        response.put("data", responseData);
-
-        response.put("userId", userSession.getUserId());
-        response.put("username", userSession.getUsername());
-        JsonUtils.MAPPER.writeValue(res.getWriter(), response);
+        Map<String, Object> data = new HashMap<>();
+        data.put("userId", userSession.getUserId());
+        data.put("username", userSession.getUsername());
+        ApiResponse.write(res, data);
     }
 
     private static record UserCredentials(String username, char[] password) {};
