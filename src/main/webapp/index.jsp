@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 					"Content-Type": "application/json"
 				}
 			});
-			if (!res.ok){
+			if (res.status == 401){
 				document.getElementById("recipeUploader").style.display = 'none';
 				document.getElementById("logout").style.display = 'none';
 			} else{
