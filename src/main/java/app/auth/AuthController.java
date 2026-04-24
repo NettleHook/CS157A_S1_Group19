@@ -2,6 +2,7 @@ package app.auth;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,8 +54,11 @@ public class AuthController {
             } else {
                 res.setStatus(400);
             }
-        } catch (SQLException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
             res.setStatus(409);
+            
+        } catch (SQLException e) {
+            res.setStatus(500);
             
         } catch (IOException e) {
             res.setStatus(400);
@@ -92,7 +96,7 @@ public class AuthController {
                 res.setStatus(401);
             }
         } catch (IOException e) {
-            res.setStatus(500);
+            res.setStatus(400);
         }
     }
     
