@@ -22,19 +22,20 @@ public class AuthController {
             UserCredentials cred = getUserCredentials(req);
             String sessionId = AuthService.login(cred.username(), cred.password());
             UserSession userSession = AuthService.getUserSession(sessionId);
-            
-            if (userSession != null) {
-                Cookie cookie = new Cookie(SESSION_ID, sessionId);
-                cookie.setHttpOnly(true);
-                cookie.setSecure(true);
-                cookie.setPath("/");
-                cookie.setMaxAge(86400);
-                res.addCookie(cookie);
 
-                writeUserData(userSession, res);
-            } else {
-                ApiResponse.error(res, 401, "Username or password is incorrect.");
+            if (userSession == null) {
+                ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
+                return;
             }
+            
+            Cookie cookie = new Cookie(SESSION_ID, sessionId);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(86400);
+            res.addCookie(cookie);
+
+            writeUserData(userSession, res);
         } catch (SQLException e) {
             ApiResponse.error(res, 500, ApiMessage.DB_ERROR);
         } catch (IOException e) {
@@ -81,12 +82,13 @@ public class AuthController {
     public static void validate(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String sessionId = AuthMiddleware.getSessionId(req, res);
         UserSession userSession = AuthService.getUserSession(sessionId);
-        
-        if (userSession != null) {
-            writeUserData(userSession, res);
-        } else {
+
+        if (userSession == null) {
             ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
+            return;
         }
+
+        writeUserData(userSession, res);
     }
     
     private static void writeUserData(UserSession userSession, HttpServletResponse res) throws IOException {
