@@ -25,7 +25,7 @@ public class AuthService {
         }
 
         String query = """
-            SELECT user_id, password
+            SELECT id, password
             FROM users
             WHERE username = ?
         """;
@@ -37,7 +37,7 @@ public class AuthService {
                 stmt.setString(1, username);
                 try (ResultSet res = stmt.executeQuery()) {
                     if (res.next()) {
-                        userId = res.getInt("user_id");
+                        userId = res.getInt("id");
                         hash = res.getString("password");
                     }
                 }
