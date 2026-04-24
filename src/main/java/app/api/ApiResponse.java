@@ -16,21 +16,23 @@ public class ApiResponse {
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
 
+        res.setStatus(status);
+        
         Map<String, Object> response = new HashMap<>();
         response.put("data", data);
 
         JsonUtils.MAPPER.writeValue(res.getWriter(), response);
-        res.setStatus(status);
     }
 
     public static void error(HttpServletResponse res, int status, String message) throws StreamWriteException, DatabindException, IOException {
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
 
+        res.setStatus(status);
+
         Map<String, Object> response = new HashMap<>();
         response.put("error", message);
 
         JsonUtils.MAPPER.writeValue(res.getWriter(), response);
-        res.setStatus(status);
     }
 }
