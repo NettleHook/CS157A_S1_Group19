@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>What Can I Cok?</title>
+		<title>What Can I Cook?</title>
 		<link href="favicon.ico" rel="icon" type="image/x-icon">
 		<link href="styles/reset.css" rel="stylesheet" type="text/css">
 		<link href="styles/theme.css" rel="stylesheet" type="text/css">
@@ -34,13 +34,17 @@ pageEncoding="UTF-8"%>
 		}
 		async function checkLogin() {
 			const res = await fetch("api/validate", {
-				method: "GET",
+				method: "POST",
 				headers: {
 					"Content-Type": "application/json"
 				}
 			});
 			if (!res.ok){
 				document.getElementById("recipeUploader").style.display = 'none';
+				document.getElementById("logout").style.display = 'none';
+			} else{
+				document.getElementById("login").style.display = 'none';
+				document.getElementById("signup").style.display = 'none';
 			}
 		}
 		checkLogin();
@@ -59,8 +63,9 @@ pageEncoding="UTF-8"%>
 					<a href="upload.jsp" id = "recipeUploader">Upload New Recipe </a>
 				</div>
 				<div class="end">
-					<a href="login.jsp">Log In</a>
-					<a href="signup.jsp">Sign Up</a>
+					<a href="login.jsp" id = "login">Log In</a>
+					<a href="signup.jsp" id = "signup">Sign Up</a>
+					<a href="login.jsp" id = "logout">Log Out</a> <!--Yet to be implemented-->
 				</div>
 			</nav>
 			<main>
