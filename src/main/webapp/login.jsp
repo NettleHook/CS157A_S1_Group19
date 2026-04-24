@@ -6,6 +6,14 @@
     <link href="styles/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <div style="position: fixed; top: 15px; left: 20px;">
+        <a href="index.jsp">
+            <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+                &#8592; Home
+            </button>
+        </a>
+    </div>
+
     <div class="layout" style="text-align: center; margin-top: 50px;">
         <h1>Log In</h1>
         <form id="login-form">
