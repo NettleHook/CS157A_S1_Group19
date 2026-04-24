@@ -3,6 +3,7 @@
 <%@ page import="java.util.*, java.sql.*"%>
 <%@ page import="java.util.stream.Collectors"%>
 <%@ page import="app.Constants"%>
+<%@ page import="app.Database" %>
 
 <!DOCTYPE html>
 <html>
@@ -63,16 +64,9 @@
 	</h1>
 
 	<%
-	String db = "CS157A";
-	String user; // assumes database name is the same as username
-	user = "root";
-	String password = "password";
 	try {
 		java.sql.Connection con;
-		Class.forName("com.mysql.jdbc.Driver");
-
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/WhatCanICook?autoReconnect=true&useSSL=false", user,
-		password);
+		con = Database.getConnection();
 
 		List<String> conditions = new ArrayList<>();
 		List<String> params = new ArrayList<>();
