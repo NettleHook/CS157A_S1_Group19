@@ -13,11 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import app.utils.JsonUtils;
 
 public class AuthController {
-    private static final ObjectMapper mapper = new ObjectMapper();
-
     private static final String SESSION_ID = "SESSION_ID"; 
 
     public static void login(HttpServletRequest req, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
@@ -104,16 +103,19 @@ public class AuthController {
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
 
+        Map<String, Object> response = new HashMap<>();
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("userId", userSession.getUserId());
-        responseData.put("username", userSession.getUsername());
-        mapper.writeValue(res.getWriter(), responseData);
+        response.put("data", responseData);
+
+        response.put("userId", userSession.getUserId());
+        response.put("username", userSession.getUsername());
+        JsonUtils.MAPPER.writeValue(res.getWriter(), response);
     }
 
     private static record UserCredentials(String username, char[] password) {};
 
     private static UserCredentials getUserCredentials(HttpServletRequest req) throws IOException {
-        JsonNode node = mapper.readTree(req.getReader());
+        JsonNode node = JsonUtils.MAPPER.readTree(req.getReader());
         String username = node.get("username").asText();
         char[] password = node.get("password").asText().toCharArray();
         return new UserCredentials(username, password);
