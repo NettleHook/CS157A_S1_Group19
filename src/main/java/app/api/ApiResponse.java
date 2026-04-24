@@ -12,13 +12,25 @@ import com.fasterxml.jackson.databind.DatabindException;
 import app.utils.JsonUtils;
 
 public class ApiResponse {
-    public static void write(HttpServletResponse res, Object data) throws StreamWriteException, DatabindException, IOException {
+    public static void write(HttpServletResponse res, int status, Object data) throws StreamWriteException, DatabindException, IOException {
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
 
         Map<String, Object> response = new HashMap<>();
         response.put("data", data);
-        
+
         JsonUtils.MAPPER.writeValue(res.getWriter(), response);
+        res.setStatus(status);
+    }
+
+    public static void error(HttpServletResponse res, int status, String message) throws StreamWriteException, DatabindException, IOException {
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", message);
+
+        JsonUtils.MAPPER.writeValue(res.getWriter(), response);
+        res.setStatus(status);
     }
 }
