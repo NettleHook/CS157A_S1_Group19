@@ -47,6 +47,7 @@
 			<div class="end">
 				<a href="login.jsp">Log In</a>
 				<a href="signup.jsp">Sign Up</a>
+				<a href="signup.jsp">User</a>
 			</div>
 		</nav>
 		<main>
