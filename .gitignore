@@ -2,3 +2,8 @@
 .vscode
 .env
 target
+settings
+.settings
+.idea
+bin
+.project
