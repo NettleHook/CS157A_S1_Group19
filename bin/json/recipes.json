@@ -1,0 +1,176 @@
+[
+    {
+        "username": "CatCastillo",
+        "name": "Not-so-Hot and Sour Soup",
+        "servingSize": 8,
+        "prepTime": 20,
+        "cookTime": 40,
+        "calories": null,
+        "categories": ["Soups and Stews"],
+        "diets": ["Vegetarian", "Halal-friendly", "Kosher-friendly"],
+        "recipeFull": {
+            "description": "1. Press the tofu to remove excess water. \n 2. Heat 1 tsp oil in a soup pot. Toss in sliced ginger and chopped green onion. Pan fry until starting to brown. \n 3. Add vegetable broth and let steep for at least 5 minutes. Remove ginger and green onion. Add in soy sauce and rice vinegar. \n 4. Chop mushrooms and toss in. \n 5. Once mushrooms have noticeable shrunk, chop and toss in tofu. \n 6. Let sit for about 15 minutes. \n 7. Whisk eggs. While stirring the soup, pour the eggs in a steady stream, aiming to create ribbons. \n 8. Add the sesame oil, then salt and pepper to taste."
+        },
+        "ingredients": [
+            { "name": "ginger", "unit": "thumb", "amount": 1 },
+            { "name": "green onion", "unit": "stalk", "amount": 6 },
+            { "name": "shiitake mushrooms", "unit": "cup", "amount": 1 },
+            { "name": "tofu", "unit": "pack", "amount": 1 },
+            { "name": "vegetable broth", "unit": "cup", "amount": 6 },
+            { "name": "rice vinegar", "unit": "cup", "amount": 0.25 },
+            { "name": "sesame oil", "unit": "tsp", "amount": 2 },
+            { "name": "soy sauce", "unit": "cup", "amount": 0.25 },
+            { "name": "eggs", "unit": "", "amount": 4 },
+            { "name": "salt", "unit": "to taste" },
+            { "name": "white pepper", "unit": "to taste" }
+        ]
+    },
+    {
+        "user_id": "CatCastillo",
+        "name": "Rocky Road Brownies",
+        "servingSize": 9,
+        "prepTime": 10,
+        "cookTime": 30,
+        "calories": null,
+        "categories": ["Desserts and Sweets"],
+        "diets": ["Vegetarian", "Halal-friendly", "Kosher-friendly"],
+        "recipeFull": {
+            "description": "1. Preheat oven to 350F \n 2. Line baking pan with parchment paper \n 3. mix melted butter and sugar. Then whisk in the milk and vanilla \n 4. Combine flour, cocoa powder, baking powder, and salt in separate bowl \n 5. Mix the dry mixture with the butter and sugar mixture until well combined \n 6. Fold in chocolate chips, marshmallows, and walnuts \n 7. Spread batter in baking pan evenly \n 8. Bake for 25-30 minutes, or until edges look hardened and top looks set \n 9. Let cool before cutting and serving"
+        },
+        "ingredients": [
+            { "name": "butter", "unit": "cup", "amount": 0.5 },
+            { "name": "sugar", "unit": "cup", "amount": 1.5 },
+            { "name": "milk", "unit": "cup", "amount": 0.33 },
+            { "name": "vanilla extract", "unit": "tsp", "amount": 3 },
+            { "name": "flour", "unit": "cup", "amount": 1 },
+            { "name": "cocoa powder", "unit": "cup", "amount": 0.75 },
+            { "name": "baking powder", "unit": "tsp", "amount": 0.75 },
+            { "name": "salt", "unit": "tsp", "amount": 0.25 },
+            { "name": "chocolate chips", "unit": "cup", "amount": 1 },
+            { "name": "marshmallows", "unit": "cup", "amount": 0.5 },
+            { "name": "walnuts", "unit": "cup", "amount": 0.5 }
+        ]
+    },
+    {
+        "username": "fenrickal",
+        "name": "Basic Brownies",
+        "servingSize": 9,
+        "prepTime": 10,
+        "cookTime": 30,
+        "calories": null,
+        "categories": ["Desserts and Sweets"],
+        "diets": ["Vegetarian", "Halal-friendly", "Kosher-friendly"],
+        "recipeFull": {
+            "description": "1. Preheat oven to 350F \n 2. Line baking pan with parchment paper \n 3. mix melted butter and sugar. Then whisk in the milk and vanilla \n 4. Combine flour, cocoa powder, baking powder, and salt in separate bowl \n 5. Mix the dry mixture with the butter and sugar mixture until well combined \n 6. Fold in chocolate chips \n 7. Spread batter in baking pan evenly \n 8. Bake for 25-30 minutes, or until edges look hardened and top looks set \n 9. Let cool before cutting and serving"
+        },
+        "ingredients": [
+            { "name": "butter", "unit": "cup", "amount": 0.5 },
+            { "name": "sugar", "unit": "cup", "amount": 1.5 },
+            { "name": "milk", "unit": "cup", "amount": 0.33 },
+            { "name": "vanilla extract", "unit": "tsp", "amount": 3 },
+            { "name": "flour", "unit": "cup", "amount": 1 },
+            { "name": "cocoa powder", "unit": "cup", "amount": 0.75 },
+            { "name": "baking powder", "unit": "tsp", "amount": 0.75 },
+            { "name": "salt", "unit": "tsp", "amount": 0.25 },
+            { "name": "chocolate chips", "unit": "cup", "amount": 1 }
+        ]
+    },
+    {
+        "username": "fenrickal",
+        "name": "Vegan Brownies",
+        "servingSize": 9,
+        "prepTime": 10,
+        "cookTime": 30,
+        "calories": null,
+        "categories": ["Desserts and Sweets"],
+        "diets": ["Vegan", "Vegetarian", "Halal-friendly", "Kosher-friendly"],
+        "recipeFull": {
+            "description": "1. Preheat oven to 350F \n 2. Line baking pan with parchment paper \n 3. mix melted butter and sugar. Then whisk in the milk and vanilla \n 4. Combine flour, cocoa powder, baking powder, and salt in separate bowl \n 5. Mix the dry mixture with the butter and sugar mixture until well combined \n 6. Fold in chocolate chips \n 7. Spread batter in baking pan evenly \n 8. Bake for 25-30 minutes, or until edges look hardened and top looks set \n 9. Let cool before cutting and serving"
+        },
+        "ingredients": [
+            { "name": "neutral vegetable oil", "unit": "cup", "amount": 0.5 },
+            { "name": "sugar", "unit": "cup", "amount": 1.5 },
+            { "name": "plant milk", "unit": "cup", "amount": 0.33 },
+            { "name": "vanilla extract", "unit": "tsp", "amount": 3 },
+            { "name": "flour", "unit": "cup", "amount": 1 },
+            { "name": "cocoa powder", "unit": "cup", "amount": 0.75 },
+            { "name": "baking powder", "unit": "tsp", "amount": 0.75 },
+            { "name": "salt", "unit": "tsp", "amount": 0.25 },
+            { "name": "chocolate chips", "unit": "cup", "amount": 1 }
+        ]
+    },
+    {
+        "username": "fenrickal",
+        "name": "Espresso Brownies",
+        "servingSize": 9,
+        "prepTime": 10,
+        "cookTime": 30,
+        "calories": null,
+        "categories": ["Desserts and Sweets"],
+        "diets": ["Vegetarian", "Halal-friendly", "Kosher-friendly"],
+        "recipeFull": {
+            "description": "1. Preheat oven to 350F \n 2. Line baking pan with parchment paper \n 3. mix melted butter and sugar. Then whisk in the milk, Espresso, and vanilla \n 4. Combine flour, cocoa powder, baking powder, and salt in separate bowl \n 5. Mix the dry mixture with the butter and sugar mixture until well combined \n 6. Fold in chocolate chips \n 7. Spread batter in baking pan evenly \n 8. Bake for 25-30 minutes, or until edges look hardened and top looks set \n 9. Let cool before cutting and serving"
+        },
+        "ingredients": [
+            { "name": "butter", "unit": "cup", "amount": 0.5 },
+            { "name": "sugar", "unit": "cup", "amount": 1.5 },
+            { "name": "milk", "unit": "cup", "amount": 0.33 },
+            { "name": "vanilla extract", "unit": "tsp", "amount": 3 },
+            { "name": "flour", "unit": "cup", "amount": 1.25 },
+            { "name": "cocoa powder", "unit": "cup", "amount": 0.75 },
+            { "name": "baking powder", "unit": "tsp", "amount": 0.75 },
+            { "name": "salt", "unit": "tsp", "amount": 0.5 },
+            { "name": "chocolate chips", "unit": "cup", "amount": 1 },
+            { "name": "espresso", "unit": "shot", "amount": 4 }
+        ]
+    },
+    {
+        "username": "Nettlehook",
+        "name": "Mabon Brownies",
+        "servingSize": 9,
+        "prepTime": 10,
+        "cookTime": 30,
+        "calories": null,
+        "categories": ["Desserts and Sweets"],
+        "diets": ["Vegetarian", "Halal-friendly", "Kosher-friendly"],
+        "recipeFull": {
+            "description": "1. Preheat oven to 350F \n 2. Line baking pan with parchment paper \n 3. mix melted butter and sugar. Then whisk in the milk and vanilla \n 4. Combine flour, cocoa powder, baking powder, and salt in separate bowl \n 5. Mix the dry mixture with the butter and sugar mixture until well combined \n 6. Fold in chocolate chips, cranberries, pomegranate seeds, and persimmon slices. \n 7. Spread batter in baking pan evenly \n 8. Bake for 25-30 minutes, or until edges look hardened and top looks set \n 9. Let cool before cutting and serving"
+        },
+        "ingredients": [
+            { "name": "butter", "unit": "cup", "amount": 0.5 },
+            { "name": "sugar", "unit": "cup", "amount": 1.5 },
+            { "name": "milk", "unit": "cup", "amount": 0.33 },
+            { "name": "vanilla extract", "unit": "tsp", "amount": 3 },
+            { "name": "flour", "unit": "cup", "amount": 1 },
+            { "name": "cocoa powder", "unit": "cup", "amount": 0.75 },
+            { "name": "baking powder", "unit": "tsp", "amount": 0.75 },
+            { "name": "salt", "unit": "tsp", "amount": 0.25 },
+            { "name": "chocolate chips", "unit": "cup", "amount": 1 },
+            { "name": "pomegranate seeds", "unit": "cup", "amount": 0.5 },
+            { "name": "dried persimmon slices", "unit": "cup", "amount": 0.5 },
+            { "name": "dried cranberries", "unit": "cup", "amount": 0.5 }
+        ]
+    },
+    {
+        "name": "Tiramisu",
+        "servingSize": 18,
+        "prepTime": 1440,
+        "cookTime": 20,
+        "calories": null,
+        "categories": ["Desserts and Sweets"],
+        "diets": ["Vegetarian", "Halal-friendly", "Kosher-friendly"],
+        "recipeFull": {
+            "description": "1. Whisk egg yolks and sugar in a double boiler for 15 minutes. Set aside to cool. \n 2. Whip heavy cream. \n 3. Add small amount of rum and mascarpone to cooled egg mixture, and mix until smooth. \n 4. Fold mascarpone mixture into whipped cream. \n 5. Soak ladyfingers in rum and coffee mixture. \n 6. Alternate layers of ladyfingers and cream mixture. \n 7. Top with cocoa powder. \n 8. Let rest in fridge at least 12 hours before serving."
+        },
+        "ingredients": [
+            { "name": "egg yolks", "unit": "", "amount": 4 },
+            { "name": "sugar", "unit": "cup", "amount": 0.25 },
+            { "name": "mascarpone", "unit": "cup", "amount": 1 },
+            { "name": "ladyfingers", "unit": "pack", "amount": 2 },
+            { "name": "rum", "unit": "tbsp", "amount": 4 },
+            { "name": "coffee", "unit": "cup", "amount": 1 },
+            { "name": "heavy whipping cream", "unit": "cup", "amount": 1 },
+            { "name": "cocoa powder", "unit": "to taste" }
+        ]
+    }
+]

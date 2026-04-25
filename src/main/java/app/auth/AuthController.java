@@ -2,7 +2,6 @@ package app.auth;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,57 +9,59 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import app.api.ApiMessage;
-import app.api.ApiResponse;
-import app.utils.JsonUtils;
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AuthController {
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     private static final String SESSION_ID = "SESSION_ID"; 
 
-    public static void login(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public static void login(HttpServletRequest req, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
         try {
             UserCredentials cred = getUserCredentials(req);
             String sessionId = AuthService.login(cred.username(), cred.password());
             UserSession userSession = AuthService.getUserSession(sessionId);
+            
+            if (userSession != null) {
+                Cookie cookie = new Cookie(SESSION_ID, sessionId);
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true);
+                cookie.setPath("/");
+                cookie.setMaxAge(86400);
+                res.addCookie(cookie);
 
-            if (userSession == null) {
-                ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
-                return;
+                res.setStatus(200);
+
+                writeUserData(userSession, res);
+            } else {
+                res.setStatus(401);
             }
             
-            Cookie cookie = new Cookie(SESSION_ID, sessionId);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(86400);
-            res.addCookie(cookie);
-
-            writeUserData(userSession, res);
         } catch (SQLException e) {
-            ApiResponse.error(res, 500, ApiMessage.DB_ERROR);
-        } catch (IOException e) {
-            ApiResponse.error(res, 400, ApiMessage.INVALID_JSON);
+            res.setStatus(500);
         }
     }
 
-    public static void signup(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public static void signup(HttpServletRequest req, HttpServletResponse res) {
         try {
             UserCredentials cred = getUserCredentials(req);
             if (AuthService.signup(cred.username(), cred.password())) {
-                ApiResponse.write(res, 201, "Signup successful.");
+                res.setStatus(201);
             } else {
-                ApiResponse.error(res, 400, "Invalid username or password.");
+                res.setStatus(400);
             }
-        } catch (SQLIntegrityConstraintViolationException e) {
-            ApiResponse.error(res, 409, "Username already exists.");
         } catch (SQLException e) {
-            ApiResponse.error(res, 500, ApiMessage.DB_ERROR);
+            res.setStatus(409);
+            
         } catch (IOException e) {
-            ApiResponse.error(res, 400, ApiMessage.INVALID_JSON);
+            res.setStatus(400);
         }
     }
 
-    public static void logout(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public static void logout(HttpServletRequest req, HttpServletResponse res) {
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (Cookie c : cookies) {
@@ -76,31 +77,41 @@ public class AuthController {
                 }
             }
         }
-        ApiResponse.write(res, 200, "Logged out.");
+        res.setStatus(200);
     }   
 
-    public static void validate(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public static void validate(HttpServletRequest req, HttpServletResponse res) {
         String sessionId = AuthMiddleware.getSessionId(req, res);
         UserSession userSession = AuthService.getUserSession(sessionId);
 
-        if (userSession == null) {
-            ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
-            return;
+        try {
+            if (userSession != null) {
+                res.setStatus(200);
+                writeUserData(userSession, res);
+            } else {
+                res.setStatus(401);
+            }
+        } catch (IOException e) {
+            res.setStatus(500);
         }
-
-        writeUserData(userSession, res);
     }
     
-    private static void writeUserData(UserSession userSession, HttpServletResponse res) throws IOException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("userId", userSession.getUserId());
-        data.put("username", userSession.getUsername());
-        ApiResponse.write(res, 200, data);
+    private static void writeUserData(UserSession userSession, HttpServletResponse res) throws StreamWriteException, DatabindException, IOException {
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("userId", userSession.getUserId());
+        responseData.put("username", userSession.getUsername());
+        mapper.writeValue(res.getWriter(), responseData);
     }
 
     private static record UserCredentials(String username, char[] password) {};
 
     private static UserCredentials getUserCredentials(HttpServletRequest req) throws IOException {
-        return JsonUtils.MAPPER.readValue(req.getReader(), UserCredentials.class);
+        JsonNode node = mapper.readTree(req.getReader());
+        String username = node.get("username").asText();
+        char[] password = node.get("password").asText().toCharArray();
+        return new UserCredentials(username, password);
     }
 }

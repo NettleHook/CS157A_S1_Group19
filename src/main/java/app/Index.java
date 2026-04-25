@@ -9,19 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import app.auth.AuthRoutes;
-import app.ingredient.IngredientRoutes;
 
 @WebServlet("/api/*")
 public class Index extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AuthRoutes.handlePostRoutes(req, resp);
-        IngredientRoutes.handlePostRoutes(req, resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AuthRoutes.handleGetRoutes(req, resp);
-        IngredientRoutes.handleGetRoutes(req, resp);
     }
 }
