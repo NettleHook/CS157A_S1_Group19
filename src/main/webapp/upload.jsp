@@ -61,32 +61,32 @@ pageEncoding="UTF-8"%>
     <body>
         <h1>Recipe Upload</h1>
 
-        <form class="recipe-upload" id="recipe-upload" action="upload.jsp" method="POST">
+        <form id="recipe-upload">
             <div class = "recip-name-div">
                 <label for = "recipe_name">Recipe Name:</label>
-                <input type = "text", id = "recipe_name">
+                <input type = "text", name= "recipe_name">
 
             </div>					<div class="serving-size-div">
             <label for="serving-size">Serving Size:</label>
-            <input type="number" id="serving-size" name="serving-size">
+            <input type="number" id="serving-size" name="serving-size"  min = 0>
         </div>
         <div class="prep-time-div">
             <label for="prep-time">Prep Time:</label>
             <div>
-                <input type="number"id="prep-time-hours" name="prep-time-hours" placeholder = "hours">
-                <input type="number" id="prep-time-minutes" name="prep-time-minutes" placeholder = "minutes">
+                <input type="number"id="prep-time-hours" name="prep-time-hours" placeholder = "hours" min = 0>
+                <input type="number" id="prep-time-minutes" name="prep-time-minutes" placeholder = "minutes"  min = 0>
             </div>
         </div>
         <div class="cook-time-div">
             <label for="cook-time">Cooking Time:</label>
             <div>
-                <input type="number" id="cook-time-hours" name="cook-time-hours" placeholder = "hours">
-                <input type="number" id="cook-time-minutes" name="cook-time-minutes" placeholder = "minutes">
+                <input type="number" id="cook-time-hours" name="cook-time-hours" placeholder = "hours"  min = 0>
+                <input type="number" id="cook-time-minutes" name="cook-time-minutes" placeholder = "minutes"  min = 0>
             </div>
         </div>
         <div class="calories-div">
             <label for="calories">Calories per Serving:</label>
-            <input type="number" id="calories" name = "calories">
+            <input type="number" id="calories" name = "calories"  min = 0>
         </div>
         <div class="ingredients" id="ingredients">
             <!-- add amounts and unit inputs-->
@@ -103,7 +103,7 @@ pageEncoding="UTF-8"%>
             <label for="diet-cat">Diet:</label>
             <div>
                 <% for(Constants.Option option : Constants.DIETS) { %>
-                <input type="checkbox" id="<%= option.id() %>" value="<%= option.id() %>">
+                <input type="checkbox" id="<%= option.id() %>" name="diet-cat" value="<%= option.id() %>">
                 <label for="<%= option.id() %>"><%= option.text() %></label>
                 <% } %>
             </div>
@@ -118,7 +118,7 @@ pageEncoding="UTF-8"%>
                 <% } %>
             </div>
         </div>
-        <div class = "desc-cat" id = "steps">
+        <div class = "desc" id = "steps">
             <!-- Steps as a text box per step?-->
             <label for="Steps">Steps:</label>
             <div class = "step-row">
@@ -128,7 +128,36 @@ pageEncoding="UTF-8"%>
         </div>
         <button type="button" onclick="addStep()">+ Add Step</button>
         <br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="uploadRecipe(event)">
     </form>
+    <script>
+        async function uploadRecipe(e) {
+            e.preventDefault();
+            const form = document.getElementById("recipe-upload");
+            const data = new FormData(form);
+            
+            try {
+                const response = await fetch("api/upload", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams(data)
+                });
+                
+                const returnVal = await response.json(); // was missing await
+                
+                if (response.status === 200) {
+                    document.write("<h2>" + returnVal.message + "</h2>");
+                } else {
+                    document.write("<h2>Something went wrong: " + returnVal.error + "</h2>");
+                }
+                
+            } catch (error) {
+                console.error("Request failed: ", error);
+                document.write("<h2>Something went wrong</h2>");
+            }
+        }
+    </script>
 </body>
 </html>
