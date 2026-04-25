@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 		}
 		async function checkLogin() {
 			const res = await fetch("api/validate", {
-				method: "POST",
+				method: "GET",
 				headers: {
 					"Content-Type": "application/json"
 				}
