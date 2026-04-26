@@ -155,7 +155,7 @@ pageEncoding="UTF-8"%>
                 
             } catch (error) {
                 console.error("Request failed: ", error);
-                document.write("<h2>Something went wrong</h2>");
+                document.write("<h2>Something went wrong: " + error.message + "</h2>");
             }
         }
     </script>

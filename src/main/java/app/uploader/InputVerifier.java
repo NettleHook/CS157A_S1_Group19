@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 public class InputVerifier{
     private static final String[] UNITS = {"bulb", "cup", "pack", "shot", "oz", "g", "stalk", "tbsp", "tsp", "to taste", "thumb"};
+    private static final String[] ALLOWED_NULLS = {"to taste"};
     public static List<Object> verify_summary(
         String recipe_name,
         String serving_size,
@@ -35,7 +36,7 @@ public class InputVerifier{
         for( int i = 0; i < ingredient_names.length; i++){
             String name = parseName(ingredient_names[i], "Ingredient "+(i+1) + " name");
             String unit = verifyUnit(ingredient_units[i], name);
-            Double amt = unit.equals("to taste") ? null : parseOptionalDouble(ingredient_amts[i]);
+            Double amt = parseAmount(ingredient_amts[i], unit);
             ingredients.add(new Ingredient(name, amt, unit));
         }
         return ingredients;
@@ -113,8 +114,11 @@ public class InputVerifier{
             throw new IllegalArgumentException("Expected a number but got: " + value);
         }
     }
-    private static Double parseOptionalDouble(String value) {
+    private static Double parseAmount(String value, String unit) {
         if (value == null || value.isEmpty()) {
+            if (!Arrays.asList(ALLOWED_NULLS).contains(unit)) {
+                throw new IllegalArgumentException("Ingredient has to be provided an amount.");
+            }
             return null;
         }
         try {
