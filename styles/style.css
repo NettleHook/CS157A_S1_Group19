@@ -46,3 +46,9 @@ main {
     flex-direction: column;
     gap: 0.5rem;
 }
+input:invalid {
+  border-color:#dc2626;
+}
+input:valid {
+  border-color:#16a34a;
+}
