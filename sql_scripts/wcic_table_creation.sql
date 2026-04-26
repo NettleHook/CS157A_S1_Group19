@@ -73,7 +73,7 @@ CREATE TABLE recipe_ingredients (
     recipe_id INT NOT NULL,
     ingredient_id VARCHAR(255) NOT NULL,
     unit_id INT NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL,
+    amount DECIMAL(10, 2),
     PRIMARY KEY (recipe_id, ingredient_id),
     FOREIGN KEY (recipe_id) REFERENCES recipe_summaries(id) ON DELETE CASCADE,
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(name),

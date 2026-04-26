@@ -145,12 +145,12 @@ pageEncoding="UTF-8"%>
                     body: new URLSearchParams(data)
                 });
                 
-                const returnVal = await response.json(); // was missing await
+                const returnVal = await response.json();
                 
                 if (response.status === 200) {
-                    document.write("<h2>" + returnVal.message + "</h2>");
+                    window.location.href = "./recipe_page.jsp?rsid=" + returnVal.data.resid;
                 } else {
-                    document.write("<h2>Something went wrong: " + returnVal.error + "</h2>");
+                    document.write("<h2>Something went wrong: " + returnVal.data.error + "</h2>");
                 }
                 
             } catch (error) {

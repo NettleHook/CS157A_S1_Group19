@@ -35,7 +35,7 @@ public class InputVerifier{
         for( int i = 0; i < ingredient_names.length; i++){
             String name = parseName(ingredient_names[i], "Ingredient "+(i+1) + " name");
             String unit = verifyUnit(ingredient_units[i], name);
-            Double amt = unit.equals("to taste") ? 0 : parseOptionalDouble(ingredient_amts[i]);
+            Double amt = unit.equals("to taste") ? null : parseOptionalDouble(ingredient_amts[i]);
             ingredients.add(new Ingredient(name, amt, unit));
         }
         return ingredients;
@@ -68,6 +68,24 @@ public class InputVerifier{
             }
         }
         return diets;
+    }
+    public static String verify_steps(String [] steps){
+        String description = "";
+        for(int i = 0; i< steps.length; i++){
+            description = description + (i+1) + ". " + parseStep(steps[i]) + "\n";
+        }
+        return description;
+    }
+    private static String parseStep(String value) {
+        Pattern STEP_PATTERN = Pattern.compile("^[^<>&\"\\\\`]+$");
+        if (value == null || value.isEmpty()) {
+            return "";
+        }
+        Matcher stepMatcher = STEP_PATTERN.matcher(value);
+        if (!stepMatcher.matches()) {
+            throw new IllegalArgumentException("At least one step contains invalid characters: " + value);
+        }
+        return value;
     }
     private static String parseName(String name, String field){
         if (name == null || name.isEmpty()) {
@@ -118,6 +136,7 @@ public class InputVerifier{
         }
         return unit;
     }
+    
     private static int getTime(Integer hour, Integer minute) {
 		int minutes = 0;
 		if (hour != null ) {

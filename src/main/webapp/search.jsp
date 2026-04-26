@@ -44,6 +44,7 @@
 			}
 		}
 	}
+	//FIXME: convert diet check to use a list
 	String dietId = request.getParameter("diet-cat");
 	String diet = null;
 
