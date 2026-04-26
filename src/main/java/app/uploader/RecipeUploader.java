@@ -2,6 +2,9 @@ package app.uploader;
 
 import app.Database;
 import app.api.ApiResponse;
+import app.auth.AuthMiddleware;
+import app.auth.AuthService;
+import app.auth.UserSession;
 import app.object.Ingredient;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -37,12 +40,19 @@ public class RecipeUploader extends HttpServlet {
         String[] steps = req.getParameterValues("step");
         int recipeId = 0;
         try {
+            UserSession userSession = AuthService.getUserSession(AuthMiddleware.getSessionId(req, res));
+            if (userSession == null) {
+                data.put("error", "Not logged in");
+                ApiResponse.write(res, 401, data);
+                return;
+            }
+            int userId = userSession.getUserId();
             List<Object> recipe_summary = InputVerifier.verify_summary(recipe_name, serving_size, prep_hours, prep_min, cook_hours, cook_min, calories);
             List<Ingredient>recipe_ingredients = InputVerifier.verify_ingredients(ingredient_names, ingredient_amount, ingredient_units);
             String category = InputVerifier.verify_category(categoryId);
             List<String>diets = InputVerifier.verify_diets(dietIds);
             String description = InputVerifier.verify_steps(steps);
-            recipeId = commitTransaction(recipe_summary, recipe_ingredients, category, diets, description);            
+            recipeId = commitTransaction(userId, recipe_summary, recipe_ingredients, category, diets, description);            
         } catch (IllegalArgumentException e) {
             data.put("error", e.getMessage());
             ApiResponse.write(res, 400, data);
@@ -52,7 +62,7 @@ public class RecipeUploader extends HttpServlet {
         data.put("resid", recipeId + "");
         ApiResponse.write(res, 200, data);
     }
-    private static int commitTransaction(List<Object> recipe_summary, List<Ingredient> ingredients, String category, List<String> diets, String description){
+    private static int commitTransaction(int userID, List<Object> recipe_summary, List<Ingredient> ingredients, String category, List<String> diets, String description){
         java.sql.Connection con = null;
         try{
             con = Database.getConnection();
@@ -130,6 +140,12 @@ public class RecipeUploader extends HttpServlet {
                 ingredient_stmt.addBatch();
             }
             ingredient_stmt.executeBatch();
+
+            PreparedStatement upload_stmt = con.prepareStatement("INSERT INTO uploaded_recipes (user_id, recipe_id) VALUES ( ?, ?)");
+            upload_stmt.setInt(1, userID);
+            upload_stmt.setInt(2, recipeId);
+            upload_stmt.executeUpdate();
+
             con.commit();
             return recipeId;
         }catch (SQLException e) {

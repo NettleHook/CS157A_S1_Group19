@@ -17,9 +17,9 @@ pageEncoding="UTF-8"%>
             const row = document.createElement('div');
             row.className = 'ingredient-row';
             row.innerHTML = `
-            <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" />
+            <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" required/>
             <input type="number" name="ingredient-input-amt" placeholder="Enter amount (if applicable)"/>
-            <input type="text" name="ingredient-input-unit" placeholder="Enter unit"/>
+            <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required/>
             <button type="button" onclick="removeIngredient(this)">Remove</button>
             `;//unit may need to be converted to searchable dropdown to limit user input
             container.appendChild(row);
@@ -27,7 +27,6 @@ pageEncoding="UTF-8"%>
         
         function removeIngredient(btn) {
             const row = btn.parentElement;
-            // Keep at least one ingredient row
             if (document.querySelectorAll('.ingredient-row').length > 1) {
                 row.remove();
             }
@@ -45,7 +44,6 @@ pageEncoding="UTF-8"%>
         
         function removeStep(btn) {
             const row = btn.parentElement;
-            // Keep at least one ingredient row
             if (document.querySelectorAll('.step-row').length > 1) {
                 row.remove();
             }
@@ -64,7 +62,7 @@ pageEncoding="UTF-8"%>
         <form id="recipe-upload">
             <div class = "recip-name-div">
                 <label for = "recipe_name">Recipe Name:</label>
-                <input type = "text", name= "recipe_name">
+                <input type = "text", name= "recipe_name" required>
 
             </div>					<div class="serving-size-div">
             <label for="serving-size">Serving Size:</label>
@@ -92,10 +90,9 @@ pageEncoding="UTF-8"%>
             <!-- add amounts and unit inputs-->
             <label for="ingredients">Ingredients:</label>
             <div class = "ingredient-row">
-                <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" />
+                <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" required/>
                 <input type="number" name="ingredient-input-amt" placeholder="Enter amount (if applicable)"/>
-                <input type="text" name="ingredient-input-unit" placeholder="Enter unit"/>
-                <button type="button" onclick="removeIngredient(this)">Remove</button>
+                <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required/>
             </div>
         </div>
         <button type="button" onclick="addIngredient()">+ Add Ingredient</button>
@@ -113,7 +110,7 @@ pageEncoding="UTF-8"%>
             <label for="food-cat">Category:</label>
             <div>
                 <% for(Constants.Option option : Constants.CATEGORIES) { %>
-                <input type="radio" id="<%= option.id() %>" name="food-cat" value="<%= option.id() %>">
+                <input type="radio" id="<%= option.id() %>" name="food-cat" value="<%= option.id() %>" required>
                 <label for="<%= option.id() %>"><%= option.text() %></label>
                 <% } %>
             </div>
@@ -122,8 +119,7 @@ pageEncoding="UTF-8"%>
             <!-- Steps as a text box per step?-->
             <label for="Steps">Steps:</label>
             <div class = "step-row">
-                <input type="text" name="step"/>
-                <button type="button" onclick="removeStep(this)">Remove</button>
+                <input type="text" name="step" required/>
             </div>
         </div>
         <button type="button" onclick="addStep()">+ Add Step</button>

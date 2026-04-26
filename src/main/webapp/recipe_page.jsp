@@ -8,7 +8,9 @@ pageEncoding="UTF-8"%>
 	<head>
 		<meta charset="UTF-8">
 		<title>Recipes</title>
-		<link href="reset.css" rel="stylesheet" type="text/css" />
+		<link href="styles/reset.css" rel="stylesheet" type="text/css">
+        <link href="styles/theme.css" rel="stylesheet" type="text/css">
+        <link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<%
