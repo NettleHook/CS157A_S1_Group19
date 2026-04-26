@@ -19,16 +19,22 @@ A recipe search app!
 - Passwords are encrypted
 - Session-based authentication
 
-### To be implemented:
-#### Search and results:
-- If user has a registered diet(s), results are automatically filtered
-  
 #### Recipe Uploading
 - Only available to logged in users
 - Recipe is automatically added to user's uploaded recipe's list
-- Regex filtering to prevent injection attacks
-- Comparisons with an ingredient list to verify input (string/array comparisons)
+- Comparisons with a unit list to verify input
+- New ingredients are added to ingredients table
 - Sanitize user-entered field
+  - Regex filtering to prevent injection attacks
+
+-----
+### To be implemented:
+#### Search and results:
+- If user has a registered diet(s), results are automatically filtered
+
+### Recipe Uploading
+- Convert unit input field to dropdown to limit user inputs
+- ensure all ingredients are lowercase so to prevent duplicate ingredients being added on case-by-case basis
 
 #### Ingredient Tracker
 - Users and Guests can keep a list of ingredients, this could be things they usually have or what is currently in their fridge
