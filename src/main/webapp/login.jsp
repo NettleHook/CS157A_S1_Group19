@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>Login</title>
+    <link href="styles/reset.css" rel="stylesheet" type="text/css">
+    <link href="styles/theme.css" rel="stylesheet" type="text/css">
     <link href="styles/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>

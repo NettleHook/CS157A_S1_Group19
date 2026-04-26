@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>My Profile</title>
+    <link href="styles/reset.css" rel="stylesheet" type="text/css">
+    <link href="styles/theme.css" rel="stylesheet" type="text/css">
     <link href="styles/style.css" rel="stylesheet" type="text/css">
     <style>
         * {
@@ -180,6 +182,7 @@
 
     <script>
         async function loadUser() {
+        /*
             const res = await fetch("api/validate");
             if (res.ok) {
                 const data = await res.json();
@@ -187,6 +190,10 @@
             } else {
                 window.location.href = "login.jsp";
             }
+                */
+    
+            // Temporary being used as testing
+            document.getElementById("display-username").textContent = "TestUser";
         }
 
         document.querySelectorAll(".tab-link").forEach(link => {
