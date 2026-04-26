@@ -46,3 +46,6 @@ main {
     flex-direction: column;
     gap: 0.5rem;
 }
+input:invalid {
+  border-color:#dc2626;
+}
