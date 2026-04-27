@@ -109,10 +109,12 @@ pageEncoding="UTF-8"%>
         <div class="food-cat" id="food-cat">
             <label for="food-cat">Category:</label>
             <div>
-                <% for(Constants.Option option : Constants.CATEGORIES) { %>
+                <% for(Constants.Option option : Constants.CATEGORIES) {
+                if(!option.id().equals("all")){%>
                 <input type="radio" id="<%= option.id() %>" name="food-cat" value="<%= option.id() %>" required>
                 <label for="<%= option.id() %>"><%= option.text() %></label>
-                <% } %>
+                <%}
+                } %>
             </div>
         </div>
         <div class = "desc" id = "steps">
@@ -126,6 +128,7 @@ pageEncoding="UTF-8"%>
         <br>
         <input type="submit" value="Submit" onclick="uploadRecipe(event)">
     </form>
+    <p color = "red" id = "error" display="none"></p>
     <datalist id="units-list">
         <option value="to taste">
         <option value="cup">
@@ -161,12 +164,16 @@ pageEncoding="UTF-8"%>
                 if (response.status === 200) {
                     window.location.href = "./recipe_page.jsp?rsid=" + returnVal.data.resid;
                 } else {
-                    document.write("<h2>Something went wrong: " + returnVal.data.error + "</h2>");
+                    const error_el = document.getElementById("error");
+                    error_el.innerHTML = returnVal.data.error;
+                    error_el.style.display = "block";
                 }
                 
             } catch (error) {
                 console.error("Request failed: ", error);
-                document.write("<h2>Something went wrong: " + error.message + "</h2>");
+                const error_el = document.getElementById("error");
+                error_el.innerHTML = error.message;
+                error_el.style.display = "block";
             }
         }
     </script>
