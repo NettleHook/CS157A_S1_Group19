@@ -9,54 +9,69 @@ pageEncoding="UTF-8"%>
 		<meta charset="UTF-8">
 		<title>Recipes</title>
 		<link href="styles/reset.css" rel="stylesheet" type="text/css">
-        <link href="styles/theme.css" rel="stylesheet" type="text/css">
-        <link href="styles/style.css" rel="stylesheet" type="text/css">
+		<link href="styles/theme.css" rel="stylesheet" type="text/css">
+		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<%
-			String recipe_id = request.getParameter("rsid");
-			
-			if (recipe_id == null || recipe_id.isEmpty()) {
-				//User shouldn't be here--redirect to home page
-				response.sendRedirect("./index.jsp");
-			}
+			java.util.function.Function<String, String> esc = s ->
+			s == null ? "" : s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;");
+			String rsid = request.getParameter("rsid");
+			int recipe_id;
 			try {
-				java.sql.Connection con;
-				con = Database.getConnection();
+				recipe_id = Integer.parseInt(rsid);
+			} catch (NumberFormatException e) {
+				response.sendRedirect("./index.jsp");
+				return;
+			}
+			String query1 = "SELECT * FROM recipe_summaries rs, recipe_full rf WHERE rs.id = rf.recipe_id AND rs.id = ?";
+			String query2 = "SELECT ri.ingredient_id, u.name, ri.amount FROM recipe_ingredients ri, units u WHERE ri.unit_id = u.id AND ri.recipe_id = ?";
+			String query3 = "SELECT diets.name FROM diets, recipe_diets WHERE diets.id=recipe_diets.diet_id AND recipe_diets.recipe_id = ?";
+			try(Connection con = Database.getConnection();
+			PreparedStatement stmt1 = con.prepareStatement(query1);
+			PreparedStatement stmt2 = con.prepareStatement(query2);
+			PreparedStatement stmt3 = con.prepareStatement(query3);) {
 				
-				String query1 = "SELECT * FROM recipe_summaries rs, recipe_full rf WHERE rs.id = rf.recipe_id AND rs.id = ?";
-				PreparedStatement stmt1 = con.prepareStatement(query1);
-				stmt1.setString(1, recipe_id);
+				stmt1.setInt(1, recipe_id);
 				ResultSet recipe_rs = stmt1.executeQuery();
 				
 				//second query for ingredients + amounts
-				String query2 = "SELECT ri.ingredient_id, u.name, ri.amount FROM recipe_ingredients ri, units u WHERE ri.unit_id = u.id AND ri.recipe_id = ?";
-				PreparedStatement stmt2 = con.prepareStatement(query2);
-				stmt2.setString(1, recipe_id);
+				
+				stmt2.setInt(1, recipe_id);
 				ResultSet ingredients_rs = stmt2.executeQuery();
 				String ingredients_html = "";
 				String amount = "";
 				while (ingredients_rs.next()) {
 					amount = ingredients_rs.getString(3);
-					ingredients_html += "<tr><td>" + (amount != null ? amount : "") + "</td><td>"
-					+ ingredients_rs.getString(2) + "</td><td>"
-					+ ingredients_rs.getString(1) + "</td></tr>";
+					ingredients_html += "<tr><td>" + esc.apply(ingredients_rs.getString(1)) + "</td><td>"
+					+ esc.apply(amount) + "</td><td>"
+					+ esc.apply(ingredients_rs.getString(2)) + "</td></tr>";
 				}
+				
+				stmt3.setInt(1, recipe_id);
+				ResultSet diet_rs = stmt3.executeQuery();
+				//stringify
+				String diet_html = "<h3> Diet Compatibility: </h3> <p> ";
+				while(diet_rs.next()){
+					diet_html += diet_rs.getString(1) + ", ";
+				}
+				if (diet_html.endsWith(", "))
+					diet_html = diet_html.substring(0, diet_html.length() - 2);
+				diet_html += "</p>";
+
 				//Should only be one result from query1!
 				if (recipe_rs.next()) {
-					out.println("<div><h1>" + recipe_rs.getString(2) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
-					+ recipe_rs.getString(3) + "</p><p> Prep Time: " + recipe_rs.getString(4) + "</p><p> Cook Time: "
-					+ recipe_rs.getString(5) + "</p><p> Calories: " + recipe_rs.getString(6) + "</p></div>"
+					out.println("<div><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
+					+ esc.apply(recipe_rs.getString(3)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "</p><p> Cook Time: "
+					+ esc.apply(recipe_rs.getString(5)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p></div><div>"
+					+ diet_html + "</div>"
 					+ "<div class = 'ingredients'><h3> Ingredients </h3> <table>" + ingredients_html
-					+ "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " + recipe_rs.getString(8)
+					+ "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " +esc.apply(recipe_rs.getString(8)) 
 					+ " </pre></div></div>");
 					
 				} else {
 					out.println("<p> No recipes found.<a href = './index.jsp'> Try another search </a></p>");
 				}
-				recipe_rs.close();
-				stmt1.close();
-				con.close();
 			} catch (SQLException e) {
 				out.println("SQLException caught: " + e.getMessage());
 			}

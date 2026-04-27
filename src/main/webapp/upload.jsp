@@ -19,9 +19,9 @@ pageEncoding="UTF-8"%>
             row.innerHTML = `
             <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" required/>
             <input type="number" name="ingredient-input-amt" placeholder="Enter amount (if applicable)"/>
-            <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required/>
+            <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required list="units-list"/>
             <button type="button" onclick="removeIngredient(this)">Remove</button>
-            `;//unit may need to be converted to searchable dropdown to limit user input
+            `;
             container.appendChild(row);
         }
         
@@ -92,7 +92,7 @@ pageEncoding="UTF-8"%>
             <div class = "ingredient-row">
                 <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" required/>
                 <input type="number" name="ingredient-input-amt" placeholder="Enter amount (if applicable)"/>
-                <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required/>
+                <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required list="units-list"/>
             </div>
         </div>
         <button type="button" onclick="addIngredient()">+ Add Ingredient</button>
@@ -126,6 +126,21 @@ pageEncoding="UTF-8"%>
         <br>
         <input type="submit" value="Submit" onclick="uploadRecipe(event)">
     </form>
+    <datalist id="units-list">
+        <option value="to taste">
+        <option value="cup">
+        <option value="tbsp">
+        <option value="tsp">
+        <option value="oz">
+        <option value="g">
+        <option value="pack">
+        <option value="bulb">
+        <option value="stalk">
+        <option value="thumb">
+        <option value="shot">
+        <option value="self">
+        <option value="N/A">
+    </datalist>
     <script>
         async function uploadRecipe(e) {
             e.preventDefault();

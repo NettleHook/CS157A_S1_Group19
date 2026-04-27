@@ -34,7 +34,7 @@ public class InputVerifier{
         }
         List<Ingredient> ingredients = new ArrayList<>();
         for( int i = 0; i < ingredient_names.length; i++){
-            String name = parseName(ingredient_names[i], "Ingredient "+(i+1) + " name");
+            String name = parseName(ingredient_names[i], "Ingredient "+(i+1) + " name").toLowerCase();
             String unit = verifyUnit(ingredient_units[i], name);
             Double amt = parseAmount(ingredient_amts[i], unit);
             ingredients.add(new Ingredient(name, amt, unit));

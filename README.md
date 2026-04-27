@@ -6,11 +6,12 @@ A recipe search app!
 #### Search and results:
 - Search by ingredients
 - Search by food category
-- search by diet
+- search by diet(s)
 - search by serving size
 - search by calorie cap
 - search by cooking time + prep time
 - hour-minute conversion
+- Added checkboxes to switch between searching for any or all ingredients or diets
 
 #### Full Recipe Page
 - new page featuring full recipe information
@@ -31,10 +32,6 @@ A recipe search app!
 ### To be implemented:
 #### Search and results:
 - If user has a registered diet(s), results are automatically filtered
-
-### Recipe Uploading
-- Convert unit input field to dropdown to limit user inputs
-- ensure all ingredients are lowercase so to prevent duplicate ingredients being added on case-by-case basis
 
 #### Ingredient Tracker
 - Users and Guests can keep a list of ingredients, this could be things they usually have or what is currently in their fridge

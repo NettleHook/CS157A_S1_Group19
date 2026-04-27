@@ -12,44 +12,6 @@ pageEncoding="UTF-8"%>
 		<link href="styles/theme.css" rel="stylesheet" type="text/css">
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
-
-	<script>
-		function addIngredient() {
-			const container = document.getElementById('ingredients');
-			const row = document.createElement('div');
-			row.className = 'ingredient-row';
-			row.innerHTML = `
-			<input type="text" name="ingredient-input" placeholder="Enter ingredient" />
-			<button type="button" onclick="removeIngredient(this)">Remove</button>
-			`;
-			container.appendChild(row);
-		}
-		
-		function removeIngredient(btn) {
-			const row = btn.parentElement;
-			// Keep at least one ingredient row
-			if (document.querySelectorAll('.ingredient-row').length > 1) {
-				row.remove();
-			}
-		}
-		async function checkLogin() {
-			const res = await fetch("api/validate", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json"
-				}
-			});
-			if (res.status == 401){
-				document.getElementById("recipeUploader").style.display = 'none';
-				document.getElementById("logout").style.display = 'none';
-			} else{
-				document.getElementById("login").style.display = 'none';
-				document.getElementById("signup").style.display = 'none';
-			}
-		}
-		checkLogin();
-	</script>
-
 	<body>
 		<div class="layout">
 			<div id="title-box">
@@ -58,14 +20,14 @@ pageEncoding="UTF-8"%>
 			<nav>
 				<div class="start">
 					<a href="index.jsp">Search</a>
+					<a href="upload.jsp" id = "recipeUploader">Upload New Recipe </a>
 				</div>
 				<div class="center">
-					<a href="upload.jsp" id = "recipeUploader">Upload New Recipe </a>
 				</div>
 				<div class="end">
 					<a href="login.jsp" id = "login">Log In</a>
 					<a href="signup.jsp" id = "signup">Sign Up</a>
-					<a href="login.jsp" id = "logout">Log Out</a> <!--Yet to be implemented-->
+					<a href="api/logout" id = "logout">Log Out</a> <!--Yet to be implemented-->
 				</div>
 			</nav>
 			<main>
@@ -78,16 +40,21 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<button type="button" onclick="addIngredient()">+ Add Ingredient</button>
+					<label>
+						<input type="checkbox" name="ingredient-mode" value="exclusive" checked> Must have all
+					</label>
 					<div class="diet-cat" id="diet-cat">
 						<label for="diet-cat">Diet:</label>
 						<div>
 							<% for(Constants.Option option : Constants.DIETS) { %>
-							<input type="checkbox" id="<%= option.id() %>" value="<%= option.id() %>">
+							<input type="checkbox" id="<%= option.id() %>" name="diet-cat" value="<%= option.id() %>">
 							<label for="<%= option.id() %>"><%= option.text() %></label>
 							<% } %>
 						</div>
 					</div>
-
+					<label>
+						<input type="checkbox" name="diet-mode" value="inclusive"> Can be any diet
+					</label>
 					<div class="food-cat" id="food-cat">
 						<label for="food-cat">Category:</label>
 						<div>
@@ -99,30 +66,65 @@ pageEncoding="UTF-8"%>
 					</div>
 					<div class="serving-size-div">
 						<label for="serving-size">Serving Size:</label>
-						<input type="number" id="serving-size" name="serving-size">
+						<input type="number" id="serving-size" name="serving-size" min =0>
 					</div>
 					<div class="prep-time-div">
 						<label for="prep-time">Prep Time:</label>
 						<div>
-							<input type="number"id="prep-time-hours" name="prep-time-hours">
-							<input type="number" id="prep-time-minutes" name="prep-time-minutes">
+							<input type="number"id="prep-time-hours" name="prep-time-hours" min = 0>
+							<input type="number" id="prep-time-minutes" name="prep-time-minutes" min = 0>
 						</div>
 					</div>
 					<div class="cook-time-div">
 						<label for="cook-time">Cooking Time:</label>
 						<div>
-							<input type="number" id="cook-time-hours" name="cook-time-hours">
-							<input type="number" id="cook-time-minutes" name="cook-time-minutes">
+							<input type="number" id="cook-time-hours" name="cook-time-hours" min = 0>
+							<input type="number" id="cook-time-minutes" name="cook-time-minutes" min = 0>
 						</div>
 					</div>
 					<div class="calories-div">
 						<label for="calories">Calorie Cap:</label>
-						<input type="number" id="calories" name = "calories">
+						<input type="number" id="calories" name = "calories" min = 0>
 					</div>
 					<input type="submit" value="Submit">
 				</form>
 			</main>
 		</div>
-
+		<script>
+			function addIngredient() {
+				const container = document.getElementById('ingredients');
+				const row = document.createElement('div');
+				row.className = 'ingredient-row';
+				row.innerHTML = `
+				<input type="text" name="ingredient-input" placeholder="Enter ingredient" />
+				<button type="button" onclick="removeIngredient(this)">Remove</button>
+				`;
+				container.appendChild(row);
+			}
+			
+			function removeIngredient(btn) {
+				const row = btn.parentElement;
+				// Keep at least one ingredient row
+				if (document.querySelectorAll('.ingredient-row').length > 1) {
+					row.remove();
+				}
+			}
+			async function checkLogin() {
+				const res = await fetch("api/validate", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
+				if (res.status == 401){
+					document.getElementById("recipeUploader").style.display = 'none';
+					document.getElementById("logout").style.display = 'none';
+				} else{
+					document.getElementById("login").style.display = 'none';
+					document.getElementById("signup").style.display = 'none';
+				}
+			}
+			checkLogin();
+		</script>
 	</body>
 </html>
