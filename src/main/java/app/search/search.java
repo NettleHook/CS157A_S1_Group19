@@ -38,7 +38,8 @@ public class search extends HttpServlet {
         if (categoryId == null) {
             categoryId = "all";
         }
-
+        
+        //Filter with user diets (or maybe we should be doing this in index.jsp)
         String[] dietIds = request.getParameterValues("diet-cat");
         List<String> diets = new ArrayList<>();
         if (dietIds != null) {
@@ -118,12 +119,12 @@ public class search extends HttpServlet {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 results = "<table class = 'results' border='1'>" + "<tr>" + "<th>Recipe Name:</th>" + "<th>Serving Size:</th>"
-                        + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" + "</tr>";
+                        + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" +  "<th>Likes:</th>"+"<th>Bookmarks</th>"+"</tr>";
 
                 do {
                     results += "<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + esc.apply(rs.getString(1)) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"
                             + esc.apply(rs.getString(4)) + " </td>" + "<td>" + esc.apply(rs.getString(5)) + " </td>" + "<td>" + esc.apply(rs.getString(6))
-                            + " </td>" + "</tr>";
+                            + " </td>" + "<td> <button> Likes: </button> <span>"+ "</span></td>"+ "<td><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
                 } while (rs.next());
                 results += "</table>";
             } else {
@@ -133,8 +134,7 @@ public class search extends HttpServlet {
             ApiResponse.write(response, 200, data);
             return;
         } catch (SQLException e) {
-            data.put("error", e.getMessage());
-            ApiResponse.write(response, 400, data);
+            ApiResponse.error(response, 400, e.getMessage());
             return;
         }
     }

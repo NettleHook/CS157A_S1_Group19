@@ -32,7 +32,11 @@ nav {
     display: flex;
     gap: 2rem;
 }
-
+.bookmark-container img {
+    width: 24px;  /* adjust to taste */
+    height: 24px;
+    object-fit: contain;
+}
 main {
     height: 100%;
     padding-top: 3rem;

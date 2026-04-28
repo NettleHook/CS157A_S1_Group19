@@ -39,8 +39,43 @@ pageEncoding="UTF-8"%>
 					main.innerHTML = "<p>An error occurred: " + (json.data.error ?? "Unknown error") + "</p>";
 				}
 			}
+			async function toggleBookmark(btn, recipeId) {
+				const bookmarked = btn.dataset.bookmarked === "true";
+				if (bookmarked) {
+					const status = await removeBookmark(recipeId);
+					if (status === 200) {
+						btn.dataset.bookmarked = "false";
+						btn.src = "./assets/unbookmarked.svg";
+					}
+				} else {
+					const status = await addBookmark(recipeId);
+					if (status === 201) {
+						btn.dataset.bookmarked = "true";
+						btn.src = "./assets/bookmarked.svg";
+					}
+				}
+			}
+			// Add bookmark
+			async function addBookmark(recipeId) {
+				const res = await fetch("api/stats/bookmark", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ recipeId: recipeId })
+				});
+				return res.status;
+			}
 			
+			// Remove bookmark
+			async function removeBookmark(recipeId) {
+				const res = await fetch("api/stats/bookmark", {
+					method: "DELETE",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ recipeId: recipeId })
+				});
+				return res.status;
+			}
 			loadResults();
+			
 		</script>
 	</body>
 </html>
