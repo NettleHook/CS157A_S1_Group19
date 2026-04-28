@@ -19,29 +19,6 @@
             min-height: 100vh;
         }
 
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: #fff;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .topbar a {
-            text-decoration: none;
-            color: #555;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            padding: 6px 14px;
-            border-radius: 6px;
-            background: #fff;
-        }
-
-        .topbar a:hover {
-            background: #f0f0f0;
-        }
-
         .welcome-banner {
             text-align: center;
             padding: 50px 20px 30px;
@@ -55,7 +32,7 @@
 
         .welcome-banner h1 span {
             font-weight: bold;
-            color: #c0392b;
+            color: #55f5b0;
         }
 
         .main-layout {
@@ -95,12 +72,8 @@
 
         .sidebar ul li a:hover,
         .sidebar ul li a.active {
-            background: #c0392b;
+            background: #55f5b0;
             color: #fff;
-        }
-
-        .sidebar ul li a .tab-icon {
-            margin-right: 10px;
         }
 
         .content {
@@ -132,68 +105,102 @@
             color: #888;
             font-size: 14px;
         }
+
+        .bookmark-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .bookmark-box:hover {
+            background: #f9f6f1;
+        }
+
+        .bookmark-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="topbar">
-        <a href="index.jsp">&#8592; Home</a>
-        <a href="api/logout" onclick="handleLogout(event)">Log Out</a>
-    </div>
+    <div class="layout">
+        <nav>
+            <div class="start">
+                <div id="title-box">
+                    <h1>What Can I Cook?</h1>
+                </div>
+                <a href="index.jsp">Search</a>
+            </div>
+            <div class="center"></div>
+            <div class="end">
+                <a href="api/logout" onclick="handleLogout(event)">Log Out</a>
+            </div>
+        </nav>
 
-    <div class="welcome-banner">
-        <h1>Welcome back, <span id="display-username">...</span></h1>
-    </div>
-
-    <div class="main-layout">
-
-        <div class="sidebar">
-            <ul>
-                <li><a href="#" class="tab-link active" data-tab="bookmarks"><span class="tab-icon">🔖</span>Bookmark List</a></li>
-                <li><a href="#" class="tab-link" data-tab="liked"><span class="tab-icon">❤️</span>Liked Recipes</a></li>
-                <li><a href="#" class="tab-link" data-tab="myrecipes"><span class="tab-icon">📋</span>My Recipes</a></li>
-                <li><a href="#" class="tab-link" data-tab="ingredients"><span class="tab-icon">🧺</span>Saved Ingredients</a></li>
-            </ul>
+        <div class="welcome-banner">
+            <h1>Welcome back, <span id="welcome-username">...</span></h1>
         </div>
 
-        <div class="content">
-            <div id="bookmarks" class="tab-panel active">
-                <h2>🔖 Bookmark List</h2>
-                <p>Your bookmarked recipes will appear here.</p>
+        <div class="main-layout">
+
+            <div class="sidebar">
+                <ul>
+                    <li><a href="#" class="tab-link active" data-tab="bookmarks">Bookmark List</a></li>
+                    <li><a href="#" class="tab-link" data-tab="liked">Liked Recipes</a></li>
+                    <li><a href="#" class="tab-link" data-tab="myrecipes">My Recipes</a></li>
+                    <li><a href="#" class="tab-link" data-tab="ingredients">Saved Ingredients</a></li>
+                </ul>
             </div>
 
-            <div id="liked" class="tab-panel">
-                <h2>❤️ Liked Recipes</h2>
-                <p>Recipes you've liked will appear here.</p>
-            </div>
+            <div class="content">
+                <div id="bookmarks" class="tab-panel active">
+                    <h2>Bookmark List</h2>
+                    <div id="bookmarks-container"></div>
+                </div>
 
-            <div id="myrecipes" class="tab-panel">
-                <h2>📋 My Recipes</h2>
-                <p>Recipes you've created will appear here.</p>
-            </div>
+                <div id="liked" class="tab-panel">
+                    <h2>Liked Recipes</h2>
+                    <p>Recipes you've liked will appear here.</p>
+                </div>
 
-            <div id="ingredients" class="tab-panel">
-                <h2>🧺 Saved Ingredients</h2>
-                <p>Your saved ingredients will appear here.</p>
+                <div id="myrecipes" class="tab-panel">
+                    <h2>My Recipes</h2>
+                    <p>Recipes you've created will appear here.</p>
+                </div>
+
+                <div id="ingredients" class="tab-panel">
+                    <h2>Saved Ingredients</h2>
+                    <p>Your saved ingredients will appear here.</p>
+                </div>
             </div>
         </div>
-
     </div>
 
     <script>
         async function loadUser() {
-        /*
+            // Temporary blocked out for testing
             const res = await fetch("api/validate");
             if (res.ok) {
                 const data = await res.json();
-                document.getElementById("display-username").textContent = data.username;
+                document.getElementById("welcome-username").textContent = data.username;
             } else {
                 window.location.href = "login.jsp";
             }
-                */
-    
-            // Temporary being used as testing
-            document.getElementById("display-username").textContent = "TestUser";
+
+            // Temporary: remove for testing
+            //document.getElementById("welcome-username").textContent = "TestUser";
         }
 
         document.querySelectorAll(".tab-link").forEach(link => {
@@ -212,7 +219,49 @@
             window.location.href = "login.jsp";
         }
 
+        async function loadBookmarks() {
+        try {
+            const res = await fetch("api/bookmarks");
+            if (res.ok) {
+                const bookmarks = await res.json();
+                const container = document.getElementById("bookmarks-container");
+                container.innerHTML= "";
+                
+                if (bookmarks.length === 0) {
+                    container.innerHTML = "<p>No bookmarks yet.</p>";
+                } else {
+                    bookmarks.forEach(recipeName => {
+                        const box = document.createElement("div");
+                        box.className = "bookmark-box";
+
+                        const name = document.createElement("span");
+                        name.textContent = recipeName;
+
+                        const btn = document.createElement("button");
+                        btn.className = "bookmark-btn";
+                        btn.textContent = "🔖";
+                        btn.onclick = async () => {
+                            await fetch("api/bookmarks", {
+                                method: "DELETE",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ recipeName: recipeName })
+                            });
+                            loadBookmarks();
+                        };
+
+                        box.appendChild(name);
+                        box.appendChild(btn);
+                        container.appendChild(box);
+                    });
+                }
+            }
+        } catch (err) {
+            console.error("Failed to load bookmarks:", err);
+        }
+    }
+
         loadUser();
+        loadBookmarks();
     </script>
 
 </body>
