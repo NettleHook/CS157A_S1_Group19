@@ -17,11 +17,12 @@ pageEncoding="UTF-8"%>
 	<body>
 	<div style="position: fixed; top: 15px; left: 20px;">
             <a href="index.jsp">
-                <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+                <button style="cursor: pointer;">
                     &#8592; Home
                 </button>
             </a>
         </div>
+		<main class = "page">
 		<%!private String getTime(String hour, String minute) {
 			int minutes = 0;
 			if (hour != null && !hour.isEmpty()) {
@@ -121,8 +122,8 @@ pageEncoding="UTF-8"%>
 				
 				ResultSet rs = stmt.executeQuery();
 				if (rs.next()) {
-					out.println("<table border='1'>" + "<tr>" + "<td>Recipe Name:</td>" + "<td>Serving Size:</td>"
-					+ "<td>Prep Time:</td>" + "<td>Cook Time:</td>" + "<td>Calories:</td>" + "</tr>");
+					out.println("<table class = 'results' border='1'>" + "<tr>" + "<th>Recipe Name:</th>" + "<th>Serving Size:</th>"
+					+ "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" + "</tr>");
 					
 					do {
 						out.println("<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + esc.apply(rs.getString(1)) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"
@@ -137,5 +138,6 @@ pageEncoding="UTF-8"%>
 				out.println("SQLException caught: " + e.getMessage());
 			}
 		%>
+		</main>
 	</body>
 </html>

@@ -11,59 +11,15 @@ pageEncoding="UTF-8"%>
         <link href="styles/theme.css" rel="stylesheet" type="text/css">
         <link href="styles/style.css" rel="stylesheet" type="text/css">
     </head>
-    <script>
-        function addIngredient() {
-            const container = document.getElementById('ingredients');
-            const row = document.createElement('div');
-            row.className = 'ingredient-row';
-            row.innerHTML = `
-            <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" required/>
-            <input type="number" name="ingredient-input-amt" placeholder="Enter amount (if applicable)"/>
-            <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required list="units-list"/>
-            <button type="button" onclick="removeIngredient(this)">Remove</button>
-            `;
-            container.appendChild(row);
-        }
-        
-        function removeIngredient(btn) {
-            const row = btn.parentElement;
-            if (document.querySelectorAll('.ingredient-row').length > 1) {
-                row.remove();
-            }
-        }
-        function addStep() {
-            const container = document.getElementById('steps');
-            const row = document.createElement('div');
-            row.className = 'step-row';
-            row.innerHTML = `
-            <input type="text" name="step"/>
-            <button type="button" onclick="removeStep(this)">Remove</button>
-            `;
-            container.appendChild(row);
-        }
-        
-        function removeStep(btn) {
-            const row = btn.parentElement;
-            if (document.querySelectorAll('.step-row').length > 1) {
-                row.remove();
-            }
-        }
-        async function checkLogin() {
-            const res = await fetch("api/validate");
-            if (!res.ok){
-                document.write("<h3>This Service is only available to registered users.</h3> <a href = 'login.jsp'> Log In</a> <a href = 'signup.jsp'> Sign Up </a> <br> <a href = 'index.jsp'>Back to Search</a>")
-            }
-        }
-        checkLogin();
-    </script>
     <body>
         <div style="position: fixed; top: 15px; left: 20px;">
             <a href="index.jsp">
-                <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+                <button style="cursor: pointer;">
                     &#8592; Home
                 </button>
             </a>
         </div>
+        <main class = "page">
         <h1>Recipe Upload</h1>
 
         <form id="recipe-upload">
@@ -151,6 +107,52 @@ pageEncoding="UTF-8"%>
         <option value="self">
         <option value="N/A">
     </datalist>
+    </main>
+    <script>
+        function addIngredient() {
+            const container = document.getElementById('ingredients');
+            const row = document.createElement('div');
+            row.className = 'ingredient-row';
+            row.innerHTML = `
+            <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" required/>
+            <input type="number" name="ingredient-input-amt" placeholder="Enter amount (if applicable)"/>
+            <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required list="units-list"/>
+            <button type="button" onclick="removeIngredient(this)">Remove</button>
+            `;
+            container.appendChild(row);
+        }
+        
+        function removeIngredient(btn) {
+            const row = btn.parentElement;
+            if (document.querySelectorAll('.ingredient-row').length > 1) {
+                row.remove();
+            }
+        }
+        function addStep() {
+            const container = document.getElementById('steps');
+            const row = document.createElement('div');
+            row.className = 'step-row';
+            row.innerHTML = `
+            <input type="text" name="step"/>
+            <button type="button" onclick="removeStep(this)">Remove</button>
+            `;
+            container.appendChild(row);
+        }
+        
+        function removeStep(btn) {
+            const row = btn.parentElement;
+            if (document.querySelectorAll('.step-row').length > 1) {
+                row.remove();
+            }
+        }
+        async function checkLogin() {
+            const res = await fetch("api/validate");
+            if (!res.ok){
+                document.write("<h3>This Service is only available to registered users.</h3> <a href = 'login.jsp'> Log In</a> <a href = 'signup.jsp'> Sign Up </a> <br> <a href = 'index.jsp'>Back to Search</a>")
+            }
+        }
+        checkLogin();
+    </script>
     <script>
         async function uploadRecipe(e) {
             e.preventDefault();
