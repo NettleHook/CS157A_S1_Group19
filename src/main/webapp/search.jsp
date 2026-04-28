@@ -32,19 +32,7 @@ pageEncoding="UTF-8"%>
 			.collect(Collectors.toList());
 			
 			String categoryId = request.getParameter("food-cat");
-			String category = null;
-			
-			if (categoryId == null) {
-				category = "All";
-			} else {
-				
-				for (Constants.Option option : Constants.CATEGORIES) {
-					if (option.id().equals(categoryId)) {
-						category = option.text();
-						break;
-					}
-				}
-			}
+
 			String[]  dietIds = request.getParameterValues("diet-cat");
 			List<String> diets = new ArrayList<>();
 			if (dietIds != null) {
@@ -65,13 +53,7 @@ pageEncoding="UTF-8"%>
 			
 			boolean inclusiveIngredients = !"exclusive".equals(request.getParameter("ingredient-mode"));
 			boolean inclusiveDiets = "inclusive".equals(request.getParameter("diet-mode"));
-		%>
-		<h1>
-			Food Category:
-			<%=category%>
-		</h1>
 
-		<%
 			java.util.function.Function<String, String> esc = s ->
 			s == null ? "" : s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;");
 			List<String> conditions = new ArrayList<>();
@@ -88,13 +70,6 @@ pageEncoding="UTF-8"%>
 				}
 				params.addAll(ingredients);
 			}
-			
-			//if (!category.equals("All")) {
-			//	conditions.add(
-			//	"id IN (SELECT DISTINCT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = ?))");
-			//	params.add(category);
-			//}
-			
 			if (diets != null && !diets.isEmpty()) {
 				String diet_placeholders = String.join(",", Collections.nCopies(diets.size(), "?"));
 				if(inclusiveDiets){
@@ -122,7 +97,7 @@ pageEncoding="UTF-8"%>
 				params.add(calories);
 			}
 			// Build the final query
-			String view = category.equals("All") ? "recipe_summaries" : categoryId + "_recipes";
+			String view = categoryId.equals("all") ? "recipe_summaries" : categoryId + "_recipes";
 			String query = "SELECT * FROM " + view;
 			if (!conditions.isEmpty()) {
 				query += " WHERE " + String.join(" AND ", conditions);
