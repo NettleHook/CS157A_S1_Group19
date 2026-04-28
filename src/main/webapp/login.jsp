@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>Login</title>
+    <link href="styles/reset.css" rel="stylesheet" type="text/css">
+    <link href="styles/theme.css" rel="stylesheet" type="text/css">
     <link href="styles/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -52,7 +54,7 @@
         });
 
         if (res.ok) {
-            window.location.href = "index.jsp";
+            window.location.href = "user.jsp";
         } else if (res.status === 401) {
             document.getElementById("error-msg").textContent = "Invalid username or password.";
         } else {
