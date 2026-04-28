@@ -4,30 +4,54 @@ body {
     width: 100%;
     background-color: var(--bg-color);
 }
-
+h1{
+    color: var(--ac-color);
+    text-align: center;
+    font-size: 200%;
+}
 .layout {
     display: flex;
     flex-direction: column;
+}
+
+.page {
+    text-align: left;
+    margin-top: 50px;
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     padding: 1.5rem 3rem;
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid var(--ac-color);
 }
 
-.start, .center, .end {
+.start,
+.center,
+.end {
     display: flex;
     gap: 2rem;
 }
 
 main {
     height: 100%;
-    padding-top: 1rem;
+    padding-top: 3rem;
     padding-left: 3rem;
 }
-
+.results{
+    width: 100%;
+}
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+th{
+    background-color: var(--ac-color);
+}
+tr:hover{
+    background-color:#dde2e7;
+}
 .recipe-search {
     display: flex;
     flex-direction: column;
@@ -35,14 +59,18 @@ main {
     gap: 1rem;
 }
 
-.ingredients, 
-.diet-cat, 
-.food-cat, 
-.serving-size, 
-.prep-time, 
-.cook-time, 
+.ingredients,
+.diet-cat,
+.food-cat,
+.serving-size,
+.prep-time,
+.cook-time,
 .calories {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+input:invalid {
+    border-color: #dc2626;
 }

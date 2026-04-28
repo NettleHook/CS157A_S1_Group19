@@ -8,3 +8,4 @@ settings
 bin
 .project
 *.jar 
+.DS_Store

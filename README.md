@@ -6,11 +6,13 @@ A recipe search app!
 #### Search and results:
 - Search by ingredients
 - Search by food category
-- search by diet
+  - Now searching with views
+- search by diet(s)
 - search by serving size
 - search by calorie cap
 - search by cooking time + prep time
 - hour-minute conversion
+- Added checkboxes to switch between searching for any or all ingredients or diets
 
 #### Full Recipe Page
 - new page featuring full recipe information
@@ -19,16 +21,23 @@ A recipe search app!
 - Passwords are encrypted
 - Session-based authentication
 
-### To be implemented:
-#### Search and results:
-- If user has a registered diet(s), results are automatically filtered
-  
 #### Recipe Uploading
 - Only available to logged in users
 - Recipe is automatically added to user's uploaded recipe's list
-- Regex filtering to prevent injection attacks
-- Comparisons with an ingredient list to verify input (string/array comparisons)
+- Comparisons with a unit list to verify input
+- New ingredients are added to ingredients table
 - Sanitize user-entered field
+  - Regex filtering to prevent injection attacks
+
+#### Views:
+- Views are created based on food category
+- When searching, if a food category is selected, search is done with the view
+- When a recipe is uploaded, the view for the food category it belongs to is updated
+
+-----
+### To be implemented:
+#### Search and results:
+- If user has a registered diet(s), results are automatically filtered
 
 #### Ingredient Tracker
 - Users and Guests can keep a list of ingredients, this could be things they usually have or what is currently in their fridge
