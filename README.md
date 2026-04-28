@@ -6,6 +6,7 @@ A recipe search app!
 #### Search and results:
 - Search by ingredients
 - Search by food category
+  - Now searching with views
 - search by diet(s)
 - search by serving size
 - search by calorie cap
@@ -27,6 +28,11 @@ A recipe search app!
 - New ingredients are added to ingredients table
 - Sanitize user-entered field
   - Regex filtering to prevent injection attacks
+
+#### Views:
+- Views are created based on food category
+- When searching, if a food category is selected, search is done with the view
+- When a recipe is uploaded, the view for the food category it belongs to is updated
 
 -----
 ### To be implemented:
