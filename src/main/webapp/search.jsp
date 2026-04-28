@@ -15,6 +15,13 @@ pageEncoding="UTF-8"%>
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
+	<div style="position: fixed; top: 15px; left: 20px;">
+            <a href="index.jsp">
+                <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+                    &#8592; Home
+                </button>
+            </a>
+        </div>
 		<%!private String getTime(String hour, String minute) {
 			int minutes = 0;
 			if (hour != null && !hour.isEmpty()) {
@@ -32,6 +39,9 @@ pageEncoding="UTF-8"%>
 			.collect(Collectors.toList());
 			
 			String categoryId = request.getParameter("food-cat");
+			if(categoryId == null){
+				categoryId = "all";
+			}
 
 			String[]  dietIds = request.getParameterValues("diet-cat");
 			List<String> diets = new ArrayList<>();

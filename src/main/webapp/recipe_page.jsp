@@ -13,6 +13,13 @@ pageEncoding="UTF-8"%>
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
+		<div style="position: fixed; top: 15px; left: 20px;">
+			<a href="index.jsp">
+				<button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+					&#8592; Home
+				</button>
+			</a>
+		</div>
 		<%
 			java.util.function.Function<String, String> esc = s ->
 			s == null ? "" : s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;");
@@ -56,9 +63,9 @@ pageEncoding="UTF-8"%>
 					diet_html += diet_rs.getString(1) + ", ";
 				}
 				if (diet_html.endsWith(", "))
-					diet_html = diet_html.substring(0, diet_html.length() - 2);
+				diet_html = diet_html.substring(0, diet_html.length() - 2);
 				diet_html += "</p>";
-
+				
 				//Should only be one result from query1!
 				if (recipe_rs.next()) {
 					out.println("<div><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
@@ -66,7 +73,7 @@ pageEncoding="UTF-8"%>
 					+ esc.apply(recipe_rs.getString(5)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p></div><div>"
 					+ diet_html + "</div>"
 					+ "<div class = 'ingredients'><h3> Ingredients </h3> <table>" + ingredients_html
-					+ "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " +esc.apply(recipe_rs.getString(8)) 
+					+ "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " +esc.apply(recipe_rs.getString(8))
 					+ " </pre></div></div>");
 					
 				} else {
