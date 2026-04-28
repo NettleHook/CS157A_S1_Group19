@@ -1,11 +1,5 @@
 package app.uploader;
 
-import app.Database;
-import app.api.ApiResponse;
-import app.auth.AuthMiddleware;
-import app.auth.AuthService;
-import app.auth.UserSession;
-import app.object.Ingredient;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,13 +8,22 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import app.Database;
+import app.api.ApiResponse;
+import app.auth.AuthMiddleware;
+import app.auth.AuthService;
+import app.auth.UserSession;
+import app.object.Ingredient;
+
 @WebServlet("/api/upload")
 public class RecipeUploader extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         Map<String, String> data = new HashMap<>();
@@ -35,8 +38,8 @@ public class RecipeUploader extends HttpServlet {
         String[] ingredient_names = req.getParameterValues("ingredient-input-name");
         String[] ingredient_amount = req.getParameterValues("ingredient-input-amt");
         String[] ingredient_units = req.getParameterValues("ingredient-input-unit");
-	    String categoryId = req.getParameter("food-cat");
-	    String[] dietIds = req.getParameterValues("diet-cat");
+        String categoryId = req.getParameter("food-cat");
+        String[] dietIds = req.getParameterValues("diet-cat");
         String[] steps = req.getParameterValues("step");
         int recipeId = 0;
         try {
@@ -48,14 +51,14 @@ public class RecipeUploader extends HttpServlet {
             }
             int userId = userSession.getUserId();
             List<Object> recipe_summary = InputVerifier.verify_summary(recipe_name, serving_size, prep_hours, prep_min, cook_hours, cook_min, calories);
-            List<Ingredient>recipe_ingredients = InputVerifier.verify_ingredients(ingredient_names, ingredient_amount, ingredient_units);
+            List<Ingredient> recipe_ingredients = InputVerifier.verify_ingredients(ingredient_names, ingredient_amount, ingredient_units);
             String category = InputVerifier.verify_category(categoryId);
-            List<String>diets = InputVerifier.verify_diets(dietIds);
+            List<String> diets = InputVerifier.verify_diets(dietIds);
             String description = InputVerifier.verify_steps(steps);
             recipeId = commitTransaction(userId, recipe_summary, recipe_ingredients, category, diets, description);
-            if(categoryId != null){
-                updateView(categoryId, category);   
-            }    
+            if (categoryId != null) {
+                updateView(categoryId, category);
+            }
         } catch (IllegalArgumentException e) {
             data.put("error", e.getMessage());
             ApiResponse.write(res, 400, data);
@@ -65,9 +68,10 @@ public class RecipeUploader extends HttpServlet {
         data.put("resid", recipeId + "");
         ApiResponse.write(res, 200, data);
     }
-    private static int commitTransaction(int userID, List<Object> recipe_summary, List<Ingredient> ingredients, String category, List<String> diets, String description){
+
+    private static int commitTransaction(int userID, List<Object> recipe_summary, List<Ingredient> ingredients, String category, List<String> diets, String description) {
         java.sql.Connection con = null;
-        try{
+        try {
             con = Database.getConnection();
             //Need to commit as a transaction
             con.setAutoCommit(false);
@@ -128,31 +132,29 @@ public class RecipeUploader extends HttpServlet {
             }
             new_ingredient_stmt.executeBatch();
 
-
             //recipe_ingredients
             PreparedStatement ingredient_stmt = con.prepareStatement("INSERT INTO recipe_ingredients (recipe_id, ingredient_id, unit_id, amount) VALUES ( ?, ?, (SELECT id FROM units WHERE name = ?), ?)");
-             for (Ingredient ingredient : ingredients) {
+            for (Ingredient ingredient : ingredients) {
                 ingredient_stmt.setInt(1, recipeId);
                 ingredient_stmt.setString(2, ingredient.name());
-                ingredient_stmt.setString(3, ingredient.unit());      
+                ingredient_stmt.setString(3, ingredient.unit());
                 if (ingredient.amount() != null) {
                     ingredient_stmt.setDouble(4, ingredient.amount());
-                }else{
+                } else {
                     ingredient_stmt.setNull(4, java.sql.Types.DOUBLE);
                 }
                 ingredient_stmt.addBatch();
             }
             ingredient_stmt.executeBatch();
 
-            
             PreparedStatement upload_stmt = con.prepareStatement("INSERT INTO uploaded_recipes (user_id, recipe_id) VALUES ( ?, ?)");
             upload_stmt.setInt(1, userID);
             upload_stmt.setInt(2, recipeId);
             upload_stmt.executeUpdate();
-            
+
             con.commit();
             return recipeId;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             // Something failed - roll back everything
             if (con != null) {
                 try {
@@ -162,8 +164,7 @@ public class RecipeUploader extends HttpServlet {
                 }
             }
             throw new RuntimeException("Transaction failed, changes rolled back: " + e.getMessage());
-        }
-        finally {
+        } finally {
             if (con != null) {
                 try {
                     con.setAutoCommit(true);
@@ -174,10 +175,11 @@ public class RecipeUploader extends HttpServlet {
             }
         }
     }
-    private static void updateView(String categoryId, String category){
+
+    private static void updateView(String categoryId, String category) {
         try {
-            java.sql.Connection con  = Database.getConnection();
-            PreparedStatement update_View = con.prepareStatement("CREATE OR REPLACE VIEW " + categoryId +"_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = ?))");
+            java.sql.Connection con = Database.getConnection();
+            PreparedStatement update_View = con.prepareStatement("CREATE OR REPLACE VIEW " + categoryId + "_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = ?))");
             update_View.setString(1, category);
             System.out.println(update_View);
             update_View.executeUpdate();
