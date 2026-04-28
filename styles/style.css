@@ -4,7 +4,12 @@ body {
     width: 100%;
     background-color: var(--bg-color);
 }
-
+button{
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
 .layout {
     display: flex;
     flex-direction: column;

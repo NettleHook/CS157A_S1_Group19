@@ -4,13 +4,13 @@ public class Constants {
     public record Option(String id, String text) {};
 
     public static final Option[] CATEGORIES = { 
-        new Option("desserts-sweets", "Desserts and Sweets"), 
+        new Option("desserts_sweets", "Desserts and Sweets"), 
         new Option("bread", "Bread"), 
-        new Option("soups-stews",  "Soups and Stews"), 
+        new Option("soups_stews",  "Soups and Stews"), 
         new Option("salads", "Salads"), 
-        new Option("dressings-sauces", "Dressings and Sauces"),
+        new Option("dressings_sauces", "Dressings and Sauces"),
         new Option("snacks", "Snacks"),
-        new Option("main-dishes", "Main Dishes"),
+        new Option("main_dishes", "Main Dishes"),
         new Option("all", "All")
     };
 

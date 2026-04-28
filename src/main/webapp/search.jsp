@@ -15,6 +15,13 @@ pageEncoding="UTF-8"%>
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
+	<div style="position: fixed; top: 15px; left: 20px;">
+            <a href="index.jsp">
+                <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+                    &#8592; Home
+                </button>
+            </a>
+        </div>
 		<%!private String getTime(String hour, String minute) {
 			int minutes = 0;
 			if (hour != null && !hour.isEmpty()) {
@@ -32,19 +39,10 @@ pageEncoding="UTF-8"%>
 			.collect(Collectors.toList());
 			
 			String categoryId = request.getParameter("food-cat");
-			String category = null;
-			
-			if (categoryId == null) {
-				category = "All";
-			} else {
-				
-				for (Constants.Option option : Constants.CATEGORIES) {
-					if (option.id().equals(categoryId)) {
-						category = option.text();
-						break;
-					}
-				}
+			if(categoryId == null){
+				categoryId = "all";
 			}
+
 			String[]  dietIds = request.getParameterValues("diet-cat");
 			List<String> diets = new ArrayList<>();
 			if (dietIds != null) {
@@ -65,13 +63,7 @@ pageEncoding="UTF-8"%>
 			
 			boolean inclusiveIngredients = !"exclusive".equals(request.getParameter("ingredient-mode"));
 			boolean inclusiveDiets = "inclusive".equals(request.getParameter("diet-mode"));
-		%>
-		<h1>
-			Food Category:
-			<%=category%>
-		</h1>
 
-		<%
 			java.util.function.Function<String, String> esc = s ->
 			s == null ? "" : s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;");
 			List<String> conditions = new ArrayList<>();
@@ -88,13 +80,6 @@ pageEncoding="UTF-8"%>
 				}
 				params.addAll(ingredients);
 			}
-			
-			if (!category.equals("All")) {
-				conditions.add(
-				"id IN (SELECT DISTINCT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = ?))");
-				params.add(category);
-			}
-			
 			if (diets != null && !diets.isEmpty()) {
 				String diet_placeholders = String.join(",", Collections.nCopies(diets.size(), "?"));
 				if(inclusiveDiets){
@@ -122,7 +107,8 @@ pageEncoding="UTF-8"%>
 				params.add(calories);
 			}
 			// Build the final query
-			String query = "SELECT * FROM recipe_summaries";
+			String view = categoryId.equals("all") ? "recipe_summaries" : categoryId + "_recipes";
+			String query = "SELECT * FROM " + view;
 			if (!conditions.isEmpty()) {
 				query += " WHERE " + String.join(" AND ", conditions);
 			}
