@@ -89,11 +89,11 @@ pageEncoding="UTF-8"%>
 				params.addAll(ingredients);
 			}
 			
-			if (!category.equals("All")) {
-				conditions.add(
-				"id IN (SELECT DISTINCT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = ?))");
-				params.add(category);
-			}
+			//if (!category.equals("All")) {
+			//	conditions.add(
+			//	"id IN (SELECT DISTINCT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = ?))");
+			//	params.add(category);
+			//}
 			
 			if (diets != null && !diets.isEmpty()) {
 				String diet_placeholders = String.join(",", Collections.nCopies(diets.size(), "?"));
@@ -122,7 +122,8 @@ pageEncoding="UTF-8"%>
 				params.add(calories);
 			}
 			// Build the final query
-			String query = "SELECT * FROM recipe_summaries";
+			String view = category.equals("All") ? "recipe_summaries" : categoryId + "_recipes";
+			String query = "SELECT * FROM " + view;
 			if (!conditions.isEmpty()) {
 				query += " WHERE " + String.join(" AND ", conditions);
 			}
