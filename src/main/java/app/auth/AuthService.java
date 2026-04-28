@@ -50,7 +50,7 @@ public class AuthService {
         if (!isValid) return null;
 
         String sessionId = generateSessionId();
-        sessions.put(sessionId, new UserSession(userId, hash));
+        sessions.put(sessionId, new UserSession(userId, username));
         return sessionId;
     }
 
