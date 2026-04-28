@@ -54,7 +54,7 @@
         });
 
         if (res.ok) {
-            window.location.href = "index.jsp";
+            window.location.href = "user.jsp";
         } else if (res.status === 401) {
             document.getElementById("error-msg").textContent = "Invalid username or password.";
         } else {
