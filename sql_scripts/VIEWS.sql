@@ -1,0 +1,7 @@
+CREATE OR REPLACE VIEW desserts_sweets_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Desserts and Sweets"));
+CREATE OR REPLACE VIEW bread_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Bread"));
+CREATE OR REPLACE VIEW soups_stews_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Soups and Stews"));
+CREATE OR REPLACE VIEW salads_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Salads"));
+CREATE OR REPLACE VIEW dressings_sauces_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Dressings and Sauces"));
+CREATE OR REPLACE VIEW snacks_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Snacks"));
+CREATE OR REPLACE VIEW main_dishes_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Main Dishes"));

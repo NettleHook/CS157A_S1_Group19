@@ -21,9 +21,8 @@ public class BookmarkController {
             String sessionId = AuthMiddleware.getSessionId(req, res);
             UserSession userSession = AuthService.getUserSession(sessionId);
             if (userSession!= null) {
-                String username = userSession.getUsername();
-
-                List<String> bookmarks = BookmarkService.getBookmarks(username);
+                int userId = userSession.getUserId();
+                List<String> bookmarks = BookmarkService.getBookmarks(userId);
 
                 res.setStatus(200);
                 res.setContentType("application/json");
@@ -44,10 +43,10 @@ public class BookmarkController {
             UserSession userSession = AuthService.getUserSession(sessionId);
 
             if (userSession != null) {
-                String username = userSession.getUsername();
-                String recipeName = mapper.readTree(req.getReader()).get("recipeName").asText();
+                int userId = userSession.getUserId();
+                int recipeId = mapper.readTree(req.getReader()).get("recipeId").asInt();
 
-                BookmarkService.addBookmark(username, recipeName);
+                BookmarkService.addBookmark(userId, recipeId);
                 res.setStatus(201);
             } else {
                 res.setStatus(401);
@@ -63,10 +62,10 @@ public class BookmarkController {
             UserSession userSession = AuthService.getUserSession(sessionId);
 
             if (userSession != null) {
-                String username = userSession.getUsername();
-                String recipeName = mapper.readTree(req.getReader()).get("recipeName").asText();
+                int userId = userSession.getUserId();
+                int recipeId = mapper.readTree(req.getReader()).get("recipeId").asInt();
 
-                BookmarkService.removeBookmark(username, recipeName);
+                BookmarkService.removeBookmark(userId, recipeId);
                 res.setStatus(200);
             } else {
                 res.setStatus(401);

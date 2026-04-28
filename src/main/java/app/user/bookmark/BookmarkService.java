@@ -11,19 +11,21 @@ import app.Database;
 
 public class BookmarkService {
 
-    //Get all bookmarks for a user
-    public static List<String> getBookmarks(String username) throws SQLException {
-        String query = "SELECT recipieName FROM bookmarkedrecipe WHERE userID = ?";
+    public static List<String> getBookmarks(int userId) throws SQLException {
+        String query = """
+            SELECT rs.name 
+            FROM bookmarked_recipes br
+            JOIN recipe_summaries rs ON br.recipe_id = rs.id
+            WHERE br.user_id = ?
+        """;
 
         List<String> bookmarks = new ArrayList<>();
         try (Connection con = Database.getConnection()) {
-            //Tries to prep the statement query
             try (PreparedStatement stmt = con.prepareStatement(query)) {
-                stmt.setString(1, username);
-                //Executes once it achieves a query
+                stmt.setInt(1, userId);
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
-                        bookmarks.add(rs.getString("recipeName"));
+                        bookmarks.add(rs.getString("name"));
                     }
                 }
             }
@@ -31,27 +33,26 @@ public class BookmarkService {
         return bookmarks;
     }
 
-    // ADD a bookmark
-    public static void addBookmark(String username, String recipeName) throws SQLException {
-        String query = "INSERT INTO bookmarkedrecipes (userID, recipeName) VALUES (?, ?)";
+    public static void addBookmark(int userId, int recipeId) throws SQLException {
+        String query = "INSERT INTO bookmarked_recipes (user_id, recipe_id) VALUES (?, ?)";
 
-        // Gets connection again to the database to see
         try (Connection con = Database.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(query)) {
-                stmt.setString(1, username);
-                stmt.setString(2, recipeName);
+                // 4. what two parameters need to be set?
+                stmt.setInt(1, userId);
+                stmt.setInt(2, recipeId);
                 stmt.executeUpdate();
             }
         }
     }
 
-    // REMOVE a bookmark
-    public static void removeBookmark(String username, String recipeName) throws SQLException {
-        String query = "DELETE FROM bookmarkedrecipes WHERE userID = ? AND recpieName = ?";
+    public static void removeBookmark(int userId, int recipeId) throws SQLException {
+        String query = "DELETE FROM bookmarked_recipes WHERE user_id = ? AND recipe_id = ?";
+
         try (Connection con = Database.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(query)) {
-                stmt.setString(1, username);
-                stmt.setString(2, recipeName);
+                stmt.setInt(1, userId);
+                stmt.setInt(2, recipeId);
                 stmt.executeUpdate();
             }
         }
