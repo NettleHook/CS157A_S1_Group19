@@ -5,31 +5,22 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import app.api.ApiMessage;
 import app.api.ApiResponse;
-import app.auth.AuthMiddleware;
 import app.user.bookmark.BookmarkController;
+import app.user.likes.LikesController;
 
 public class StatsController {
-
-    public static void addLike(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        String sessionId = AuthMiddleware.getSessionId(req, res);
-        if (sessionId == null) {
-            ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
-            return;
-        }
-        // likes
+    public static void getLikes(HttpServletRequest req, HttpServletResponse res) throws IOException{
+        //Return search result likes through search backend instead for search?
+        //Still worth returning results for one specific recipe on the recipe page
         ApiResponse.write(res, 200, "ok");
+    }
+    public static void addLike(HttpServletRequest req, HttpServletResponse res) throws IOException {
+       LikesController.addLike(req, res);
     }
 
     public static void removeLike(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        String sessionId = AuthMiddleware.getSessionId(req, res);
-        if (sessionId == null) {
-            ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
-            return;
-        }
-        // unlike
-         ApiResponse.write(res, 200, "ok");
+        LikesController.removeLike(req, res);
     }
 
     public static void addBookmark(HttpServletRequest req, HttpServletResponse res) throws IOException {
