@@ -13,22 +13,26 @@ pageEncoding="UTF-8"%>
 	</head>
 	<body>
 		<div class = "header">
-				<div id="title-box">
-					<h1>Results</h1>
-				</div>
-				<nav>
-					<div class="start">
-						<button onclick="window.location.href='index.jsp';">Search</button>
-						<button onclick="window.location.href='upload.jsp';" id = "recipeUploader">Upload New Recipe </button>
-						<button onclick="window.location.href='user.jsp';" id = "profile"> My Profile</button>
-					</div>
-					<div class="center">
-					</div>
-					<div class="end"></div>
-				</nav>
+			<div id="title-box">
+				<h1>Results</h1>
 			</div>
+			<nav>
+				<div class="start">
+					<button onclick="window.location.href='index.jsp';">Search</button>
+					<button onclick="window.location.href='upload.jsp';" id = "recipeUploader">Upload New Recipe </button>
+					<button onclick="window.location.href='user.jsp';" id = "profile"> My Profile</button>
+				</div>
+				<div class="center">
+				</div>
+				<div class="end"></div>
+			</nav>
+		</div>
 		<main class = "page" name = "Results">
 		</main>
+		<div id="errorPopup" class="popup">
+			<span class="popup-close" onclick="errorPopup()">✕</span>
+			<p>You must be logged in to access this function.</p>
+		</div>
 		<script>
 			async function loadResults() {
 				const params = new URLSearchParams(window.location.search);

@@ -6,11 +6,17 @@ async function toggleBookmark(btn, recipeId) {
             btn.dataset.bookmarked = "false";
             btn.src = "./assets/unbookmarked.svg";
         }
+        else{
+            errorPopup();
+        }
     } else {
         const status = await addBookmark(recipeId);
         if (status === 201) {
             btn.dataset.bookmarked = "true";
             btn.src = "./assets/bookmarked.svg";
+        }
+        else{
+            errorPopup();
         }
     }
 }
@@ -43,12 +49,18 @@ async function toggleLike(btn, recipeId) {
             btn.src = "./assets/unliked.svg";
             count.innerText = parseInt(count.innerText) + 1;
         }
+        else{
+            errorPopup();
+        }
     } else {
         const status = await addLike(recipeId);
         if (status === 201) {
             btn.dataset.liked = "true";
             btn.src = "./assets/liked.svg";
             count.innerText = parseInt(count.innerText) - 1;
+        }
+        else{
+            errorPopup();
         }
     }
 }
@@ -70,4 +82,9 @@ async function removeLike(recipeId) {
         body: JSON.stringify({ recipeId: recipeId })
     });
     return res.status;
+}
+function errorPopup() {
+    const popup = document.getElementById("errorPopup");
+    popup.classList.add("show");
+    setTimeout(() => popup.classList.remove("show"), 3000);
 }
