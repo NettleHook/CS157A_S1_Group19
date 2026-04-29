@@ -104,7 +104,7 @@ public class search extends HttpServlet {
             params.add(calories);
         }
         // Build the final query
-        String view = categoryId.equals("all") ? "recipe_summaries" : categoryId + "_recipes";
+        String view = categoryId.equals("all") ? "recipe_summaries_likes" : categoryId + "_recipes";
         String query = "SELECT * FROM " + view;
         if (!conditions.isEmpty()) {
             query += " WHERE " + String.join(" AND ", conditions);
@@ -124,7 +124,7 @@ public class search extends HttpServlet {
                 do {
                     results += "<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + esc.apply(rs.getString(1)) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"
                             + esc.apply(rs.getString(4)) + " </td>" + "<td>" + esc.apply(rs.getString(5)) + " </td>" + "<td>" + esc.apply(rs.getString(6))
-                            + " </td>" + "<td> <img class = 'like-container' data-liked='false' src='./assets/unliked.svg' alt = 'Likes' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'><span>:"+ "</span></td>"+ "<td><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
+                            + " </td>" + "<td> <img class = 'like-container' data-liked='false' src='./assets/unliked.svg' alt = 'Likes' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'><span id='numLikes'>"+ rs.getInt(7)+"</span></td>"+ "<td><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
                 } while (rs.next());
                 results += "</table>";
             } else {

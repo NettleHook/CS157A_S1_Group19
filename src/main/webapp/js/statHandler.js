@@ -35,17 +35,20 @@ async function removeBookmark(recipeId) {
 }
 async function toggleLike(btn, recipeId) {
     const liked = btn.dataset.liked === "true";
+    const count = document.getElementById("numLikes");
     if (liked) {
         const status = await removeLike(recipeId);
         if (status === 200) {
             btn.dataset.liked = "false";
             btn.src = "./assets/unliked.svg";
+            count.innerText = parseInt(count.innerText) + 1;
         }
     } else {
         const status = await addLike(recipeId);
         if (status === 201) {
-            btn.dataset.likeked = "true";
+            btn.dataset.liked = "true";
             btn.src = "./assets/liked.svg";
+            count.innerText = parseInt(count.innerText) - 1;
         }
     }
 }

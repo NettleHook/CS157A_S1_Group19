@@ -37,6 +37,13 @@ public class LikesController {
         }
     }
 
+    public static void getLikes(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        Integer recipeId = Integer.valueOf(req.getParameter("recipeId"));
+        mapper.writeValue(res.getWriter(), LikesService.getLikes(recipeId));
+        res.setStatus(200);
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+    }
     public static void addLike(HttpServletRequest req, HttpServletResponse res) throws IOException {
         try {
             String sessionId = AuthMiddleware.getSessionId(req, res);
