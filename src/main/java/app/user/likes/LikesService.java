@@ -54,7 +54,6 @@ public class LikesService {
             stmt.setInt(1, userId);
             stmt.setInt(2, recipeId);
             stmt.executeUpdate();
-            updateLikes(con);
         }
     }
 
@@ -64,14 +63,6 @@ public class LikesService {
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, userId);
             stmt.setInt(2, recipeId);
-            stmt.executeUpdate();
-            updateLikes(con);
-        }
-    }
-
-    private static void updateLikes(Connection con) throws SQLException {
-        String view = "CREATE OR REPLACE VIEW likes_tracker AS SELECT recipe_id, COUNT(user_id) AS likes FROM liked_recipes GROUP BY recipe_id;";
-        try (PreparedStatement stmt = con.prepareStatement(view)) {
             stmt.executeUpdate();
         }
     }
