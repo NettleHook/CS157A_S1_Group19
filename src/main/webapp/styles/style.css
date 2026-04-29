@@ -13,7 +13,9 @@ h1{
     display: flex;
     flex-direction: column;
 }
-
+.header{
+    padding-top: 30px;
+}
 .page {
     text-align: left;
     margin-top: 50px;
@@ -32,7 +34,7 @@ nav {
     display: flex;
     gap: 2rem;
 }
-.bookmark-container img, .like-container img {
+.bookmark-container, .like-container {
     width: 24px;  /* adjust to taste */
     height: 24px;
     object-fit: contain;
