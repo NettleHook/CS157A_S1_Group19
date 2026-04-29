@@ -17,7 +17,7 @@ public class Index extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AuthRoutes.handlePostRoutes(req, resp);
-        BookmarkRoutes.handleGetRoutes(req, resp);
+        BookmarkRoutes.handlePostRoutes(req, resp);
         IngredientRoutes.handlePostRoutes(req, resp);
     }
 
