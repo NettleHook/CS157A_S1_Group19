@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import app.auth.AuthRoutes;
+import app.ingredient.IngredientRoutes;
 import app.user.bookmark.BookmarkRoutes;
 
 @WebServlet("/api/*")
@@ -17,12 +18,14 @@ public class Index extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AuthRoutes.handlePostRoutes(req, resp);
         BookmarkRoutes.handleGetRoutes(req, resp);
+        IngredientRoutes.handlePostRoutes(req, resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AuthRoutes.handleGetRoutes(req, resp);
         BookmarkRoutes.handleGetRoutes(req, resp);
+        IngredientRoutes.handleGetRoutes(req, resp);
     }
 
     @Override
