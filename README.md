@@ -34,6 +34,16 @@ A recipe search app!
 - When searching, if a food category is selected, search is done with the view
 - When a recipe is uploaded, the view for the food category it belongs to is updated
 
+#### User Profile:
+Make sure user profile grants access to the following:
+- Bookmark List
+- Liked Recipes List
+- My Recipes List
+- Saved Ingredients List
+
+#### Liking and Bookmarking Recipes
+- Backend support for bookmarking has been added
+
 -----
 ### To be implemented:
 #### Search and results:
@@ -48,12 +58,8 @@ A recipe search app!
 - Users can bookmark recipes they want to save for later. These can later be accessed through the bookmarks page in the account profile
 - Users can like recipes. Liked recipes can later be accessed through the Liked Recipes page in the account profile
 - Both bookmarks and liking recipes can be used to quickly access recipes
-  
+
 #### User Profile:
-Make sure user profile grants access to the following:
-- Bookmark List
-- Liked Recipes List
-- My Recipes List
-- Saved Ingredients List
+- User can add registered diets. Search filtering will automatically be selecting for these diets
 
 

@@ -7,4 +7,5 @@ settings
 .idea
 bin
 .project
+*.jar 
 .DS_Store

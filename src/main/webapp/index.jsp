@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</nav>
 			<main>
-				<form class="recipe-search" id="recipe-search" action="search.jsp" method="POST">
+				<form class="recipe-search" id="recipe-search" action="search.jsp" method="GET">
 					<div class="ingredients" id="ingredients">
 						<label for="ingredients">Ingredients:</label>
 						<div class = "ingredient-row">

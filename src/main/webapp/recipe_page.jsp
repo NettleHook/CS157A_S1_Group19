@@ -14,12 +14,13 @@ pageEncoding="UTF-8"%>
 	</head>
 	<body>
 		<div style="position: fixed; top: 15px; left: 20px;">
-			<a href="index.jsp">
-				<button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
-					&#8592; Home
-				</button>
-			</a>
-		</div>
+            <a href="index.jsp">
+                <button style="cursor: pointer;">
+                    &#8592; Home
+                </button>
+            </a>
+        </div>
+		<main class = "page">
 		<%
 			java.util.function.Function<String, String> esc = s ->
 			s == null ? "" : s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;");
@@ -83,5 +84,6 @@ pageEncoding="UTF-8"%>
 				out.println("SQLException caught: " + e.getMessage());
 			}
 		%>
+		</main>
 	</body>
 </html>
