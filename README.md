@@ -58,6 +58,8 @@ Make sure user profile grants access to the following:
 - Users can bookmark recipes they want to save for later. These can later be accessed through the bookmarks page in the account profile
 - Users can like recipes. Liked recipes can later be accessed through the Liked Recipes page in the account profile
 - Both bookmarks and liking recipes can be used to quickly access recipes
-  
+
+#### User Profile:
+- User can add registered diets. Search filtering will automatically be selecting for these diets
 
 
