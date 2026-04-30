@@ -37,6 +37,7 @@ nav {
 .bookmark-container, .like-container {
     width: 24px;  /* adjust to taste */
     height: 24px;
+    display: inline-block;
     object-fit: contain;
 }
 main {
