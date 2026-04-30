@@ -13,9 +13,13 @@ A recipe search app!
 - search by cooking time + prep time
 - hour-minute conversion
 - Added checkboxes to switch between searching for any or all ingredients or diets
-
+- Likes are displayed for each recipe
+- If user is logged in, they can like and bookmark recipes
+  
 #### Full Recipe Page
 - new page featuring full recipe information
+- Likes are displayed for recipe
+- If user is logged in, they can like and bookmark recipe
 
 #### Login System
 - Passwords are encrypted
@@ -43,6 +47,8 @@ Make sure user profile grants access to the following:
 
 #### Liking and Bookmarking Recipes
 - Backend support for bookmarking has been added
+- Users can bookmark recipes they want to save for later.
+- Users can like recipes
 
 -----
 ### To be implemented:
@@ -55,8 +61,8 @@ Make sure user profile grants access to the following:
 - Ingredient list can be pulled up in Full Recipe page for easy comparison
   
 #### Liking and Bookmarking Recipes
-- Users can bookmark recipes they want to save for later. These can later be accessed through the bookmarks page in the account profile
-- Users can like recipes. Liked recipes can later be accessed through the Liked Recipes page in the account profile
+- These can later be accessed through the bookmarks page in the account profile
+- Liked recipes can later be accessed through the Liked Recipes page in the account profile
 - Both bookmarks and liking recipes can be used to quickly access recipes
 
 #### User Profile:
