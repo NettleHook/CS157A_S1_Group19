@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
 			async function loadResults() {
 				const params = new URLSearchParams(window.location.search);
 				
-				const response = await fetch("api/search/", {
+				const response = await fetch("api/search/search", {
 					method: "POST",
 					body: params, // URLSearchParams is sent as application/x-www-form-urlencoded
 				});

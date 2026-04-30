@@ -1,6 +1,7 @@
 package app.search;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +22,7 @@ import app.api.ApiResponse;
 import app.auth.UserSession;
 
 public class SearchService {
+
     public static void getGuestResults(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, String> data = new HashMap<>();
         String[] ingredient = request.getParameterValues("ingredient-input");
@@ -113,12 +115,12 @@ public class SearchService {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 results = "<table class = 'results' border='1'>" + "<tr>" + "<th>Recipe Name:</th>" + "<th>Serving Size:</th>"
-                        + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" +  "<th>Likes:</th>"+"<th>Bookmarks</th>"+"</tr>";
+                        + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" + "<th>Likes:</th>" + "<th>Bookmarks</th>" + "</tr>";
 
                 do {
                     results += "<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + esc.apply(rs.getString(1)) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"
                             + esc.apply(rs.getString(4)) + " </td>" + "<td>" + esc.apply(rs.getString(5)) + " </td>" + "<td>" + esc.apply(rs.getString(6))
-                            + " </td>" + "<td><div class = 'like-container' data-liked='false' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg' alt = 'Likes'><span>"+ rs.getInt(7)+"</span></td>"+ "<td><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
+                            + " </td>" + "<td><div class = 'like-container' data-liked='false' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg' alt = 'Likes'><span>" + rs.getInt(7) + "</span></td>" + "<td><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
                 } while (rs.next());
                 results += "</table>";
             } else {
@@ -132,7 +134,8 @@ public class SearchService {
             return;
         }
     }
-    public static void getUserResults(UserSession userSession, HttpServletRequest request, HttpServletResponse response)  throws IOException {
+
+    public static void getUserResults(UserSession userSession, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, String> data = new HashMap<>();
         String[] ingredient = request.getParameterValues("ingredient-input");
         if (ingredient == null) {
@@ -145,7 +148,7 @@ public class SearchService {
         if (categoryId == null) {
             categoryId = "all";
         }
-        
+
         //Filter with user diets (or maybe we should be doing this in index.jsp)
         String[] dietIds = request.getParameterValues("diet-cat");
         List<String> diets = new ArrayList<>();
@@ -214,8 +217,7 @@ public class SearchService {
         }
         // Build the final query
         String view = categoryId.equals("all") ? "recipe_summaries_likes" : categoryId + "_recipes";
-        String query_old = "SELECT vew.*, IF(ISNULL(br.recipe_id), 0, 1) AS bookmarked FROM " + view + " AS vew LEFT JOIN (SELECT recipe_id FROM bookmarked_recipes WHERE user_id = ?) br ON vew.id = br.recipe_id";
-        String query = "SELECT vew.*, IF(ISNULL(br.recipe_id), 0, 1) AS bookmarked, IF(ISNULL(lr.recipe_id), 0, 1) AS liked FROM "+view+" AS vew LEFT JOIN (SELECT recipe_id FROM bookmarked_recipes WHERE user_id = ?) br ON vew.id = br.recipe_id LEFT JOIN (SELECT recipe_id FROM liked_recipes WHERE user_id = ?) lr ON vew.id = lr.recipe_id";
+        String query = "SELECT vew.*, IF(ISNULL(br.recipe_id), 0, 1) AS bookmarked, IF(ISNULL(lr.recipe_id), 0, 1) AS liked FROM " + view + " AS vew LEFT JOIN (SELECT recipe_id FROM bookmarked_recipes WHERE user_id = ?) br ON vew.id = br.recipe_id LEFT JOIN (SELECT recipe_id FROM liked_recipes WHERE user_id = ?) lr ON vew.id = lr.recipe_id";
         if (!conditions.isEmpty()) {
             query += " WHERE " + String.join(" AND ", conditions);
         }
@@ -231,14 +233,14 @@ public class SearchService {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 results = "<table class = 'results' border='1'>" + "<tr>" + "<th>Recipe Name:</th>" + "<th>Serving Size:</th>"
-                        + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" +  "<th>Likes:</th>"+"<th>Bookmarks</th>"+"</tr>";
+                        + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" + "<th>Likes:</th>" + "<th>Bookmarks</th>" + "</tr>";
 
                 do {
                     results += "<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + rs.getInt(1) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"
                             + esc.apply(rs.getString(4)) + " </td>" + "<td>" + esc.apply(rs.getString(5)) + " </td>" + "<td>" + esc.apply(rs.getString(6))
                             + " </td>";
-                    results += "<td><div class = 'like-container' "+ ((rs.getInt(9) > 0)? "data-liked='true' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/liked.svg'" : "data-liked='false' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg'") + " alt = 'Likes'><span>"+ rs.getInt(7)+"</span></td>";
-                    results += "<td><img class = 'bookmark-container'" + ((rs.getInt(8) > 0) ? " data-bookmarked='true' src='./assets/bookmarked.svg'" : " data-bookmarked='false' src='./assets/unbookmarked.svg'") +" alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
+                    results += "<td><div class = 'like-container' " + ((rs.getInt(9) > 0) ? "data-liked='true' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/liked.svg'" : "data-liked='false' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg'") + " alt = 'Likes'><span>" + rs.getInt(7) + "</span></div></td>";
+                    results += "<td><img class = 'bookmark-container'" + ((rs.getInt(8) > 0) ? " data-bookmarked='true' src='./assets/bookmarked.svg'" : " data-bookmarked='false' src='./assets/unbookmarked.svg'") + " alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
                 } while (rs.next());
                 results += "</table>";
             } else {
@@ -250,6 +252,130 @@ public class SearchService {
         } catch (SQLException e) {
             ApiResponse.error(response, 400, e.getMessage());
             return;
+        }
+    }
+
+    public static void getFullRecipeGuest(HttpServletRequest request, HttpServletResponse response, int recipe_id) throws IOException {
+        Map<String, String> data = new HashMap<>();
+        java.util.function.Function<String, String> esc = s
+                -> s == null ? "" : s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+        String query1 = "SELECT * FROM recipe_summaries_likes rs, recipe_full rf WHERE rs.id = rf.recipe_id AND rs.id = ?";
+        String query2 = "SELECT ri.ingredient_id, u.name, ri.amount FROM recipe_ingredients ri, units u WHERE ri.unit_id = u.id AND ri.recipe_id = ?";
+        String query3 = "SELECT diets.name FROM diets, recipe_diets WHERE diets.id=recipe_diets.diet_id AND recipe_diets.recipe_id = ?";
+        try (Connection con = Database.getConnection(); PreparedStatement stmt1 = con.prepareStatement(query1); PreparedStatement stmt2 = con.prepareStatement(query2); PreparedStatement stmt3 = con.prepareStatement(query3);) {
+
+            stmt1.setInt(1, recipe_id);
+            ResultSet recipe_rs = stmt1.executeQuery();
+
+            //second query for ingredients + amounts
+            stmt2.setInt(1, recipe_id);
+            ResultSet ingredients_rs = stmt2.executeQuery();
+            String ingredients_html = "";
+            String amount = "";
+            while (ingredients_rs.next()) {
+                amount = ingredients_rs.getString(3);
+                ingredients_html += "<tr><td>" + esc.apply(ingredients_rs.getString(1)) + "</td><td>"
+                        + esc.apply(amount) + "</td><td>"
+                        + esc.apply(ingredients_rs.getString(2)) + "</td></tr>";
+            }
+
+            stmt3.setInt(1, recipe_id);
+            ResultSet diet_rs = stmt3.executeQuery();
+            //stringify
+            String diet_html = "<h3> Diet Compatibility: </h3> <p> ";
+            while (diet_rs.next()) {
+                diet_html += diet_rs.getString(1) + ", ";
+            }
+            if (diet_html.endsWith(", ")) {
+                diet_html = diet_html.substring(0, diet_html.length() - 2);
+            }
+            diet_html += "</p>";
+            String return_string = "";
+            //Should only be one result from query1!
+            if (recipe_rs.next()) {
+                return_string += "<div style='position: fixed; top: 15px; right: 20px;'><div class = 'like-container' data-liked='false' onclick='toggleLike(this, "
+                        + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg' alt = 'Likes'><span>" 
+                        + recipe_rs.getInt(7) + "</span></div><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, "
+                        + recipe_rs.getInt(1) + ")' style='cursor:pointer;'></div>";
+                return_string += "<div><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
+                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "</p><p> Cook Time: "
+                        + esc.apply(recipe_rs.getString(5)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p></div><div>"
+                        + diet_html + "</div>"
+                        + "<div class = 'ingredients'><h3> Ingredients </h3> <table>" + ingredients_html
+                        + "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " + esc.apply(recipe_rs.getString(8))
+                        + " </pre></div></div>";
+
+            } else {
+                return_string = "<p> No recipes found.<a href = './index.jsp'> Try another search </a></p>";
+            }
+            data.put("results", return_string);
+            ApiResponse.write(response, 200, data);
+        } catch (SQLException e) {
+            ApiResponse.error(response, 500, "SQLException caught: " + e.getMessage());
+        }
+    }
+
+    public static void getFullRecipeUser(HttpServletRequest request, HttpServletResponse response, int recipe_id, UserSession userSession) throws IOException {
+        Map<String, String> data = new HashMap<>();
+        java.util.function.Function<String, String> esc = s
+                -> s == null ? "" : s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+        String query1 = "SELECT vew.*, IF(ISNULL(br.recipe_id), 0, 1) AS bookmarked, IF(ISNULL(lr.recipe_id), 0, 1) AS liked FROM recipe_summaries_likes AS vew LEFT JOIN (SELECT recipe_id FROM bookmarked_recipes WHERE user_id = ?) br ON vew.id = br.recipe_id LEFT JOIN (SELECT recipe_id FROM liked_recipes WHERE user_id = ?) lr ON vew.id = lr.recipe_id WHERE vew.id = ?";
+        String query2 = "SELECT ri.ingredient_id, u.name, ri.amount FROM recipe_ingredients ri, units u WHERE ri.unit_id = u.id AND ri.recipe_id = ?";
+        String query3 = "SELECT diets.name FROM diets, recipe_diets WHERE diets.id=recipe_diets.diet_id AND recipe_diets.recipe_id = ?";
+        try (Connection con = Database.getConnection(); PreparedStatement stmt1 = con.prepareStatement(query1); PreparedStatement stmt2 = con.prepareStatement(query2); PreparedStatement stmt3 = con.prepareStatement(query3);) {
+
+            stmt1.setInt(1, userSession.getUserId());
+            stmt1.setInt(2, userSession.getUserId());
+            stmt1.setInt(3, recipe_id);
+            ResultSet recipe_rs = stmt1.executeQuery();
+
+            //second query for ingredients + amounts
+            stmt2.setInt(1, recipe_id);
+            ResultSet ingredients_rs = stmt2.executeQuery();
+            String ingredients_html = "";
+            String amount = "";
+            while (ingredients_rs.next()) {
+                amount = ingredients_rs.getString(3);
+                ingredients_html += "<tr><td>" + esc.apply(ingredients_rs.getString(1)) + "</td><td>"
+                        + esc.apply(amount) + "</td><td>"
+                        + esc.apply(ingredients_rs.getString(2)) + "</td></tr>";
+            }
+
+            stmt3.setInt(1, recipe_id);
+            ResultSet diet_rs = stmt3.executeQuery();
+            //stringify
+            String diet_html = "<h3> Diet Compatibility: </h3> <p> ";
+            while (diet_rs.next()) {
+                diet_html += diet_rs.getString(1) + ", ";
+            }
+            if (diet_html.endsWith(", ")) {
+                diet_html = diet_html.substring(0, diet_html.length() - 2);
+            }
+            diet_html += "</p>";
+            String return_string = "";
+            //Should only be one result from query1!
+            if (recipe_rs.next()) {
+                return_string += "<div style='position: fixed; top: 15px; right: 20px;''><div class = 'like-container' " 
+                + ((recipe_rs.getInt(9) > 0) ? "data-liked='true' onclick='toggleLike(this, " + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/liked.svg'" : "data-liked='false' onclick='toggleLike(this, " 
+                + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg'") 
+                + " alt = 'Likes'><span>" + recipe_rs.getInt(7) + "</span></div>"
+                + "<img class = 'bookmark-container'" + ((recipe_rs.getInt(8) > 0) ? " data-bookmarked='true' src='./assets/bookmarked.svg'" : " data-bookmarked='false' src='./assets/unbookmarked.svg'") 
+                + " alt = 'Bookmark' onclick='toggleBookmark(this, " + recipe_rs.getInt(1) + ")' style='cursor:pointer;'></div>";
+                return_string += "<div><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
+                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "</p><p> Cook Time: "
+                        + esc.apply(recipe_rs.getString(5)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p></div><div>"
+                        + diet_html + "</div>"
+                        + "<div class = 'ingredients'><h3> Ingredients </h3> <table>" + ingredients_html
+                        + "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " + esc.apply(recipe_rs.getString(8))
+                        + " </pre></div></div>";
+
+            } else {
+                return_string = "<p> No recipes found.<a href = './index.jsp'> Try another search </a></p>";
+            }
+            data.put("results", return_string);
+            ApiResponse.write(response, 200, data);
+        } catch (SQLException e) {
+            ApiResponse.error(response, 500, "SQLException caught: " + e.getMessage());
         }
     }
 
