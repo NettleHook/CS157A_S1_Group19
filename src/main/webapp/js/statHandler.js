@@ -41,13 +41,14 @@ async function removeBookmark(recipeId) {
 }
 async function toggleLike(btn, recipeId) {
     const liked = btn.dataset.liked === "true";
-    const count = document.getElementById("numLikes");
+    const pic = btn.querySelector('img');
+    const count = btn.querySelector('span');
     if (liked) {
         const status = await removeLike(recipeId);
         if (status === 200) {
             btn.dataset.liked = "false";
-            btn.src = "./assets/unliked.svg";
-            count.innerText = parseInt(count.innerText) + 1;
+            pic.src = "./assets/unliked.svg";
+            count.innerText = parseInt(count.innerText) - 1;
         }
         else{
             errorPopup();
@@ -56,8 +57,8 @@ async function toggleLike(btn, recipeId) {
         const status = await addLike(recipeId);
         if (status === 201) {
             btn.dataset.liked = "true";
-            btn.src = "./assets/liked.svg";
-            count.innerText = parseInt(count.innerText) - 1;
+            pic.src = "./assets/liked.svg";
+            count.innerText = parseInt(count.innerText) + 1;
         }
         else{
             errorPopup();
