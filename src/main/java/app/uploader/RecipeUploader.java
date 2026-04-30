@@ -56,9 +56,6 @@ public class RecipeUploader extends HttpServlet {
             List<String> diets = InputVerifier.verify_diets(dietIds);
             String description = InputVerifier.verify_steps(steps);
             recipeId = commitTransaction(userId, recipe_summary, recipe_ingredients, category, diets, description);
-            if (categoryId != null) {
-                updateView(categoryId, category);
-            }
         } catch (IllegalArgumentException e) {
             data.put("error", e.getMessage());
             ApiResponse.write(res, 400, data);
@@ -173,18 +170,6 @@ public class RecipeUploader extends HttpServlet {
                     closeEx.printStackTrace();
                 }
             }
-        }
-    }
-
-    private static void updateView(String categoryId, String category) {
-        try {
-            java.sql.Connection con = Database.getConnection();
-            PreparedStatement update_View = con.prepareStatement("CREATE OR REPLACE VIEW " + categoryId + "_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = ?))");
-            update_View.setString(1, category);
-            System.out.println(update_View);
-            update_View.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Failed to update View:  " + e.getMessage());
         }
     }
 }

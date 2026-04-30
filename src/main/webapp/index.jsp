@@ -14,22 +14,25 @@ pageEncoding="UTF-8"%>
 	</head>
 	<body>
 		<div class="layout">
-			<div id="title-box">
-				<h1>What Can I Cook?</h1>
+			<div class = "header">
+				<div id="title-box">
+					<h1>What Can I Cook?</h1>
+				</div>
+				<nav>
+					<div class="start">
+						<button onclick="window.location.href='index.jsp';">Search</button>
+						<button onclick="window.location.href='upload.jsp';" id = "recipeUploader">Upload New Recipe </button>
+						<button onclick="window.location.href='user.jsp';" id = "profile"> My Profile</button>
+					</div>
+					<div class="center">
+					</div>
+					<div class="end">
+						<button onclick="window.location.href='login.jsp';"  id = "login">Log In</button>
+						<button onclick="window.location.href='signup.jsp';"  id = "signup">Sign Up</button>
+						<button onclick="window.location.href='logout.jsp';"  id = "logout">Log Out</button> <!--Yet to be implemented-->
+					</div>
+				</nav>
 			</div>
-			<nav>
-				<div class="start">
-					<a href="index.jsp">Search</a>
-					<a href="upload.jsp" id = "recipeUploader">Upload New Recipe </a>
-				</div>
-				<div class="center">
-				</div>
-				<div class="end">
-					<a href="login.jsp" id = "login">Log In</a>
-					<a href="signup.jsp" id = "signup">Sign Up</a>
-					<a href="api/logout" id = "logout">Log Out</a> <!--Yet to be implemented-->
-				</div>
-			</nav>
 			<main>
 				<form class="recipe-search" id="recipe-search" action="search.jsp" method="GET">
 					<div class="ingredients" id="ingredients">
@@ -119,6 +122,7 @@ pageEncoding="UTF-8"%>
 				if (res.status == 401){
 					document.getElementById("recipeUploader").style.display = 'none';
 					document.getElementById("logout").style.display = 'none';
+					document.getElementById("profile").style.display = 'none';
 				} else{
 					document.getElementById("login").style.display = 'none';
 					document.getElementById("signup").style.display = 'none';

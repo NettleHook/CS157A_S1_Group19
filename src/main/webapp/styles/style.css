@@ -13,7 +13,9 @@ h1{
     display: flex;
     flex-direction: column;
 }
-
+.header{
+    padding-top: 30px;
+}
 .page {
     text-align: left;
     margin-top: 50px;
@@ -32,7 +34,12 @@ nav {
     display: flex;
     gap: 2rem;
 }
-
+.bookmark-container, .like-container {
+    width: 24px;  /* adjust to taste */
+    height: 24px;
+    display: inline-block;
+    object-fit: contain;
+}
 main {
     height: 100%;
     padding-top: 3rem;
@@ -52,7 +59,7 @@ th{
 tr:hover{
     background-color:#dde2e7;
 }
-.recipe-search {
+.recipe-search, .recipe-upload {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -73,4 +80,29 @@ tr:hover{
 
 input:invalid {
     border-color: #dc2626;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #f44336;
+    color: white;
+    padding: 1rem 2rem 1rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+.popup.show {
+    display: block;
+}
+
+.popup-close {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.6rem;
+    cursor: pointer;
+    font-size: 0.85rem;
 }

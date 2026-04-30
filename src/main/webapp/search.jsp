@@ -12,20 +12,32 @@ pageEncoding="UTF-8"%>
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-		<div style="position: fixed; top: 15px; left: 20px;">
-			<a href="index.jsp">
-				<button style="cursor: pointer;">
-					&#8592; Home
-				</button>
-			</a>
+		<div class = "header">
+			<div id="title-box">
+				<h1>Results</h1>
+			</div>
+			<nav>
+				<div class="start">
+					<button onclick="window.location.href='index.jsp';">Search</button>
+					<button onclick="window.location.href='upload.jsp';" id = "recipeUploader">Upload New Recipe </button>
+					<button onclick="window.location.href='user.jsp';" id = "profile"> My Profile</button>
+				</div>
+				<div class="center">
+				</div>
+				<div class="end"></div>
+			</nav>
 		</div>
 		<main class = "page" name = "Results">
 		</main>
+		<div id="errorPopup" class="popup">
+			<span class="popup-close" onclick="errorPopup()">✕</span>
+			<p>You must be logged in to access this function.</p>
+		</div>
 		<script>
 			async function loadResults() {
 				const params = new URLSearchParams(window.location.search);
 				
-				const response = await fetch("api/search/", {
+				const response = await fetch("api/search/search", {
 					method: "POST",
 					body: params, // URLSearchParams is sent as application/x-www-form-urlencoded
 				});
@@ -42,5 +54,6 @@ pageEncoding="UTF-8"%>
 			
 			loadResults();
 		</script>
+		<script type="text/javascript" src="js/statHandler.js"></script>
 	</body>
 </html>
