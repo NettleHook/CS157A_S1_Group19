@@ -234,9 +234,11 @@ public class SearchService {
                         + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" +  "<th>Likes:</th>"+"<th>Bookmarks</th>"+"</tr>";
 
                 do {
-                    results += "<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + esc.apply(rs.getString(1)) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"
+                    results += "<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + rs.getInt(1) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"
                             + esc.apply(rs.getString(4)) + " </td>" + "<td>" + esc.apply(rs.getString(5)) + " </td>" + "<td>" + esc.apply(rs.getString(6))
-                            + " </td>" + "<td><div class = 'like-container' data-liked='false' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg' alt = 'Likes'><span>"+ rs.getInt(7)+"</span></td>"+ "<td><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
+                            + " </td>";
+                    results += "<td><div class = 'like-container' "+ ((rs.getInt(9) > 0)? "data-liked='true' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/liked.svg'" : "data-liked='false' onclick='toggleLike(this, " + rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg'") + " alt = 'Likes'><span>"+ rs.getInt(7)+"</span></td>";
+                    results += "<td><img class = 'bookmark-container'" + ((rs.getInt(8) > 0) ? " data-bookmarked='true' src='./assets/bookmarked.svg'" : " data-bookmarked='false' src='./assets/unbookmarked.svg'") +" alt = 'Bookmark' onclick='toggleBookmark(this, " + rs.getInt(1) + ")' style='cursor:pointer;'></td></tr>";
                 } while (rs.next());
                 results += "</table>";
             } else {
