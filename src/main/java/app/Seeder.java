@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import app.auth.Auth;
 import app.object.Ingredient;
 import app.object.Recipe;
 import app.object.User;
@@ -42,7 +43,7 @@ public class Seeder {
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             for (User user : userList) {
                 stmt.setString(1, user.username());
-                stmt.setString(2, user.password());
+                stmt.setString(2, Auth.hash(user.password().toCharArray()));
                 stmt.addBatch();
             }
             stmt.executeBatch();
