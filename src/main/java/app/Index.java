@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import app.auth.AuthRoutes;
 import app.ingredient.IngredientRoutes;
+import app.recipe.RecipeRoutes;
 import app.user.bookmark.BookmarkRoutes;
 
 @WebServlet("/api/*")
@@ -26,6 +27,7 @@ public class Index extends HttpServlet{
         AuthRoutes.handleGetRoutes(req, resp);
         BookmarkRoutes.handleGetRoutes(req, resp);
         IngredientRoutes.handleGetRoutes(req, resp);
+        RecipeRoutes.handleGetRoutes(req, resp);
     }
 
     @Override

@@ -38,7 +38,7 @@
 
                 <div id="myrecipes" class="tab-panel">
                     <h2>My Recipes</h2>
-                    <p>Recipes you've created will appear here.</p>
+                    <div id="recipes-container"></div>
                 </div>
 
                 <div id="ingredients" class="tab-panel">
@@ -106,6 +106,40 @@
             }
         }
         loadBookmarks();
+
+        async function loadRecipes() {
+            try {
+                const res = await fetch("api/me/recipes");
+                if (res.ok) {
+                    const json = await res.json();
+                    const data = json.data ?? [];
+                    const container = document.getElementById("recipes-container");
+                    container.innerHTML= "";
+                    
+                    if (data.length === 0) {
+                        container.innerHTML = "<p>Recipes you've created will appear here.</p>";
+                    } else {
+                        data.forEach(r => {
+                            const box = document.createElement("button");
+                            box.className = "recipe-box";
+
+                            box.onclick =  () => {
+                                window.location.href = `recipe.jsp?id=${r.id}`;
+                            };
+
+                            const name = document.createElement("span");
+                            name.textContent = r.name;
+
+                            box.appendChild(name);
+                            container.appendChild(box);
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to load ingredients:", err);
+            }
+        }
+        loadRecipes();
 
         async function loadIngredients() {
             try {
