@@ -36,7 +36,7 @@ public class IngredientService {
             FROM user_ingredient_lists uil
             JOIN ingredients i ON i.name = uil.ingredient_id
             JOIN units u ON u.id = uil.unit_id
-            WHERE u.user_id = ?
+            WHERE uil.user_id = ?
         """;
 
         List<UserIngredient> ingredients = new ArrayList<>();
