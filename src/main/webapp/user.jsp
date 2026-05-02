@@ -43,7 +43,7 @@
 
                 <div id="ingredients" class="tab-panel">
                     <h2>Saved Ingredients</h2>
-                    <p>Your saved ingredients will appear here.</p>
+                    <div id="ingredients-container"></div>
                 </div>
             </div>
         </div>
@@ -106,6 +106,43 @@
             }
         }
         loadBookmarks();
+
+        async function loadIngredients() {
+            try {
+                const res = await fetch("api/me/ingredients");
+                if (res.ok) {
+                    const json = await res.json();
+                    const data = json.data ?? [];
+                    const container = document.getElementById("ingredients-container");
+                    container.innerHTML= "";
+                    
+                    if (data.length === 0) {
+                        container.innerHTML = "<p>Your saved ingredients will appear here.</p>";
+                    } else {
+                        data.forEach(i => {
+                            const box = document.createElement("div");
+                            box.className = "ingredient-box";
+
+                            const name = document.createElement("span");
+                            name.textContent = i.name;
+                            const unit = document.createElement("span");
+                            unit.textContent = i.unit;
+                            const amount = document.createElement("span");
+                            amount.textContent = i.amount;
+
+                            const btn = document.createElement("button");
+
+                            box.appendChild(name);
+                            box.appendChild(btn);
+                            container.appendChild(box);
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to load ingredients:", err);
+            }
+        }
+        loadIngredients();
     </script>
 
 </body>
