@@ -41,9 +41,9 @@
             const json = await validateUser();
 
             const config = {
-                isLoggedIn: json.data != null,
-                userId: json.data?.userId,
-                username: json.data?.username,
+                isLoggedIn: json?.data != null,
+                userId: json?.data?.userId,
+                username: json?.data?.username,
             };
 
             if (config.isLoggedIn) {

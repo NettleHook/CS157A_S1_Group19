@@ -48,6 +48,7 @@
             </div>
         </div>
     </t:layout>
+    <script src="js/protected.js"></script>
     <script>    
         function init(config) {
             document.getElementById("welcome-username").textContent = config.username;

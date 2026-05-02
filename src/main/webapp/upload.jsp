@@ -86,6 +86,7 @@ pageEncoding="UTF-8"%>
                 <option value="N/A">
             </datalist>
         </t:layout>
+    <script src="js/protected.js"></script>
     <script src="js/upload.js"></script>
 </body>
 </html>

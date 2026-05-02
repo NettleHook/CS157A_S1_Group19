@@ -3,7 +3,5 @@ async function validateUser() {
     if (res.ok) {
         const json = await res.json();
         return json;
-    } else {
-        window.location.href = "login.jsp";
-    }   
+    }  
 }
