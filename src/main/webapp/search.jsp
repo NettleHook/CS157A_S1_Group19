@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
-
-
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,24 +10,9 @@ pageEncoding="UTF-8"%>
 		<link href="styles/theme.css" rel="stylesheet" type="text/css">
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
-	<body>
-		<div class = "header">
-			<div id="title-box">
-				<h1>Results</h1>
-			</div>
-			<nav>
-				<div class="start">
-					<button onclick="window.location.href='index.jsp';">Search</button>
-					<button onclick="window.location.href='upload.jsp';" id = "recipeUploader">Upload New Recipe </button>
-					<button onclick="window.location.href='user.jsp';" id = "profile"> My Profile</button>
-				</div>
-				<div class="center">
-				</div>
-				<div class="end"></div>
-			</nav>
-		</div>
-		<main class = "page" name = "Results">
-		</main>
+    <body>
+        <t:layout pageTitle="Search">
+		</t:layout>
 		<div id="errorPopup" class="popup">
 			<span class="popup-close" onclick="errorPopup()">✕</span>
 			<p>You must be logged in to access this function.</p>
@@ -48,7 +32,7 @@ pageEncoding="UTF-8"%>
 				if (response.ok) {
 					main.innerHTML = returnVal.data.results;
 				} else {
-					main.innerHTML = "<p>An error occurred: " + (json.data.error ?? "Unknown error") + "</p>";
+					main.innerHTML = "<p>An error occurred: " + (returnVal.error ?? "Unknown error") + "</p>";
 				}
 			}
 			

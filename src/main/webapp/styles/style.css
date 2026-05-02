@@ -66,18 +66,6 @@ tr:hover{
     gap: 1rem;
 }
 
-.ingredients,
-.diet-cat,
-.food-cat,
-.serving-size,
-.prep-time,
-.cook-time,
-.calories {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
 input:invalid {
     border-color: #dc2626;
 }
