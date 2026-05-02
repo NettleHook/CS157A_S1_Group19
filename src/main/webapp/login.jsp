@@ -9,7 +9,7 @@
 </head>
 <body>
     <div style="position: fixed; top: 15px; left: 20px;">
-        <a href="upload.jsp">
+        <a href="index.jsp">
             <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
                 &#8592; Home
             </button>

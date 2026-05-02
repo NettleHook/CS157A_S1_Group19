@@ -17,7 +17,7 @@
                     <h1>What Can I Cook?</h1>
                 </div>
                 <a href="upload.jsp">Upload</a>
-                <a href="search.jsp">Search</a>
+                <a href="index.jsp">Search</a>
             </div>
             <div class="center"></div>
             <div class="end">
