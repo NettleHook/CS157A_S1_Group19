@@ -149,7 +149,6 @@ public class SearchService {
             categoryId = "all";
         }
 
-        //Filter with user diets (or maybe we should be doing this in index.jsp)
         String[] dietIds = request.getParameterValues("diet-cat");
         List<String> diets = new ArrayList<>();
         if (dietIds != null) {

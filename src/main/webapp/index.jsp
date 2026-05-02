@@ -48,11 +48,7 @@ pageEncoding="UTF-8"%>
 					</label>
 					<div class="diet-cat" id="diet-cat">
 						<label for="diet-cat">Diet:</label>
-						<div>
-							<% for(Constants.Option option : Constants.DIETS) { %>
-							<input type="checkbox" id="<%= option.id() %>" name="diet-cat" value="<%= option.id() %>">
-							<label for="<%= option.id() %>"><%= option.text() %></label>
-							<% } %>
+						<div id = "diet-div">
 						</div>
 					</div>
 					<label>
@@ -130,5 +126,6 @@ pageEncoding="UTF-8"%>
 			}
 			checkLogin();
 		</script>
+        <script src="js/diet_search.js"></script>
 	</body>
 </html>
