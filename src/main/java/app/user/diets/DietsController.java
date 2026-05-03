@@ -1,4 +1,4 @@
-package app.diets;
+package app.user.diets;
 
 import java.io.IOException;
 import java.sql.SQLException;

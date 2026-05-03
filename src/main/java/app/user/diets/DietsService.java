@@ -1,4 +1,4 @@
-package app.diets;
+package app.user.diets;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
