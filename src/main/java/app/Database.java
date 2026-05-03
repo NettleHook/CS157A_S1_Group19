@@ -15,7 +15,7 @@ public class Database {
 
     static {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             System.err.println("MySQL Driver not found!");
             e.printStackTrace();
