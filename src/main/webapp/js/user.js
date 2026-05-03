@@ -81,7 +81,7 @@ async function loadRecipes() {
                     box.className = 'recipe-box';
 
                     box.onclick = () => {
-                        window.location.href = `recipe.jsp?id=${r.id}`;
+                        window.location.href = `recipe_page.jsp?rsid=${r.id}`;
                     };
 
                     const name = document.createElement('span');

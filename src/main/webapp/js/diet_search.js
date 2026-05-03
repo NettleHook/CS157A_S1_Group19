@@ -31,7 +31,7 @@ async function registerDiets() {
     const checked = [...document.querySelectorAll('input[name="diet-cat"]:checked')]
         .map(cb => cb.value);
 
-    await fetch("api/diets/register", {
+    response = await fetch("api/diets/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ diets: checked })

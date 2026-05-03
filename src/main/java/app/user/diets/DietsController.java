@@ -25,18 +25,26 @@ public class DietsController {
     public static void registerDiet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String sessionId = AuthMiddleware.getSessionId(req, res);
         UserSession userSession = AuthService.getUserSession(sessionId);
-        JsonNode body = JsonUtils.MAPPER.readTree(req.getReader());
-        List<String> dietIds = new ArrayList<>();
-        if (body.has("diets")) {
-            body.get("diets").forEach(e -> dietIds.add(e.asText()));
-        }
-
         if (userSession == null) {
             ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
             return;
         }
+        JsonNode body = JsonUtils.MAPPER.readTree(req.getReader());
+        List<String> dietIds = new ArrayList<>();
+        List<String> diets = new ArrayList<>();
+        if (body.has("diets")) {
+            body.get("diets").forEach(e -> dietIds.add(e.asText()));
+        }
+        for (String dietId : dietIds) {
+            for (Constants.Option option : Constants.DIETS) {
+                if (option.id().equals(dietId)) {
+                    diets.add(option.text());
+                    break;
+                }
+            }
+        }
         try {
-            DietsService.registerDiets(userSession, dietIds);
+            DietsService.registerDiets(userSession, diets);
             ApiResponse.write(res, 200, new HashMap<>());
         } catch (SQLException e) {
             ApiResponse.error(res, 400, e.getMessage());

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.Constants;
 import app.Database;
 import app.auth.UserSession;
 
@@ -20,7 +21,13 @@ public class DietsService {
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    userDiets.add(rs.getString(1));
+                    String name = rs.getString(1);
+                    for (Constants.Option option : Constants.DIETS) {
+                        if (option.text().equals(name)) {
+                            userDiets.add(option.id());
+                            break;
+                        }
+                    }
                 }
             }
             return userDiets;
@@ -29,8 +36,10 @@ public class DietsService {
         }
     }
 
-    public static void registerDiets(UserSession session, List<String> dietIds) throws SQLException {
-        if (dietIds == null) dietIds = new ArrayList<>();
+    public static void registerDiets(UserSession session, List<String> diets) throws SQLException {
+        if (diets == null) {
+            diets = new ArrayList<>();
+        }
         try (Connection con = Database.getConnection()) {
             con.setAutoCommit(false);
             try {
@@ -44,9 +53,9 @@ public class DietsService {
                 String insert = "INSERT INTO user_diets (user_id, diet_id) "
                         + "SELECT ?, id FROM diets WHERE name = ?";
                 try (PreparedStatement stmt = con.prepareStatement(insert)) {
-                    for (String dietId : dietIds) {
+                    for (String diet : diets) {
                         stmt.setInt(1, session.getUserId());
-                        stmt.setString(2, dietId);
+                        stmt.setString(2, diet);
                         stmt.addBatch();
                     }
                     stmt.executeBatch();
