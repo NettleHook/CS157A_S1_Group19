@@ -89,11 +89,14 @@ body {
     display: block;
 }
 
-.tab-panel h2 {
+.tab-panel .header {
+    display: flex;
+    justify-content: space-between;
     font-size: 1.4em;
     margin-bottom: 15px;
     color: #2c2c2c;
     border-bottom: 2px solid #f0f0f0;
+    padding-top: 0;
     padding-bottom: 10px;
 }
 
@@ -103,7 +106,8 @@ body {
 }
 
 .bookmark-box,
-.recipe-box {
+.recipe-box,
+.ingredient-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -114,12 +118,17 @@ body {
     border-radius: 6px;
     font-size: 14px;
     color: #333;
-    cursor: pointer;
     transition: background 0.2s;
 }
 
+.bookmark-box,
+.recipe-box {
+    cursor: pointer;
+}
+
 .bookmark-box:hover,
-.recipe-box:hover {
+.recipe-box:hover,
+.add-ingredient-btn:hover {
     background: #f9f6f1;
 }
 
@@ -131,6 +140,22 @@ body {
     font-size: 18px;
 }
 
-button {
+.add-ingredient-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+button,
+select,
+input {
     font: inherit;
+    background: #fff;
+    padding: 2px 2px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #f9f6f1;
 }

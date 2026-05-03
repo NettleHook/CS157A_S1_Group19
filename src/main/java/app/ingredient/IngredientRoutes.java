@@ -26,6 +26,17 @@ public class IngredientRoutes {
         switch (path) {
             case "/ingredients" -> IngredientController.getIngredients(req, res);
             case "/me/ingredients" -> IngredientController.getUserIngredients(req, res);
+            case "/units" -> IngredientController.getUnits(req, res);
+        }
+    }
+
+    public static void handleDeleteRoutes(HttpServletRequest req, HttpServletResponse res) throws StreamWriteException, IOException {
+        String path = req.getPathInfo();
+
+        if (path == null) return;
+
+        switch (path) {
+            case "/user/ingredients" -> IngredientController.deleteUserIngredient(req, res);
         }
     }
 }

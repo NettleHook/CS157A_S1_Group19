@@ -33,5 +33,6 @@ public class Index extends HttpServlet{
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BookmarkRoutes.handleDeleteRoutes(req, resp);
+        IngredientRoutes.handleDeleteRoutes(req, resp);
     }
 }

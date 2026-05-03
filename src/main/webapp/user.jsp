@@ -27,158 +27,47 @@
 
             <div class="content">
                 <div id="bookmarks" class="tab-panel active">
-                    <h2>Bookmark List</h2>
+                    <div class="header">
+                        <h2>Bookmark List</h2>
+                    </div>
                     <div id="bookmarks-container"></div>
                 </div>
 
                 <div id="liked" class="tab-panel">
-                    <h2>Liked Recipes</h2>
+                    <div class="header">
+                        <h2>Liked Recipes</h2>
+                    </div>
                     <p>Recipes you've liked will appear here.</p>
                 </div>
 
                 <div id="myrecipes" class="tab-panel">
-                    <h2>My Recipes</h2>
+                    <div class="header">
+                        <h2>My Recipes</h2>
+                    </div>
                     <div id="recipes-container"></div>
                 </div>
 
                 <div id="ingredients" class="tab-panel">
-                    <h2>Saved Ingredients</h2>
+                    <div class="header">
+                        <h2>Saved Ingredients</h2>
+                        <button class="add-ingredient-btn" onClick="showAddIngredient()">+</button>
+                    </div>
                     <div id="ingredients-container"></div>
+                    <div id="add-ingredient-container" class="add-ingredient-container" style="display: none;">
+                        <form id="add-ingredient-form" class="add-ingredient-form" onsubmit="addIngredient(event)">
+                            <input type="text" name="ingredientId" placeholder="Enter ingredient name" required/>
+                            <input type="number" name="amount" placeholder="Enter amount (if applicable)"/>
+                            <select id="ingredient-input-unit" name="unitId" placeholder="Enter unit" required></select>
+                            <input type="submit" value="Add">
+                        </form>
+                        <div id="error" style="display: none; color: red;"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </t:layout>
     <script src="js/protected.js"></script>
-    <script>    
-        function init(config) {
-            document.getElementById("welcome-username").textContent = config.username;
-        }
-
-        window.addEventListener('configReady', (e) => init(e.detail));
-
-        document.querySelectorAll(".tab-link").forEach(link => {
-            link.addEventListener("click", function(e) {
-                e.preventDefault();
-                document.querySelectorAll(".tab-link").forEach(l => l.classList.remove("active"));
-                document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
-                this.classList.add("active");
-                document.getElementById(this.dataset.tab).classList.add("active");
-            });
-        });
-
-        async function loadBookmarks() {
-            try {
-                const res = await fetch("api/bookmarks");
-                if (res.ok) {
-                    const bookmarks = await res.json();
-                    const container = document.getElementById("bookmarks-container");
-                    container.innerHTML= "";
-                    
-                    if (bookmarks.length === 0) {
-                        container.innerHTML = "<p>No bookmarks yet.</p>";
-                    } else {
-                        bookmarks.forEach(recipeName => {
-                            const box = document.createElement("div");
-                            box.className = "bookmark-box";
-
-                            const name = document.createElement("span");
-                            name.textContent = recipeName;
-
-                            const btn = document.createElement("button");
-                            btn.className = "bookmark-btn";
-                            btn.textContent = "🔖";
-                            btn.onclick = async () => {
-                                await fetch("api/bookmarks", {
-                                    method: "DELETE",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ recipeName: recipeName })
-                                });
-                                loadBookmarks();
-                            };
-
-                            box.appendChild(name);
-                            box.appendChild(btn);
-                            container.appendChild(box);
-                        });
-                    }
-                }
-            } catch (err) {
-                console.error("Failed to load bookmarks:", err);
-            }
-        }
-        loadBookmarks();
-
-        async function loadRecipes() {
-            try {
-                const res = await fetch("api/me/recipes");
-                if (res.ok) {
-                    const json = await res.json();
-                    const data = json.data ?? [];
-                    const container = document.getElementById("recipes-container");
-                    container.innerHTML= "";
-                    
-                    if (data.length === 0) {
-                        container.innerHTML = "<p>Recipes you've created will appear here.</p>";
-                    } else {
-                        data.forEach(r => {
-                            const box = document.createElement("button");
-                            box.className = "recipe-box";
-
-                            box.onclick =  () => {
-                                window.location.href = `recipe.jsp?id=${r.id}`;
-                            };
-
-                            const name = document.createElement("span");
-                            name.textContent = r.name;
-
-                            box.appendChild(name);
-                            container.appendChild(box);
-                        });
-                    }
-                }
-            } catch (err) {
-                console.error("Failed to load ingredients:", err);
-            }
-        }
-        loadRecipes();
-
-        async function loadIngredients() {
-            try {
-                const res = await fetch("api/me/ingredients");
-                if (res.ok) {
-                    const json = await res.json();
-                    const data = json.data ?? [];
-                    const container = document.getElementById("ingredients-container");
-                    container.innerHTML= "";
-                    
-                    if (data.length === 0) {
-                        container.innerHTML = "<p>Your saved ingredients will appear here.</p>";
-                    } else {
-                        data.forEach(i => {
-                            const box = document.createElement("div");
-                            box.className = "ingredient-box";
-
-                            const name = document.createElement("span");
-                            name.textContent = i.name;
-                            const unit = document.createElement("span");
-                            unit.textContent = i.unit;
-                            const amount = document.createElement("span");
-                            amount.textContent = i.amount;
-
-                            const btn = document.createElement("button");
-
-                            box.appendChild(name);
-                            box.appendChild(btn);
-                            container.appendChild(box);
-                        });
-                    }
-                }
-            } catch (err) {
-                console.error("Failed to load ingredients:", err);
-            }
-        }
-        loadIngredients();
-    </script>
+    <script src="js/user.js"></script>
 
 </body>
 </html>

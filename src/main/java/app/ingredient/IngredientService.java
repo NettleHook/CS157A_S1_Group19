@@ -57,20 +57,95 @@ public class IngredientService {
         return ingredients;
     }
 
-    public static void insertUserIngredient(int userId, int ingredientId, int unitId, double amount) throws SQLException {
+    public static void insertIngredient(String ingredientId) throws SQLException {
         String query = """
-            INSERT INTO user_ingredient_lists (user_id, ingredient_id, unit_id, amount)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO ingredients (name)
+            VALUES (?)
         """;
 
         try (Connection con = Database.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(query)) {
-                stmt.setInt(1, userId);
-                stmt.setInt(2, ingredientId);
-                stmt.setInt(3, unitId);
-                stmt.setDouble(4, amount);
+                stmt.setString(1, ingredientId);
                 stmt.executeUpdate();
             }
         }
     }
-}
+
+    public static void insertIngredient(String ingredientId, Connection con) throws SQLException {
+        String query = """
+            INSERT IGNORE INTO ingredients (name)
+            VALUES (?)
+        """;
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, ingredientId);
+            stmt.executeUpdate();
+        }
+    }
+
+    public static void insertUserIngredient(int userId, String ingredientId, int unitId, double amount) throws SQLException {
+        String query = """
+            INSERT INTO user_ingredient_lists (user_id, ingredient_id, unit_id, amount)
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                amount = VALUES(amount),
+                unit_id = VALUES(unit_id)
+        """;
+
+        try (Connection con = Database.getConnection()) {
+            con.setAutoCommit(false);
+            try {
+                insertIngredient(ingredientId, con);
+
+                try (PreparedStatement stmt = con.prepareStatement(query)) {
+                    stmt.setInt(1, userId);
+                    stmt.setString(2, ingredientId);
+                    stmt.setInt(3, unitId);
+                    stmt.setDouble(4, amount);
+                    stmt.executeUpdate();
+                }
+                con.commit();
+            } catch (SQLException e) {
+                con.rollback();
+                throw e;
+            }   
+        }
+    }
+
+    public static int deleteUserIngredient(int userId, String ingredientId) throws SQLException {
+        String query = """
+            DELETE FROM user_ingredient_lists
+            WHERE user_id = ? AND ingredient_id = ?
+        """;
+
+        int rows;
+        try (Connection con = Database.getConnection()) {
+            try (PreparedStatement stmt = con.prepareStatement(query)) {
+                stmt.setInt(1, userId);
+                stmt.setString(2, ingredientId);
+                rows = stmt.executeUpdate();
+            }
+        }
+        return rows;
+    }
+
+    public record Unit(int id, String name) {}
+
+    public static List<Unit> getUnits() throws SQLException {
+        String query = """
+            SELECT id, name
+            FROM units
+        """;
+
+        List<Unit> units = new ArrayList<>();
+        try (Connection con = Database.getConnection();
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet res = stmt.executeQuery()) {
+
+            while (res.next()) {
+                units.add(new Unit(res.getInt("id"), res.getString("name")));
+            }
+        }
+        return units;
+    }
+ }
