@@ -24,7 +24,7 @@ public class AuthController {
             UserSession userSession = AuthService.getUserSession(sessionId);
 
             if (userSession == null) {
-                ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
+                ApiResponse.error(res, 401, "Invalid username or password.");
                 return;
             }
             
