@@ -114,8 +114,8 @@ public class SearchService {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                results = "<table class = 'results' border='1'>" + "<tr>" + "<th>Recipe Name:</th>" + "<th>Serving Size:</th>"
-                        + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" + "<th>Likes:</th>" + "<th>Bookmarks</th>" + "</tr>";
+                results = "<table class = 'results' id = 'results' border='1'>" + "<tr>" + "<th onclick='sortTableAlphabetically(0)'>Recipe Name:</th>" + "<th onclick='sortTableNumerically(1)'>Serving Size:</th>"
+                        + "<th onclick='sortTableNumerically(2)'>Prep Time:</th>" + "<th onclick='sortTableNumerically(3)'>Cook Time:</th>" + "<th onclick='sortTableNumerically(4)'>Calories:</th>" + "<th onclick='sortTableNumerically(5)'>Likes:</th>" + "<th>Bookmarks</th>" + "</tr>";
 
                 do {
                     results += "<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + esc.apply(rs.getString(1)) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"
@@ -231,8 +231,8 @@ public class SearchService {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                results = "<table class = 'results' border='1'>" + "<tr>" + "<th>Recipe Name:</th>" + "<th>Serving Size:</th>"
-                        + "<th>Prep Time:</th>" + "<th>Cook Time:</th>" + "<th>Calories:</th>" + "<th>Likes:</th>" + "<th>Bookmarks</th>" + "</tr>";
+                results = "<table class = 'results' id = 'results' border='1'>" + "<tr>" + "<th onclick='sortTableAlphabetically(0)'>Recipe Name:</th>" + "<th onclick='sortTableNumerically(1)'>Serving Size:</th>"
+                        + "<th onclick='sortTableNumerically(2)'>Prep Time:</th>" + "<th onclick='sortTableNumerically(3)'>Cook Time:</th>" + "<th onclick='sortTableNumerically(4)'>Calories:</th>" + "<th onclick='sortTableNumerically(5)'>Likes:</th>" + "<th>Bookmarks</th>" + "</tr>";
 
                 do {
                     results += "<tr>" + "<td><a href = './recipe_page.jsp?rsid=" + rs.getInt(1) + "'>" + esc.apply(rs.getString(2)) + "</a></td>" + "<td>" + esc.apply(rs.getString(3)) + " </td>" + "<td>"

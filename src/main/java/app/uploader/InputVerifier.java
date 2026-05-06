@@ -50,7 +50,7 @@ public class InputVerifier {
     public static String verify_category(String categoryId) {
         String category = null;
         if (categoryId == null) {
-            category = "All";
+            throw new IllegalArgumentException("Recipe must belong to a food category");
         } else {
 
             for (Constants.Option option : Constants.CATEGORIES) {
@@ -145,7 +145,11 @@ public class InputVerifier {
     }
 
     private static String verifyUnit(String unit, String ingredient_name) {
-        if (unit == null || unit.equals("N/A") || unit.equals("self")) {
+        if (unit == null){
+            return "";
+        }
+        unit = unit.toLowerCase();
+        if(unit.equals("n/a") || unit.equals("self")) {
             return "";
         }
         if (!Arrays.asList(UNITS).contains(unit)) {

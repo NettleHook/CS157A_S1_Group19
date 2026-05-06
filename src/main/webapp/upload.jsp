@@ -61,7 +61,8 @@ pageEncoding="UTF-8"%>
                     <!-- Steps as a text box per step-->
                     <label for="Steps">Steps:</label>
                     <div class = "step-row">
-                        <input type="text" name="step" required/>
+                        <span>1. </span>
+                        <input type="text" class = "step_input" name="step" required/>
                     </div>
                 </div>
                 <button type="button" onclick="addStep()">+ Add Step</button>

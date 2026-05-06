@@ -18,7 +18,7 @@ const CATEGORIES = [
     { id: 'snacks', text: 'Snacks' },
     { id: 'main_dishes', text: 'Main Dishes' },
 ];
-
+let step_count = 1;
 function renderCheckboxes(dataArray, containerId, inputName) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -73,10 +73,11 @@ function removeIngredient(btn) {
 function addStep() {
     const container = document.getElementById('steps');
     const row = document.createElement('div');
+    step_count+=1;
     row.className = 'step-row';
     row.innerHTML = `
-            <input type="text" name="step"/>
-            <button type="button" onclick="removeStep(this)">Remove</button>
+            <span>${step_count}. <span>
+            <input type="text" class = "step_input" name="step"/>
             `;
     container.appendChild(row);
 }

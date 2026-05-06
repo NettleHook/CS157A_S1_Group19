@@ -82,9 +82,17 @@ input:invalid {
 .popup.show {
     display: block;
 }
-input[type="checkbox"]{
+input[type="checkbox"], input[type="radio"]{
     cursor: pointer;
+    accent-color: var(--ac-color);
+}
+input[type="text"], input[type="number"], input[type="password"]{
+    appearance: textfield;
+    height: 1.3rem;
+    border-radius: 5px;
+    background-color: var(--bg-color2);
     accent-color: var(--ac-color2);
+    border: 2px solid var(--ac-color3);
 }
 .popup-close {
     position: absolute;

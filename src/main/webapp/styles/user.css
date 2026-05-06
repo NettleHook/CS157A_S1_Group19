@@ -6,7 +6,7 @@
 
 body {
     font-family: Georgia, serif;
-    background: #f9f6f1;
+    background: var(--bg-color1);
     min-height: 100vh;
 }
 
@@ -23,7 +23,7 @@ body {
 
 .welcome-banner h1 span {
     font-weight: bold;
-    color: #55f5b0;
+    color: var(--ac-color2);
 }
 
 .main {
@@ -68,7 +68,7 @@ body {
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-    background: #55f5b0;
+    background: var(--ac-color2);
     color: #fff;
 }
 
@@ -129,7 +129,7 @@ body {
 .bookmark-box:hover,
 .recipe-box:hover,
 .add-ingredient-btn:hover {
-    background: #f9f6f1;
+    background: var(--bg-color1);
 }
 
 .bookmark-btn,
@@ -154,8 +154,4 @@ input {
     padding: 2px 2px;
     border: 1px solid #ddd;
     border-radius: 6px;
-}
-
-button:hover {
-    background: #f9f6f1;
 }

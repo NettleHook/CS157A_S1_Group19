@@ -16,6 +16,7 @@ A recipe search app!
 - Likes are displayed for each recipe
 - If user is logged in, they can like and bookmark recipes
 - If user is logged in and has a registered diet(s), results are automatically filtered
+- Results table can be sorted by headers with distinguishing attributes underneath -- Recipe name, Serving Size, Prep Time, Cook Time, Calories, and Likes
   
 #### Full Recipe Page
 - new page featuring full recipe information

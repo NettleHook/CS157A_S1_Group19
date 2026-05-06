@@ -24,3 +24,10 @@ input:invalid {
 .recipe-upload {
     display: flex;
 }
+.desc{
+    width: 80%;
+}
+.step_input{
+    width: 80%;
+    margin: 5px;
+}
