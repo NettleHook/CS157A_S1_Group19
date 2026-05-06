@@ -5,7 +5,6 @@ pageEncoding="UTF-8"%>
 <html>
     <head>
         <meta charset="UTF-8">
-        <link href="styles/reset.css" rel="stylesheet" type="text/css">
         <link href="styles/theme.css" rel="stylesheet" type="text/css">
         <link href="styles/style.css" rel="stylesheet" type="text/css">
         <link href="styles/upload.css" rel="stylesheet" type="text/css">
@@ -45,7 +44,7 @@ pageEncoding="UTF-8"%>
                     <label for="ingredients">Ingredients:</label>
                     <div class = "ingredient-row">
                         <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" required/>
-                        <input type="number" name="ingredient-input-amt" placeholder="Enter amount (if applicable)"/>
+                        <input type="number" name="ingredient-input-amt" step=0.01 placeholder="Enter amount (if applicable)"/>
                         <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required list="units-list"/>
                     </div>
                 </div>
@@ -84,6 +83,9 @@ pageEncoding="UTF-8"%>
                 <option value="shot">
                 <option value="self">
                 <option value="N/A">
+                <option value="small">
+                <option value="medium">
+                <option value="large">
             </datalist>
         </t:layout>
     <script src="js/protected.js"></script>

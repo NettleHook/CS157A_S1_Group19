@@ -297,8 +297,8 @@ public class SearchService {
                         + recipe_rs.getInt(7) + "</span></div><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, "
                         + recipe_rs.getInt(1) + ")' style='cursor:pointer;'></div>";
                 return_string += "<div id='recipe_slip'><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
-                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "(min) </p><p> Cook Time: "
-                        + esc.apply(recipe_rs.getString(5)) + "(min) </p></div><div  class='diet_blurb'>"
+                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + " min </p><p> Cook Time: "
+                        + esc.apply(recipe_rs.getString(5)) + " min </p></div><div  class='diet_blurb'>"
                         + diet_html + "</div>"
                         + "<div class = 'ingredients'><h3> Ingredients </h3> <table>" + ingredients_html
                         + "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " + esc.apply(recipe_rs.getString(8))
@@ -362,8 +362,8 @@ public class SearchService {
                         + "<img class = 'bookmark-container'" + ((recipe_rs.getInt(8) > 0) ? " data-bookmarked='true' src='./assets/bookmarked.svg'" : " data-bookmarked='false' src='./assets/unbookmarked.svg'")
                         + " alt = 'Bookmark' onclick='toggleBookmark(this, " + recipe_rs.getInt(1) + ")' style='cursor:pointer;'></div>";
                 return_string += "<div id='recipe_slip'><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
-                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "(min) </p><p> Cook Time: "
-                        + esc.apply(recipe_rs.getString(5)) + "(min) </p></div><div  class='diet_blurb'>"
+                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + " min </p><p> Cook Time: "
+                        + esc.apply(recipe_rs.getString(5)) + " min </p></div><div  class='diet_blurb'>"
                         + diet_html + "</div>";
                 return_string += "<div id='all_ingredients'><div class = 'ingredients'><h3> Ingredients </h3> <table>" + ingredients_html
                         + "</table></div>"

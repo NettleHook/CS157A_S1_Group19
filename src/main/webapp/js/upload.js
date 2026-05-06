@@ -17,7 +17,6 @@ const CATEGORIES = [
     { id: 'dressings_sauces', text: 'Dressings and Sauces' },
     { id: 'snacks', text: 'Snacks' },
     { id: 'main_dishes', text: 'Main Dishes' },
-    { id: 'all', text: 'All' },
 ];
 
 function renderCheckboxes(dataArray, containerId, inputName) {
@@ -44,7 +43,7 @@ function renderRadioButtons(dataArray, containerId, inputName) {
         .map(
             (option) => `
         <div class="checkbox-item">
-            <input type="radio" id="${option.id}" name="${inputName}" value="${option.id}">
+            <input type="radio" id="${option.id}" name="${inputName}" value="${option.id}" required>
             <label for="${option.id}">${option.text}</label>
         </div>
     `,
@@ -58,7 +57,7 @@ function addIngredient() {
     row.className = 'ingredient-row';
     row.innerHTML = `
             <input type="text" name="ingredient-input-name" placeholder="Enter ingredient name" required/>
-            <input type="number" name="ingredient-input-amt" placeholder="Enter amount (if applicable)"/>
+            <input type="number" name="ingredient-input-amt" step=0.01 placeholder="Enter amount (if applicable)"/>
             <input type="text" name="ingredient-input-unit" placeholder="Enter unit" required list="units-list"/>
             <button type="button" onclick="removeIngredient(this)">Remove</button>
             `;

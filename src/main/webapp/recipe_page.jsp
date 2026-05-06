@@ -10,7 +10,6 @@ pageEncoding="UTF-8"%>
 		<meta charset="UTF-8">
 		<t:layout pageTitle = "Recipes"></t:layout>
 		<link href="styles/full_recipe.css" rel="stylesheet" type="text/css">
-		<link href="styles/reset.css" rel="stylesheet" type="text/css">
 		<link href="styles/theme.css" rel="stylesheet" type="text/css">
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>

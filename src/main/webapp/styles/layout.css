@@ -42,3 +42,22 @@ a {
     color: var(--ac-color);
     text-decoration: none;
 }
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+th{
+    background-color: var(--ac-color);
+}
+tr:hover{
+    background-color: var(--bg-color2);
+}
+.bookmark-container, .like-container {
+    width: 24px;  /* adjust to taste */
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+      gap: 5px;
+}

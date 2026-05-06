@@ -34,42 +34,26 @@ nav {
     display: flex;
     gap: 2rem;
 }
-.bookmark-container, .like-container {
-    width: 24px;  /* adjust to taste */
-    height: 24px;
-    display: inline-block;
-    object-fit: contain;
-}
+
 main {
     height: 100%;
     padding-top: 3rem;
     padding-left: 3rem;
 }
 
-button{
+button, input[type="submit"]{
+    background-color: #f0e8db;
     border: none;
     border-radius: 7px;
     padding: 10px;
-    opacity: 0.5;
     cursor: pointer;
 }
-button:hover{
+button:hover, input[type="submit"]:hover{
     background-color: var(--ac-color);
 }
 
 .results{
     width: 100%;
-}
-th, td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-th{
-    background-color: var(--ac-color);
-}
-tr:hover{
-    background-color:#dde2e7;
 }
 .recipe-search, .recipe-upload {
     display: flex;
@@ -98,11 +82,21 @@ input:invalid {
 .popup.show {
     display: block;
 }
-
+input[type="checkbox"]{
+    cursor: pointer;
+    accent-color: var(--ac-color2);
+}
 .popup-close {
     position: absolute;
     top: 0.4rem;
     right: 0.6rem;
     cursor: pointer;
     font-size: 0.85rem;
+}
+.bookmark-container, .like-container {
+    width: 24px;  /* adjust to taste */
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+      gap: 5px;
 }

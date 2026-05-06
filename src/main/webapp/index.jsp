@@ -8,7 +8,6 @@ pageEncoding="UTF-8"%>
 	<head>
 		<meta charset="UTF-8">
 		<title>What Can I Cook?</title>
-		<link href="styles/reset.css" rel="stylesheet" type="text/css">\
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 		<link href="styles/layout.css" rel="stylesheet" type="text/css">
 	</head>
@@ -51,15 +50,17 @@ pageEncoding="UTF-8"%>
 				<div class="prep-time-div">
 					<label for="prep-time">Prep Time:</label>
 					<div>
-						<input type="number"id="prep-time-hours" name="prep-time-hours" min = 0>
-						<input type="number" id="prep-time-minutes" name="prep-time-minutes" min = 0>
+						<input type="number"id="prep-time-hours" name="prep-time-hours" min = 0 placeholder="hours">
+						<span>:</span>
+						<input type="number" id="prep-time-minutes" name="prep-time-minutes" min = 0  placeholder="minutes">
 					</div>
 				</div>
 				<div class="cook-time-div">
 					<label for="cook-time">Cooking Time:</label>
 					<div>
-						<input type="number" id="cook-time-hours" name="cook-time-hours" min = 0>
-						<input type="number" id="cook-time-minutes" name="cook-time-minutes" min = 0>
+						<input type="number" id="cook-time-hours" name="cook-time-hours" min = 0  placeholder="hours">
+						<span>:</span>
+						<input type="number" id="cook-time-minutes" name="cook-time-minutes" min = 0  placeholder="minutes">
 					</div>
 				</div>
 				<div class="calories-div">

@@ -4,7 +4,6 @@
 <html>
     <head>
         <title>My Profile</title>
-        <link href="styles/reset.css" rel="stylesheet" type="text/css">
         <link href="styles/theme.css" rel="stylesheet" type="text/css">
         <link href="styles/style.css" rel="stylesheet" type="text/css">
         <link href="styles/user.css" rel="stylesheet" type="text/css">
@@ -57,7 +56,7 @@
                         <div id="add-ingredient-container" class="add-ingredient-container" style="display: none;">
                             <form id="add-ingredient-form" class="add-ingredient-form" onsubmit="addIngredient(event)">
                                 <input type="text" name="ingredientId" placeholder="Enter ingredient name" required/>
-                                <input type="number" name="amount" placeholder="Enter amount (if applicable)"/>
+                                <input type="number" name="amount" step=0.01 placeholder="Enter amount (if applicable)"/>
                                 <select id="ingredient-input-unit" name="unitId" placeholder="Enter unit" required></select>
                                 <input type="submit" value="Add">
                             </form>
