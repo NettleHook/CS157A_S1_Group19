@@ -1,0 +1,33 @@
+
+#full_recipe_stats{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 20px;
+    padding-right: 60px;
+}
+
+.recipe-metadata{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 25px;
+    width: 30%;
+    margin: 0 auto;
+    padding: 10px;
+    
+}
+
+.diet_blurb{
+    display: flex;
+    padding: 15px;
+}
+
+#recipe_slip{
+    width: 80%;
+    margin: 0 auto;       
+}
+
+.instructions{
+    padding: 15px;
+    line-height: 24px;
+}

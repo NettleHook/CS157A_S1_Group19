@@ -258,7 +258,7 @@ public class SearchService {
         Map<String, String> data = new HashMap<>();
         java.util.function.Function<String, String> esc = s
                 -> s == null ? "" : s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
-        String query1 = "SELECT * FROM recipe_summaries_likes rs, recipe_full rf WHERE rs.id = rf.recipe_id AND rs.id = ?";
+        String query1 = "SELECT rs.*, rf.description FROM recipe_summaries_likes rs, recipe_full rf WHERE rs.id = rf.recipe_id AND rs.id = ?";
         String query2 = "SELECT ri.ingredient_id, u.name, ri.amount FROM recipe_ingredients ri, units u WHERE ri.unit_id = u.id AND ri.recipe_id = ?";
         String query3 = "SELECT diets.name FROM diets, recipe_diets WHERE diets.id=recipe_diets.diet_id AND recipe_diets.recipe_id = ?";
         try (Connection con = Database.getConnection(); PreparedStatement stmt1 = con.prepareStatement(query1); PreparedStatement stmt2 = con.prepareStatement(query2); PreparedStatement stmt3 = con.prepareStatement(query3);) {
@@ -292,13 +292,13 @@ public class SearchService {
             String return_string = "";
             //Should only be one result from query1!
             if (recipe_rs.next()) {
-                return_string += "<div style='position: fixed; top: 15px; right: 20px;'><div class = 'like-container' data-liked='false' onclick='toggleLike(this, "
-                        + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg' alt = 'Likes'><span>" 
+                return_string += "<div id='full_recipe_stats'><div class = 'like-container' data-liked='false' onclick='toggleLike(this, "
+                        + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg' alt = 'Likes'><span>"
                         + recipe_rs.getInt(7) + "</span></div><img class = 'bookmark-container' data-bookmarked='false' src='./assets/unbookmarked.svg' alt = 'Bookmark' onclick='toggleBookmark(this, "
                         + recipe_rs.getInt(1) + ")' style='cursor:pointer;'></div>";
-                return_string += "<div><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
-                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "</p><p> Cook Time: "
-                        + esc.apply(recipe_rs.getString(5)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p></div><div>"
+                return_string += "<div id='recipe_slip'><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
+                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "(min) </p><p> Cook Time: "
+                        + esc.apply(recipe_rs.getString(5)) + "(min) </p></div><div  class='diet_blurb'>"
                         + diet_html + "</div>"
                         + "<div class = 'ingredients'><h3> Ingredients </h3> <table>" + ingredients_html
                         + "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " + esc.apply(recipe_rs.getString(8))
@@ -318,7 +318,7 @@ public class SearchService {
         Map<String, String> data = new HashMap<>();
         java.util.function.Function<String, String> esc = s
                 -> s == null ? "" : s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
-        String query1 = "SELECT vew.*, IF(ISNULL(br.recipe_id), 0, 1) AS bookmarked, IF(ISNULL(lr.recipe_id), 0, 1) AS liked FROM recipe_summaries_likes AS vew LEFT JOIN (SELECT recipe_id FROM bookmarked_recipes WHERE user_id = ?) br ON vew.id = br.recipe_id LEFT JOIN (SELECT recipe_id FROM liked_recipes WHERE user_id = ?) lr ON vew.id = lr.recipe_id WHERE vew.id = ?";
+        String query1 = "SELECT vew.*, IF(ISNULL(br.recipe_id), 0, 1) AS bookmarked, IF(ISNULL(lr.recipe_id), 0, 1) AS liked, rf.description FROM recipe_summaries_likes AS vew LEFT JOIN (SELECT recipe_id FROM bookmarked_recipes WHERE user_id = ?) br ON vew.id = br.recipe_id LEFT JOIN (SELECT recipe_id FROM liked_recipes WHERE user_id = ?) lr ON vew.id = lr.recipe_id JOIN recipe_full rf ON vew.id = rf.recipe_id WHERE vew.id = ?";
         String query2 = "SELECT ri.ingredient_id, u.name, ri.amount FROM recipe_ingredients ri, units u WHERE ri.unit_id = u.id AND ri.recipe_id = ?";
         String query3 = "SELECT diets.name FROM diets, recipe_diets WHERE diets.id=recipe_diets.diet_id AND recipe_diets.recipe_id = ?";
         try (Connection con = Database.getConnection(); PreparedStatement stmt1 = con.prepareStatement(query1); PreparedStatement stmt2 = con.prepareStatement(query2); PreparedStatement stmt3 = con.prepareStatement(query3);) {
@@ -326,6 +326,7 @@ public class SearchService {
             stmt1.setInt(1, userSession.getUserId());
             stmt1.setInt(2, userSession.getUserId());
             stmt1.setInt(3, recipe_id);
+            System.out.println(stmt1);
             ResultSet recipe_rs = stmt1.executeQuery();
 
             //second query for ingredients + amounts
@@ -354,18 +355,31 @@ public class SearchService {
             String return_string = "";
             //Should only be one result from query1!
             if (recipe_rs.next()) {
-                return_string += "<div style='position: fixed; top: 15px; right: 20px;''><div class = 'like-container' " 
-                + ((recipe_rs.getInt(9) > 0) ? "data-liked='true' onclick='toggleLike(this, " + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/liked.svg'" : "data-liked='false' onclick='toggleLike(this, " 
-                + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg'") 
-                + " alt = 'Likes'><span>" + recipe_rs.getInt(7) + "</span></div>"
-                + "<img class = 'bookmark-container'" + ((recipe_rs.getInt(8) > 0) ? " data-bookmarked='true' src='./assets/bookmarked.svg'" : " data-bookmarked='false' src='./assets/unbookmarked.svg'") 
-                + " alt = 'Bookmark' onclick='toggleBookmark(this, " + recipe_rs.getInt(1) + ")' style='cursor:pointer;'></div>";
-                return_string += "<div><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
-                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "</p><p> Cook Time: "
-                        + esc.apply(recipe_rs.getString(5)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p></div><div>"
+                return_string += "<div id='full_recipe_stats'><div class = 'like-container' "
+                        + ((recipe_rs.getInt(9) > 0) ? "data-liked='true' onclick='toggleLike(this, " + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/liked.svg'" : "data-liked='false' onclick='toggleLike(this, "
+                        + recipe_rs.getInt(1) + ")' style='cursor:pointer;'> <img src='./assets/unliked.svg'")
+                        + " alt = 'Likes'><span>" + recipe_rs.getInt(7) + "</span></div>"
+                        + "<img class = 'bookmark-container'" + ((recipe_rs.getInt(8) > 0) ? " data-bookmarked='true' src='./assets/bookmarked.svg'" : " data-bookmarked='false' src='./assets/unbookmarked.svg'")
+                        + " alt = 'Bookmark' onclick='toggleBookmark(this, " + recipe_rs.getInt(1) + ")' style='cursor:pointer;'></div>";
+                return_string += "<div id='my_ingredients'>"
+                        + "<div class='header' onclick='toggleIngredientDropdown()'>" + "<h2>My Ingredients</h2>"
+                        + "<span id='chevron' class='chevron'>▼</span>" + "<button class='add-ingredient-btn' onclick='showAddIngredient(event)'>+</button>"
+                        + "</div><div id='panel' style='display: none;'>"
+                        + "<div id='list-view'>"
+                        + "<div id='ingredients-container'><p>Your saved ingredients will appear here.</p></div></div>"
+                        + "<div id='add-view' style='display: none;'>"
+                        + "<form id='add-ingredient-form' class='add-ingredient-form' onsubmit='addIngredient(event)'>"
+                        + "<input type='text' name='ingredientId' placeholder='Enter ingredient name' required />"
+                        + "<input type='number' name='amount'       placeholder='Enter amount (if applicable)' />"
+                        + "<select id='ingredient-input-unit' name='unitId' required></select>"
+                        + "<input type='submit' value='Add' /></form><div id='error' style='display: none; color: red;'></div></div></div></div>";
+
+                return_string += "<div id='recipe_slip'><h1>" + esc.apply(recipe_rs.getString(2)) + " </h1><div class = 'recipe-metadata'><p> Serving Size: "
+                        + esc.apply(recipe_rs.getString(3)) + "</p><p> Calories: " + esc.apply(recipe_rs.getString(6)) + "</p><p> Prep Time: " + esc.apply(recipe_rs.getString(4)) + "(min) </p><p> Cook Time: "
+                        + esc.apply(recipe_rs.getString(5)) + "(min) </p></div><div  class='diet_blurb'>"
                         + diet_html + "</div>"
                         + "<div class = 'ingredients'><h3> Ingredients </h3> <table>" + ingredients_html
-                        + "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " + esc.apply(recipe_rs.getString(8))
+                        + "</table></div><div class = 'instructions'><h3> Steps: </h3><pre> " + esc.apply(recipe_rs.getString(10))
                         + " </pre></div></div>";
 
             } else {

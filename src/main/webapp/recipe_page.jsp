@@ -2,38 +2,26 @@
 pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.sql.*"%>
 <%@ page import="app.Database"%>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Recipes</title>
+		<t:layout pageTitle = "Recipes"></t:layout>
+		<link href="styles/full_recipe.css" rel="stylesheet" type="text/css">
 		<link href="styles/reset.css" rel="stylesheet" type="text/css">
 		<link href="styles/theme.css" rel="stylesheet" type="text/css">
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-		<div class = "header">
-			<div id="title-box">
-				<h1 id = title></h1>
-			</div>
-			<nav>
-				<div class="start">
-					<button onclick="window.location.href='index.jsp';">Search</button>
-					<button onclick="window.location.href='upload.jsp';" id = "recipeUploader">Upload New Recipe </button>
-					<button onclick="window.location.href='user.jsp';" id = "profile"> My Profile</button>
-				</div>
-				<div class="center"></div>
-				<div class="end"></div>
-			</nav>
-		</div>
-
 		<main class = "page">
 		</main>
 		<div id="errorPopup" class="popup">
 			<span class="popup-close" onclick="errorPopup()">✕</span>
 			<p>You must be logged in to access this function.</p>
 		</div>
+		
 		<script>
 			async function loadResults() {
 				const params = new URLSearchParams(window.location.search);
@@ -57,5 +45,6 @@ pageEncoding="UTF-8"%>
 			loadResults();
 		</script>
 		<script type="text/javascript" src="js/statHandler.js"></script>
+		<script type="text/javascript" src="js/full_recipe_ingredients.js"></script>
 	</body>
 </html>

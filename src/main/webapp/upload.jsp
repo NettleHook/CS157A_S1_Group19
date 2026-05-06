@@ -59,7 +59,7 @@ pageEncoding="UTF-8"%>
                     <div id="category-container" class="category-container"></div>
                 </div>
                 <div class = "desc" id = "steps">
-                    <!-- Steps as a text box per step?-->
+                    <!-- Steps as a text box per step-->
                     <label for="Steps">Steps:</label>
                     <div class = "step-row">
                         <input type="text" name="step" required/>

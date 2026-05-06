@@ -49,6 +49,7 @@ public class SearchRouter extends HttpServlet {
         if (userSession == null) {
             SearchService.getFullRecipeGuest(request, response, recipe_id);
         }else{
+            System.out.println("Full Recipe search for loggedin user");
             SearchService.getFullRecipeUser(request, response, recipe_id, userSession);
         }
     }

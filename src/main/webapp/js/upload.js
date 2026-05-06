@@ -36,6 +36,22 @@ function renderCheckboxes(dataArray, containerId, inputName) {
         .join('');
 }
 
+function renderRadioButtons(dataArray, containerId, inputName) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = dataArray
+        .map(
+            (option) => `
+        <div class="checkbox-item">
+            <input type="radio" id="${option.id}" name="${inputName}" value="${option.id}">
+            <label for="${option.id}">${option.text}</label>
+        </div>
+    `,
+        )
+        .join('');
+}
+
 function addIngredient() {
     const container = document.getElementById('ingredients');
     const row = document.createElement('div');
@@ -105,5 +121,5 @@ async function uploadRecipe(e) {
     }
 }
 
-renderCheckboxes(CATEGORIES, 'category-container', 'food-cat');
+renderRadioButtons(CATEGORIES, 'category-container', 'food-cat');
 renderCheckboxes(DIETS, 'diet-container', 'diet-cat');

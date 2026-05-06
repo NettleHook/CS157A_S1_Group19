@@ -8,13 +8,13 @@ pageEncoding="UTF-8"%>
 	<head>
 		<meta charset="UTF-8">
 		<title>What Can I Cook?</title>
-		<link href="favicon.ico" rel="icon" type="image/x-icon">
-		<link href="styles/reset.css" rel="stylesheet" type="text/css">
-		<link href="styles/theme.css" rel="stylesheet" type="text/css">
+		<link href="styles/reset.css" rel="stylesheet" type="text/css">\
 		<link href="styles/style.css" rel="stylesheet" type="text/css">
+		<link href="styles/layout.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-		<t:layout pageTitle="Index">
+		<t:layout pageTitle="Index"></t:layout>
+		<main id="main" class="main">
 			<form class="recipe-search" id="recipe-search" action="search.jsp" method="GET">
 				<div class="ingredients" id="ingredients">
 					<label for="ingredients">Ingredients:</label>
@@ -38,6 +38,10 @@ pageEncoding="UTF-8"%>
 				<div class="food-cat" id="food-cat">
 					<label for="food-cat">Category:</label>
 					<div>
+						<% for(Constants.Option option : Constants.CATEGORIES) { %>
+						<input type="radio" id="<%= option.id() %>" name="food-cat" value="<%= option.id() %>">
+						<label for="<%= option.id() %>"><%= option.text() %></label>
+						<% } %>
 					</div>
 				</div>
 				<div class="serving-size-div">
@@ -64,44 +68,27 @@ pageEncoding="UTF-8"%>
 				</div>
 				<input type="submit" value="Submit">
 			</form>
-		</t:layout>
-		<script>
-			function addIngredient() {
-				const container = document.getElementById('ingredients');
-				const row = document.createElement('div');
-				row.className = 'ingredient-row';
-				row.innerHTML = `
-				<input type="text" name="ingredient-input" placeholder="Enter ingredient" />
-				<button type="button" onclick="removeIngredient(this)">Remove</button>
-				`;
-				container.appendChild(row);
-			}
-			
-			function removeIngredient(btn) {
-				const row = btn.parentElement;
-				// Keep at least one ingredient row
-				if (document.querySelectorAll('.ingredient-row').length > 1) {
-					row.remove();
+			</main>
+			<script>
+				function addIngredient() {
+					const container = document.getElementById('ingredients');
+					const row = document.createElement('div');
+					row.className = 'ingredient-row';
+					row.innerHTML = `
+					<input type="text" name="ingredient-input" placeholder="Enter ingredient" />
+					<button type="button" onclick="removeIngredient(this)">Remove</button>
+					`;
+					container.appendChild(row);
 				}
-			}
-			async function checkLogin() {
-				const res = await fetch("api/validate", {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json"
+				
+				function removeIngredient(btn) {
+					const row = btn.parentElement;
+					// Keep at least one ingredient row
+					if (document.querySelectorAll('.ingredient-row').length > 1) {
+						row.remove();
 					}
-				});
-				if (res.status == 401){
-					document.getElementById("recipeUploader").style.display = 'none';
-					document.getElementById("logout").style.display = 'none';
-					document.getElementById("profile").style.display = 'none';
-				} else{
-					document.getElementById("login").style.display = 'none';
-					document.getElementById("signup").style.display = 'none';
 				}
-			}
-			checkLogin();
-		</script>
-        <script src="js/diet_search.js"></script>
-	</body>
-</html>
+			</script>
+			<script src="js/diet_search.js"></script>
+		</body>
+	</html>
