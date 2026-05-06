@@ -45,6 +45,18 @@ main {
     padding-top: 3rem;
     padding-left: 3rem;
 }
+
+button{
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    opacity: 0.5;
+    cursor: pointer;
+}
+button:hover{
+    background-color: var(--ac-color);
+}
+
 .results{
     width: 100%;
 }
