@@ -21,6 +21,7 @@ A recipe search app!
 - new page featuring full recipe information
 - Likes are displayed for recipe
 - If user is logged in, they can like and bookmark recipe
+- If user is logged in, their ingredient list can be pulled up in Full Recipe page for easy comparison
 
 #### Login System
 - Passwords are encrypted
@@ -56,13 +57,10 @@ Make sure user profile grants access to the following:
 
 #### Ingredient Tracker
 - Users can keep a list of ingredients, this could be things they usually have or what is currently in their fridge
+- Ingredient list can be pulled up in Full Recipe page for easy comparison
 
 -----
 ### To be implemented:
-
-#### Ingredient Tracker
-- Guests ingredient tracker is tied to their session, so will only be accessible temporarily [last priority[
-- Ingredient list can be pulled up in Full Recipe page for easy comparison
 
 #### Liking and Bookmarking Recipes
 - Liked recipes can later be accessed through the Liked Recipes page in the account profile
