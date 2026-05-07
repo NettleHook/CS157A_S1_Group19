@@ -66,7 +66,7 @@ input:invalid {
     border-color: #dc2626;
 }
 
-.popup {
+.popup, .popup_nice {
     display: none;
     position: fixed;
     bottom: 1rem;
@@ -78,8 +78,12 @@ input:invalid {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     z-index: 9999;
 }
-
-.popup.show {
+.popup_nice{
+    background-color: var(--bg-color);
+    border: 5px solid var(--ac-color3);
+    height: 50%;
+}
+.popup.show, .popup_nice.show {
     display: block;
 }
 input[type="checkbox"], input[type="radio"]{

@@ -60,6 +60,14 @@ Make sure user profile grants access to the following:
 - Users can keep a list of ingredients, this could be things they usually have or what is currently in their fridge
 - Ingredient list can be pulled up in Full Recipe page for easy comparison
 
+#### Feedback:
+- There is a feedback form where the Users can send requests to the developer for various features including, but not limited to:
+  - adding accepted ingredient units
+  - adding diet to diet filtering
+  - reporting inappropriate recipes
+  - requests to delete recipes
+  - bug reports
+
 -----
 ### To be implemented:
 
