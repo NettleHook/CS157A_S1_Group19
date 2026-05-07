@@ -44,7 +44,7 @@
                         <div class="header">
                             <h2>My Recipes</h2>
                         </div>
-                        <div id="recipes-container"></div>
+                        <div id="recipes-container" class="recipes-container"></div>
                     </div>
 
                     <div id="ingredients" class="tab-panel">
@@ -67,10 +67,9 @@
                         <div class="header">
                             <h2>Saved Diets</h2>
                         </div>
-                        <div id="diets-container">
-                            <div id = "diet-div"?></div>
-                            <button onclick="registerDiets()">Submit Changes</div>
-                            </div>
+                        <div id="diets-container" class="diets-container">
+                            <div id="diet-items" class="diet-items"></div>
+                            <button onclick="registerDiets()">Submit Changes</button>
                         </div>
                     </div>
                 </div>

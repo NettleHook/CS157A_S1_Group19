@@ -105,6 +105,23 @@ body {
     font-size: 14px;
 }
 
+.recipes-container,
+.ingredients-container,
+.diets-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.diets-container {
+    gap: 0.75rem;
+}
+
+.diet-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .bookmark-box,
 .recipe-box,
 .ingredient-box {
@@ -154,4 +171,9 @@ input {
     padding: 2px 2px;
     border: 1px solid #ddd;
     border-radius: 6px;
+}
+
+.diet-div {
+    display: flex;
+    flex-direction: column;
 }

@@ -1,5 +1,5 @@
 async function propogateDiets() {
-    const diets_div = document.getElementById("diet-div");
+    const diets_div = document.getElementById("diet-items");
     diets_div.innerHTML = await getDiets();
 }
 
@@ -21,9 +21,11 @@ async function getDiets() {
 
 function buildDietCheckboxes(allDiets, userDiets) {
     return allDiets.map(diet => `
-        <input type="checkbox" id="${diet.id}" name="diet-cat" value="${diet.id}"
-            ${userDiets.includes(diet.id) ? "checked" : ""}>
-        <label for="${diet.id}">${diet.text}</label>
+        <div class="diet-item"> 
+            <input type="checkbox" id="${diet.id}" name="diet-cat" value="${diet.id}"
+                ${userDiets.includes(diet.id) ? "checked" : ""}>
+            <label for="${diet.id}">${diet.text}</label>
+        </div>
     `).join("");
 }
 
