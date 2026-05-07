@@ -133,3 +133,19 @@ CREATE TABLE guest_ingredient_lists (
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(name),
     FOREIGN KEY (unit_id) REFERENCES units(id)
 );
+CREATE TABLE feedback_categories(
+	id INT NOT NULL AUTO_INCREMENT,
+    category VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+CREATE TABLE feedback_messages (
+	id INT NOT NULL AUTO_INCREMENT,
+    user_id INT,
+    contact_info VARCHAR(255),
+    topic_id INT NOT NULL,
+    message TEXT NOT NULL,
+    status VARCHAR(255),
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (topic_id) REFERENCES feedback_categories(id)
+);
