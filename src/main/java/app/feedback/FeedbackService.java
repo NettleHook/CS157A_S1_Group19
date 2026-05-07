@@ -29,6 +29,9 @@ public class FeedbackService {
         String contactInfo = request.getParameter("contact_info");
         String categoryId = request.getParameter("feedback_category");
         String message = request.getParameter("message");
+        if(message == null){
+            throw new IllegalArgumentException("Please ensure you've entered feedback");
+        }
         String query = "INSERT INTO feedback_messages(user_id, contact_info, topic_id, message, status) VALUES (?, ?, ?, ?, 'unresolved')";
         try (Connection con = Database.getConnection(); PreparedStatement stmt = con.prepareStatement(query)) {
             if(userId != null){
@@ -39,15 +42,6 @@ public class FeedbackService {
             stmt.setString(2, contactInfo);
             stmt.setString(3, categoryId);
             stmt.setString(4, message);
-            stmt.executeUpdate();
-        }
-    }
-
-    public static void updateMessageStatus(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        String query = "UPDATE feedback_messages SET status = ?, WHERE id = ?";
-        try (Connection con = Database.getConnection(); PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, "resolved");//FIXME: THIS WILL NEED TO BE RETRIEVED FROM THE REQUEST PARAMETER
-            stmt.setInt(2, 1);
             stmt.executeUpdate();
         }
     }

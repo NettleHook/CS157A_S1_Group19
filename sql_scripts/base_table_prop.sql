@@ -39,6 +39,7 @@ INSERT INTO feedback_categories(category) VALUES
 ('Add Diet'),
 ('Bug Report'),
 ('Report Recipe'),
+('Delete Recipe'),
 ('Other');
 
 INSERT IGNORE INTO users(name, password) VALUES

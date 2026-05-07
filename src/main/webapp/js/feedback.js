@@ -17,15 +17,11 @@ async function addMessage(e){
         if (response.status === 200) {
             
         } else {
-            const error_el = document.getElementById('error');
-            error_el.innerHTML = returnVal.data.error;
-            error_el.style.display = 'block';
+            document.getElementById('feedback_form').innerHTML = error.message;
         }
     } catch (error) {
         console.error('Request failed: ', error);
-        const error_el = document.getElementById('error');
-        error_el.innerHTML = error.message;
-        error_el.style.display = 'block';
+        document.getElementById('feedback_form').innerHTML = error.message;
     }
 }
 

@@ -38,7 +38,7 @@ h1{
     gap: 2rem;
 }
 
-a {
+a, .feedback_form {
     color: var(--ac-color);
     text-decoration: none;
 }
@@ -60,4 +60,14 @@ tr:hover{
     display: flex;
     justify-content: space-between;
       gap: 5px;
+}
+
+#feedback{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    column-gap: 1rem;
+    color: black;
+    height: 100%;
+    
 }

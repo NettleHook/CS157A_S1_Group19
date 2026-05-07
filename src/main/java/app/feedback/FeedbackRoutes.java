@@ -19,12 +19,6 @@ public class FeedbackRoutes extends HttpServlet {
         switch (path) {
             case "/add" ->
                 addMessage(request, response);
-            case "/update" ->
-                updateMessage(request, response);
-            case "/view_all" ->
-                viewAllMessages(request, response);
-            case "/view_unresolved" ->
-                viewUnresolvedMessages(request, response);
             default ->
                 response.sendError(404);
         }
@@ -46,18 +40,6 @@ public class FeedbackRoutes extends HttpServlet {
 
     protected void addMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         FeedbackController.addMessage(request, response);
-    }
-
-    protected void updateMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        FeedbackController.updateMessageStatus(request, response);
-    }
-
-    protected void viewAllMessages(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        FeedbackController.viewAllMessages(request, response);
-    }
-
-    protected void viewUnresolvedMessages(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        FeedbackController.viewUnresolvedMessages(request, response);
     }
 
     protected void getCategories(HttpServletRequest request, HttpServletResponse response) throws IOException {

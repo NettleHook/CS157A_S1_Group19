@@ -35,7 +35,7 @@
                         <div class="popup_nice" id="feedback_form"><form id="feedback">
                             <select id="feedback_category" name="feedback_category" placeholder="What type of feedback?" required></select>
                             <label for="message">What would you like to tell us?</label>
-                            <input type="text" name = "message" required>
+                            <textarea name = "message" required></textarea>
                             <label for="contact_info">Please provide your contact info if you'd like us to respond: </label>
                             <input type="text" name = "contact_info" placeholder = "Optional"/>
                             <input type="submit" value = "Submit" onclick="addMessage(event)">

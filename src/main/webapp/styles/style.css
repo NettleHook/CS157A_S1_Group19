@@ -79,7 +79,9 @@ input:invalid {
     z-index: 9999;
 }
 .popup_nice{
-    background-color: var(--bg-color2);
+    background-color: var(--bg-color);
+    border: 5px solid var(--ac-color3);
+    height: 50%;
 }
 .popup.show, .popup_nice.show {
     display: block;
