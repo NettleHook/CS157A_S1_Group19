@@ -1,0 +1,63 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid var(--ac-color);
+}
+
+h1{
+    color: var(--ac-color);
+    text-align: center;
+    font-size: 200%;
+}
+
+.start {
+    justify-content: start;
+}
+
+.center {
+    justify-content: center;
+}
+
+.end {
+    justify-content: end;
+}
+
+.start,
+.center,
+.end {
+    display: flex;
+    align-content: center;
+    gap: 2rem;
+    line-height: 0;
+}
+
+.logged-out,
+.logged-in {
+    gap: 2rem;
+}
+
+a {
+    color: var(--ac-color);
+    text-decoration: none;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+th{
+    background-color: var(--ac-color);
+}
+tr:hover{
+    background-color: var(--bg-color2);
+}
+.bookmark-container, .like-container {
+    width: 24px;  /* adjust to taste */
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+      gap: 5px;
+}

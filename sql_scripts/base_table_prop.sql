@@ -1,14 +1,19 @@
-INSERT INTO units(name) VALUES
+INSERT IGNORE INTO units(name) VALUES
 ('cup'),
 ('tsp'),
 ('thumb'),
 ('bulb'),
 ('shot'),
 ('tbsp'),
+('oz'),
+('g'),
 (''),
 ('stalk'),
 ('to taste'),
-('pack');
+('pack'),
+('small'),
+('medium'),
+('large');
 
 INSERT INTO categories(name) VALUES
 ('Desserts and Sweets'),

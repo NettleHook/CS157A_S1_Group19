@@ -1,7 +1,9 @@
-CREATE OR REPLACE VIEW desserts_sweets_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Desserts and Sweets"));
-CREATE OR REPLACE VIEW bread_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Bread"));
-CREATE OR REPLACE VIEW soups_stews_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Soups and Stews"));
-CREATE OR REPLACE VIEW salads_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Salads"));
-CREATE OR REPLACE VIEW dressings_sauces_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Dressings and Sauces"));
-CREATE OR REPLACE VIEW snacks_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Snacks"));
-CREATE OR REPLACE VIEW main_dishes_recipes AS SELECT * FROM recipe_summaries WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Main Dishes"));
+CREATE OR REPLACE VIEW likes_tracker AS SELECT recipe_id, COUNT(user_id) AS likes FROM liked_recipes GROUP BY recipe_id;
+CREATE OR REPLACE VIEW recipe_summaries_likes AS SELECT rs.*, IFNULL(lt.likes,0) AS likes FROM recipe_summaries rs LEFT JOIN likes_tracker lt ON rs.id = lt.recipe_id;
+CREATE OR REPLACE VIEW desserts_sweets_recipes AS SELECT * FROM recipe_summaries_likes WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Desserts and Sweets"));
+CREATE OR REPLACE VIEW bread_recipes AS SELECT * FROM recipe_summaries_likes WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Bread"));
+CREATE OR REPLACE VIEW soups_stews_recipes AS SELECT * FROM recipe_summaries_likes WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Soups and Stews"));
+CREATE OR REPLACE VIEW salads_recipes AS SELECT * FROM recipe_summaries_likes WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Salads"));
+CREATE OR REPLACE VIEW dressings_sauces_recipes AS SELECT * FROM recipe_summaries_likes WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Dressings and Sauces"));
+CREATE OR REPLACE VIEW snacks_recipes AS SELECT * FROM recipe_summaries_likes WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Snacks"));
+CREATE OR REPLACE VIEW main_dishes_recipes AS SELECT * FROM recipe_summaries_likes WHERE id IN (SELECT recipe_id FROM recipe_categories WHERE category_id = (SELECT id FROM categories WHERE name = "Main Dishes"));

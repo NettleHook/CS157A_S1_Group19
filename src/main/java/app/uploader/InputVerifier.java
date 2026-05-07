@@ -11,7 +11,7 @@ import app.object.Ingredient;
 
 public class InputVerifier {
 
-    private static final String[] UNITS = {"bulb", "cup", "pack", "shot", "oz", "g", "stalk", "tbsp", "tsp", "to taste", "thumb"};
+    private static final String[] UNITS = {"bulb", "cup", "pack", "shot", "oz", "g", "stalk", "tbsp", "tsp", "to taste", "thumb", "small", "medium", "large"};
     private static final String[] ALLOWED_NULLS = {"to taste"};
 
     public static List<Object> verify_summary(
@@ -50,7 +50,7 @@ public class InputVerifier {
     public static String verify_category(String categoryId) {
         String category = null;
         if (categoryId == null) {
-            category = "All";
+            throw new IllegalArgumentException("Recipe must belong to a food category");
         } else {
 
             for (Constants.Option option : Constants.CATEGORIES) {
@@ -145,7 +145,11 @@ public class InputVerifier {
     }
 
     private static String verifyUnit(String unit, String ingredient_name) {
-        if (unit == null || unit.equals("N/A")) {
+        if (unit == null){
+            return "";
+        }
+        unit = unit.toLowerCase();
+        if(unit.equals("n/a") || unit.equals("self")) {
             return "";
         }
         if (!Arrays.asList(UNITS).contains(unit)) {

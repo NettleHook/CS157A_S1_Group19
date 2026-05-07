@@ -1,0 +1,33 @@
+.ingredients,
+.diet-cat,
+.food-cat,
+.serving-size,
+.prep-time,
+.cook-time,
+.calories {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.diet-container,
+.category-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+input:invalid {
+    border-color: #dc2626;
+}
+
+.recipe-upload {
+    display: flex;
+}
+.desc{
+    width: 80%;
+}
+.step_input{
+    width: 80%;
+    margin: 5px;
+}

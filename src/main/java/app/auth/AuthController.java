@@ -24,7 +24,7 @@ public class AuthController {
             UserSession userSession = AuthService.getUserSession(sessionId);
 
             if (userSession == null) {
-                ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
+                ApiResponse.error(res, 401, "Invalid username or password.");
                 return;
             }
             
@@ -61,21 +61,7 @@ public class AuthController {
     }
 
     public static void logout(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            for (Cookie c : cookies) {
-                if (SESSION_ID.equals(c.getName())) {
-                    AuthService.logout(c.getValue());
-                    
-                    c.setValue("");
-                    c.setPath("/");
-                    c.setHttpOnly(true);
-                    c.setSecure(true);
-                    c.setMaxAge(0); 
-                    res.addCookie(c);
-                }
-            }
-        }
+        invalidateUserCookie(req, res);
         ApiResponse.write(res, 200, "Logged out.");
     }   
 
@@ -84,6 +70,7 @@ public class AuthController {
         UserSession userSession = AuthService.getUserSession(sessionId);
 
         if (userSession == null) {
+            invalidateUserCookie(req, res);
             ApiResponse.error(res, 401, ApiMessage.UNAUTHORIZED);
             return;
         }
@@ -102,5 +89,23 @@ public class AuthController {
 
     private static UserCredentials getUserCredentials(HttpServletRequest req) throws IOException {
         return JsonUtils.MAPPER.readValue(req.getReader(), UserCredentials.class);
+    }
+
+    private static void invalidateUserCookie(HttpServletRequest req, HttpServletResponse res) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (SESSION_ID.equals(c.getName())) {
+                    AuthService.logout(c.getValue());
+                    
+                    c.setValue("");
+                    c.setPath("/");
+                    c.setHttpOnly(true);
+                    c.setSecure(true);
+                    c.setMaxAge(0); 
+                    res.addCookie(c);
+                }
+            }
+        }
     }
 }
