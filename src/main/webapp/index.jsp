@@ -91,5 +91,6 @@ pageEncoding="UTF-8"%>
 				}
 			</script>
 			<script src="js/diet_search.js"></script>
+			<script>propogateDiets(1);</script>
 		</body>
 	</html>

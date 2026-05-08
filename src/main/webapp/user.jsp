@@ -68,7 +68,7 @@
                             <h2>Saved Diets</h2>
                         </div>
                         <div id="diets-container" class="diets-container">
-                            <div id="diet-items" class="diet-items"></div>
+                            <div id="diet-div" class="diet-items"></div>
                             <button onclick="registerDiets()">Submit Changes</button>
                         </div>
                     </div>
@@ -78,6 +78,6 @@
         <script src="js/protected.js"></script>
         <script src="js/user.js"></script>
         <script src ="js/diet_search.js"></script>
-
+        <script>propogateDiets(0);</script>
     </body>
 </html>
