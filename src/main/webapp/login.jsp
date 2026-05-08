@@ -10,7 +10,7 @@
 <body>
     <div style="position: fixed; top: 15px; left: 20px;">
         <a href="index.jsp">
-            <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+            <button>
                 &#8592; Home
             </button>
         </a>
@@ -19,7 +19,7 @@
     <div class="layout" style="text-align: center; margin-top: 50px;">
         <h1>Log In</h1>
         <form id="login-form">
-            <table style="margin: 0 auto; background: #f4f4f4; padding: 20px; border-radius: 10px;">
+            <table style="margin: 0 auto; padding: 20px; border-radius: 10px;">
                 <tr>
                     <td>Username:</td>
                     <td><input type="text" name="username" required /></td>

@@ -54,6 +54,9 @@ async function registerDiets() {
         body: JSON.stringify({ diets: checked })
     });
     if (!response.ok) {
-        alert("Failed to save your diet preferences. Please try again.");
+        document.getElementById("diets-container").innerHTML+="<p>Failed to save your diet preferences. Please try again.</p>"
+    }else{
+        document.getElementById("diets-container").innerHTML+="<p>Updated successfully</p>"
+        propogateDiets(0)
     }
 }
