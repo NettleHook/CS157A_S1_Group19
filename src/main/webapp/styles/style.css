@@ -82,6 +82,7 @@ input:invalid {
     background-color: var(--bg-color);
     border: 5px solid var(--ac-color3);
     height: 50%;
+    color: black;
 }
 .popup.show, .popup_nice.show {
     display: block;
@@ -90,7 +91,7 @@ input[type="checkbox"], input[type="radio"]{
     cursor: pointer;
     accent-color: var(--ac-color);
 }
-input[type="text"], input[type="number"], input[type="password"]{
+input[type="text"], input[type="number"], input[type="password"], textarea{
     appearance: textfield;
     height: 1.3rem;
     border-radius: 5px;
@@ -111,4 +112,18 @@ input[type="text"], input[type="number"], input[type="password"]{
     display: flex;
     justify-content: space-between;
       gap: 5px;
+}
+select, option{
+    cursor: point;
+    background-color: var(--bg-color);
+    accent-color: var(--bg-color);
+    border: 1px solid var(--ac-color3);
+    border-radius: 5px; 
+}
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }

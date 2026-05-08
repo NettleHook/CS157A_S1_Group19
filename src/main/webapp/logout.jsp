@@ -10,7 +10,7 @@
 <body>
     <div style="position: fixed; top: 15px; left: 20px;">
         <a href="index.jsp">
-            <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">
+            <button>
                 &#8592; Home
             </button>
         </a>

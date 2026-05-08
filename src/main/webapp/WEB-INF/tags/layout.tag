@@ -28,14 +28,15 @@
                     </div>
 
                     <div id="logged-in" style="display: none;">
-                        <a href="api/logout" onclick="handleLogout(event)">Log Out</a>
-                        <a href="user.jsp">Profile</a>
+                        <a href="api/logout" onclick="handleLogout(event)" id="logout">Log Out</a>
+                        <a href="user.jsp" id="profile">Profile</a>
                     </div>
                     <div class="feedback_form" onclick="openFeedback()">FeedBack</div>
                         <div class="popup_nice" id="feedback_form"><form id="feedback">
-                            <select id="feedback_category" name="feedback_category" placeholder="What type of feedback?" required></select>
                             <label for="message">What would you like to tell us?</label>
                             <textarea name = "message" required></textarea>
+                            <label for="feedback_category"> What are you reporting? </label>
+                            <select id="feedback_category" name="feedback_category" placeholder="What type of feedback?" required></select>
                             <label for="contact_info">Please provide your contact info if you'd like us to respond: </label>
                             <input type="text" name = "contact_info" placeholder = "Optional"/>
                             <input type="submit" value = "Submit" onclick="addMessage(event)">
