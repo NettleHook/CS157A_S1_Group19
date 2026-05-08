@@ -5,8 +5,7 @@ async function toggleBookmark(btn, recipeId) {
         if (status === 200) {
             btn.dataset.bookmarked = "false";
             btn.src = "./assets/unbookmarked.svg";
-        }
-        else{
+        } else {
             errorPopup();
         }
     } else {
@@ -14,13 +13,12 @@ async function toggleBookmark(btn, recipeId) {
         if (status === 201) {
             btn.dataset.bookmarked = "true";
             btn.src = "./assets/bookmarked.svg";
-        }
-        else{
+        } else {
             errorPopup();
         }
     }
 }
-// Add bookmark
+
 async function addBookmark(recipeId) {
     const res = await fetch("api/stats/bookmark", {
         method: "POST",
@@ -30,7 +28,6 @@ async function addBookmark(recipeId) {
     return res.status;
 }
 
-// Remove bookmark
 async function removeBookmark(recipeId) {
     const res = await fetch("api/stats/bookmark", {
         method: "DELETE",
@@ -39,6 +36,7 @@ async function removeBookmark(recipeId) {
     });
     return res.status;
 }
+
 async function toggleLike(btn, recipeId) {
     const liked = btn.dataset.liked === "true";
     const pic = btn.querySelector('img');
@@ -49,8 +47,7 @@ async function toggleLike(btn, recipeId) {
             btn.dataset.liked = "false";
             pic.src = "./assets/unliked.svg";
             count.innerText = parseInt(count.innerText) - 1;
-        }
-        else{
+        } else {
             errorPopup();
         }
     } else {
@@ -59,13 +56,12 @@ async function toggleLike(btn, recipeId) {
             btn.dataset.liked = "true";
             pic.src = "./assets/liked.svg";
             count.innerText = parseInt(count.innerText) + 1;
-        }
-        else{
+        } else {
             errorPopup();
         }
     }
 }
-// Add like
+
 async function addLike(recipeId) {
     const res = await fetch("api/stats/like", {
         method: "POST",
@@ -75,7 +71,6 @@ async function addLike(recipeId) {
     return res.status;
 }
 
-// Remove like
 async function removeLike(recipeId) {
     const res = await fetch("api/stats/like", {
         method: "DELETE",
@@ -84,6 +79,7 @@ async function removeLike(recipeId) {
     });
     return res.status;
 }
+
 function errorPopup() {
     const popup = document.getElementById("errorPopup");
     popup.classList.add("show");
@@ -92,76 +88,4 @@ function errorPopup() {
 
 async function initStats(recipeId) {
     window.recipeId = recipeId;
-    await Promise.all([
-        refreshLikeStatus(recipeId),
-        refreshBookmarkStatus(recipeId),
-    ]);
-}
-
-async function toggleLike() {
-    const recipeId = window.recipeId;
-    if (!recipeId) return;
-
-    const res = await fetch(`api/recipe/me/liked/toggle?recipeId=${recipeId}`, {
-        method: 'POST',
-    });
-
-    if (res.status === 401) {
-        errorPopup();
-        return;
-    }
-
-    if (res.ok) {
-        const json = await res.json();
-        setLikeButton(json.data.liked);
-    }
-}
-
-async function refreshLikeStatus(recipeId) {
-    const res = await fetch('api/recipe/me/liked');
-    if (!res.ok) return;
-    const json = await res.json();
-    const liked = (json.data ?? []).some(r => r.id === recipeId);
-    setLikeButton(liked);
-}
-
-function setLikeButton(isLiked) {
-    const btn = document.getElementById('like-btn');
-    if (!btn) return;
-    btn.textContent = isLiked ? '♥ Liked' : '♡ Like';
-    btn.classList.toggle('active', isLiked);
-}
-
-async function toggleBookmark() {
-    const recipeId = window.recipeId;
-    if (!recipeId) return;
-
-    const res = await fetch(`api/recipe/me/bookmarked/toggle?recipeId=${recipeId}`, {
-        method: 'POST',
-    });
-
-    if (res.status === 401) {
-        errorPopup();
-        return;
-    }
-
-    if (res.ok) {
-        const json = await res.json();
-        setBookmarkButton(json.data.bookmarked);
-    }
-}
-
-async function refreshBookmarkStatus(recipeId) {
-    const res = await fetch('api/recipe/me/bookmarked');
-    if (!res.ok) return;
-    const json = await res.json();
-    const bookmarked = (json.data ?? []).some(r => r.id === recipeId);
-    setBookmarkButton(bookmarked);
-}
-
-function setBookmarkButton(isBookmarked) {
-    const btn = document.getElementById('bookmark-btn');
-    if (!btn) return;
-    btn.textContent = isBookmarked ? '🔖 Bookmarked' : '🔖 Bookmark';
-    btn.classList.toggle('active', isBookmarked);
 }

@@ -5,6 +5,9 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+import app.user.likes.LikesController;
+
 public class BookmarkRoutes {
 
     public static void handleGetRoutes(HttpServletRequest req, HttpServletResponse res) throws IOException {
@@ -31,6 +34,7 @@ public class BookmarkRoutes {
 
         switch (path) {
             case "/bookmarks" -> BookmarkController.removeBookmark(req, res);
+            case "/liked" -> LikesController.getLikedRecipes(req, res);
         }
     }
 }

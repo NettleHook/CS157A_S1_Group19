@@ -15,9 +15,9 @@ public class RecipeRoutes {
         if (path == null) return;
 
         switch (path) {
-            case "/recipe/me/recipes" -> RecipeController.getUploadedRecipes(req, res);
-            case "/recipe/me/liked"   -> RecipeController.getLikedRecipes(req, res);
-            case "/recipe/me/bookmarked" -> RecipeController.getBookmarkedRecipes(req, res);
+            case "/me/recipes" -> RecipeController.getUploadedRecipes(req, res);
+            case "/me/liked"   -> RecipeController.getLikedRecipes(req, res);
+            case "/me/bookmarked" -> RecipeController.getBookmarkedRecipes(req, res);
         }
     }
 

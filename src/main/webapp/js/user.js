@@ -228,9 +228,11 @@ async function deleteIngredient(e, id) {
         error_el.innerHTML = error.message;
         error_el.style.display = 'block';
     }
-    async function loadLikedRecipes() {
+}
+
+async function loadLikedRecipes() {
     try {
-        const res = await fetch('api/recipe/me/liked');
+        const res = await fetch('api/liked');
         if (res.ok) {
             const json = await res.json();
             const data = json.data ?? [];
@@ -250,11 +252,10 @@ async function deleteIngredient(e, id) {
                     name.textContent = r.name;
                     box.appendChild(name);
                     container.appendChild(box);
-                    });
-                }
+                });
             }
-        } catch (err) {
-            console.error('Failed to load liked recipes:', err);
         }
+    } catch (err) {
+        console.error('Failed to load liked recipes:', err);
     }
 }
