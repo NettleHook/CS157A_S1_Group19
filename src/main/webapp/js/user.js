@@ -117,10 +117,10 @@ async function loadIngredients() {
 
                     const name = document.createElement('span');
                     name.textContent = i.name;
-                    const unit = document.createElement('span');
-                    unit.textContent = i.unit;
                     const amount = document.createElement('span');
                     amount.textContent = i.amount;
+                    const unit = document.createElement('span');
+                    unit.textContent = i.unit;
 
                     const btn = document.createElement('button');
                     btn.className = 'ingredient-btn';
@@ -128,6 +128,8 @@ async function loadIngredients() {
                     btn.onclick = ((ev) => deleteIngredient(ev, i.name))
 
                     box.appendChild(name);
+                    box.appendChild(amount);
+                    box.appendChild(unit);
                     box.appendChild(btn);
                     container.appendChild(box);
                 });

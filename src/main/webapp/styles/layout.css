@@ -33,12 +33,12 @@ h1{
     line-height: 0;
 }
 
-.logged-out,
-.logged-in {
-    gap: 2rem;
+#signup, #profile {
+   padding-left: 1rem;
 }
 
-a {
+a, .feedback_form {
+    cursor: point;
     color: var(--ac-color);
     text-decoration: none;
 }
@@ -50,6 +50,7 @@ th, td {
 }
 th{
     background-color: var(--ac-color);
+    cursor: pointer;
 }
 tr:hover{
     background-color: var(--bg-color2);
@@ -60,4 +61,22 @@ tr:hover{
     display: flex;
     justify-content: space-between;
       gap: 5px;
+}
+
+#feedback{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    column-gap: 1rem;
+    color: black;
+    height: 100%;
+    
+}
+
+select, option{
+    cursor: point;
+    background-color: var(--bg-color2);
+    accent-color: var(--bg-color);
+    border: 1px solid var(--ac-color3);
+    border-radius: 5px; 
 }
