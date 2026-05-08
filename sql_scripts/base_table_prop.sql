@@ -15,7 +15,7 @@ INSERT IGNORE INTO units(name) VALUES
 ('medium'),
 ('large');
 
-INSERT INTO categories(name) VALUES
+INSERT IGNORE INTO categories(name) VALUES
 ('Desserts and Sweets'),
 ('Soups and Stews'),
 ('Bread'),
@@ -24,7 +24,7 @@ INSERT INTO categories(name) VALUES
 ('Dressings and Sauces'),
 ('Main Dishes');
 
-INSERT INTO diets(name) VALUES
+INSERT IGNORE INTO diets(name) VALUES
 ('Keto'),
 ('Atkins'),
 ('Paleo'),
@@ -34,7 +34,7 @@ INSERT INTO diets(name) VALUES
 ('Halal-friendly'),
 ('Kosher-friendly');
 
-INSERT INTO feedback_categories(category) VALUES
+INSERT IGNORE INTO feedback_categories(category) VALUES
 ('Add Unit'),
 ('Add Diet'),
 ('Bug Report'),
@@ -42,5 +42,5 @@ INSERT INTO feedback_categories(category) VALUES
 ('Delete Recipe'),
 ('Other');
 
-INSERT IGNORE INTO users(name, password) VALUES
-(dev_cad, $argon2i$v=19$m=65536,t=10,p=1$9sX6+jn9Iw2bfg/X2H/rVA$UfbGHk+VR3AT2emoGuTQw80Qf+K1qmDjGaTsaGWFfxo);
+INSERT IGNORE INTO users(username, password) VALUES
+('dev_cad', '$argon2i$v=19$m=65536,t=10,p=1$9sX6+jn9Iw2bfg/X2H/rVA$UfbGHk+VR3AT2emoGuTQw80Qf+K1qmDjGaTsaGWFfxo');
