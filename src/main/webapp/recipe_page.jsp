@@ -16,6 +16,10 @@ pageEncoding="UTF-8"%>
 	<body>
 		<main class = "page">
 		</main>
+		<div class="recipe-actions">
+			<button id="like-btn" onclick="toggleLike()">♡ Like</button>
+			<button id="bookmark-btn" onclick="toggleBookmark()">🔖 Bookmark</button>
+		</div>
 		<div id="errorPopup" class="popup">
 			<span class="popup-close" onclick="errorPopup()">✕</span>
 			<p>You must be logged in to access this function.</p>
@@ -36,6 +40,8 @@ pageEncoding="UTF-8"%>
 				
 				if (response.ok) {
 					main.innerHTML = returnVal.data.results;
+					const recipeId = parseInt(params.get("rsid"));
+					if (recipeId) initStats(recipeId); 
 				} else {
 					main.innerHTML = "<p>An error occurred: " + (json.data.error ?? "Unknown error") + "</p>";
 				}

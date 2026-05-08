@@ -10,11 +10,25 @@ import com.fasterxml.jackson.core.exc.StreamWriteException;
 public class RecipeRoutes {
     public static void handleGetRoutes(HttpServletRequest req, HttpServletResponse res) throws StreamWriteException, IOException {
         String path = req.getPathInfo();
+        System.out.println("RecipeRoutes path: " + path);  //Used as testing to see errors in teriminal
 
         if (path == null) return;
 
         switch (path) {
-            case "/me/recipes" -> RecipeController.getUploadedRecipes(req, res);
+            case "/recipe/me/recipes" -> RecipeController.getUploadedRecipes(req, res);
+            case "/recipe/me/liked"   -> RecipeController.getLikedRecipes(req, res);
+            case "/recipe/me/bookmarked" -> RecipeController.getBookmarkedRecipes(req, res);
+        }
+    }
+
+    public static void handlePostRoutes(HttpServletRequest req, HttpServletResponse res) throws StreamWriteException, IOException {
+        String path = req.getPathInfo();
+
+        if (path == null) return;
+
+        switch (path) {
+            case "/me/liked/toggle" -> RecipeController.toggleLike(req, res);
+            case "/me/bookmarked/toggle" -> RecipeController.toggleBookmark(req, res);
         }
     }
 }

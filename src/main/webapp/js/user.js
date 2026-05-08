@@ -4,6 +4,7 @@ function init(config) {
     loadIngredients();
     loadRecipes();
     loadUnits();
+    loadLikedRecipes();
 }
 
 window.addEventListener('configReady', (e) => init(e.detail));
@@ -226,5 +227,34 @@ async function deleteIngredient(e, id) {
         const error_el = document.getElementById('error');
         error_el.innerHTML = error.message;
         error_el.style.display = 'block';
+    }
+    async function loadLikedRecipes() {
+    try {
+        const res = await fetch('api/recipe/me/liked');
+        if (res.ok) {
+            const json = await res.json();
+            const data = json.data ?? [];
+            const container = document.getElementById('liked-container');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = "<p>You haven't liked any recipes yet.</p>";
+            } else {
+                data.forEach((r) => {
+                    const box = document.createElement('button');
+                    box.className = 'recipe-box';
+                    box.onclick = () => {
+                        window.location.href = `recipe_page.jsp?rsid=${r.id}`;
+                    };
+                    const name = document.createElement('span');
+                    name.textContent = r.name;
+                    box.appendChild(name);
+                    container.appendChild(box);
+                    });
+                }
+            }
+        } catch (err) {
+            console.error('Failed to load liked recipes:', err);
+        }
     }
 }

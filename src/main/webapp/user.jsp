@@ -37,7 +37,7 @@
                         <div class="header">
                             <h2>Liked Recipes</h2>
                         </div>
-                        <p>Recipes you've liked will appear here.</p>
+                        <div id="liked-container"></div>
                     </div>
 
                     <div id="myrecipes" class="tab-panel">

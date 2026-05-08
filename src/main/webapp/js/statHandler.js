@@ -89,3 +89,79 @@ function errorPopup() {
     popup.classList.add("show");
     setTimeout(() => popup.classList.remove("show"), 3000);
 }
+
+async function initStats(recipeId) {
+    window.recipeId = recipeId;
+    await Promise.all([
+        refreshLikeStatus(recipeId),
+        refreshBookmarkStatus(recipeId),
+    ]);
+}
+
+async function toggleLike() {
+    const recipeId = window.recipeId;
+    if (!recipeId) return;
+
+    const res = await fetch(`api/recipe/me/liked/toggle?recipeId=${recipeId}`, {
+        method: 'POST',
+    });
+
+    if (res.status === 401) {
+        errorPopup();
+        return;
+    }
+
+    if (res.ok) {
+        const json = await res.json();
+        setLikeButton(json.data.liked);
+    }
+}
+
+async function refreshLikeStatus(recipeId) {
+    const res = await fetch('api/recipe/me/liked');
+    if (!res.ok) return;
+    const json = await res.json();
+    const liked = (json.data ?? []).some(r => r.id === recipeId);
+    setLikeButton(liked);
+}
+
+function setLikeButton(isLiked) {
+    const btn = document.getElementById('like-btn');
+    if (!btn) return;
+    btn.textContent = isLiked ? '♥ Liked' : '♡ Like';
+    btn.classList.toggle('active', isLiked);
+}
+
+async function toggleBookmark() {
+    const recipeId = window.recipeId;
+    if (!recipeId) return;
+
+    const res = await fetch(`api/recipe/me/bookmarked/toggle?recipeId=${recipeId}`, {
+        method: 'POST',
+    });
+
+    if (res.status === 401) {
+        errorPopup();
+        return;
+    }
+
+    if (res.ok) {
+        const json = await res.json();
+        setBookmarkButton(json.data.bookmarked);
+    }
+}
+
+async function refreshBookmarkStatus(recipeId) {
+    const res = await fetch('api/recipe/me/bookmarked');
+    if (!res.ok) return;
+    const json = await res.json();
+    const bookmarked = (json.data ?? []).some(r => r.id === recipeId);
+    setBookmarkButton(bookmarked);
+}
+
+function setBookmarkButton(isBookmarked) {
+    const btn = document.getElementById('bookmark-btn');
+    if (!btn) return;
+    btn.textContent = isBookmarked ? '🔖 Bookmarked' : '🔖 Bookmark';
+    btn.classList.toggle('active', isBookmarked);
+}

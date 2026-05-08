@@ -20,6 +20,7 @@ public class Index extends HttpServlet{
         AuthRoutes.handlePostRoutes(req, resp);
         BookmarkRoutes.handlePostRoutes(req, resp);
         IngredientRoutes.handlePostRoutes(req, resp);
+        RecipeRoutes.handlePostRoutes(req, resp);
     }
 
     @Override
