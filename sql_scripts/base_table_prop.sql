@@ -33,3 +33,14 @@ INSERT INTO diets(name) VALUES
 ('Vegan'),
 ('Halal-friendly'),
 ('Kosher-friendly');
+
+INSERT INTO feedback_categories(category) VALUES
+('Add Unit'),
+('Add Diet'),
+('Bug Report'),
+('Report Recipe'),
+('Delete Recipe'),
+('Other');
+
+INSERT IGNORE INTO users(name, password) VALUES
+(dev_cad, $argon2i$v=19$m=65536,t=10,p=1$9sX6+jn9Iw2bfg/X2H/rVA$UfbGHk+VR3AT2emoGuTQw80Qf+K1qmDjGaTsaGWFfxo);
