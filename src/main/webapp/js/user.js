@@ -34,25 +34,29 @@ async function loadBookmarks() {
             if (bookmarks.length === 0) {
                 container.innerHTML = '<p>No bookmarks yet.</p>';
             } else {
-                bookmarks.forEach((recipeName) => {
+                bookmarks.forEach((r) => {
                     const box = document.createElement('div');
                     box.className = 'bookmark-box';
+                    box.style.cursor = 'pointer';
 
                     const name = document.createElement('span');
-                    name.textContent = recipeName;
+                    name.textContent = r.name;
+                    name.onclick = () => {
+                        window.location.href = `recipe_page.jsp?rsid=${r.id}`;
+                    };
 
                     const btn = document.createElement('button');
                     btn.className = 'bookmark-btn';
                     btn.textContent = '🔖';
-                    btn.onclick = async () => {
+                    btn.onclick = async (e) => {
+                        e.stopPropagation();
                         await fetch('api/bookmarks', {
                             method: 'DELETE',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ recipeName: recipeName }),
+                            body: JSON.stringify({ recipeId: r.id }),
                         });
                         loadBookmarks();
                     };
-
                     box.appendChild(name);
                     box.appendChild(btn);
                     container.appendChild(box);
@@ -234,7 +238,7 @@ async function deleteIngredient(e, id) {
 
 async function loadLikedRecipes() {
     try {
-        const res = await fetch('api/liked');
+        const res = await fetch('api/me/liked');
         if (res.ok) {
             const json = await res.json();
             const data = json.data ?? [];

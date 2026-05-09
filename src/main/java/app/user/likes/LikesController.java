@@ -2,6 +2,7 @@ package app.user.likes;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +21,13 @@ public class LikesController {
         try {
             String sessionId = AuthMiddleware.getSessionId(req, res);
             UserSession userSession = AuthService.getUserSession(sessionId);
-            if (userSession!= null) {
+            if (userSession != null) {
                 int userId = userSession.getUserId();
-                Map<String, String> liked_recipes = LikesService.getLikedRecipes(userId);
+                List<Map<String, Object>> liked_recipes = LikesService.getLikedRecipes(userId);
 
                 res.setStatus(200);
                 res.setContentType("application/json");
                 res.setCharacterEncoding("UTF-8");
-
                 mapper.writeValue(res.getWriter(), liked_recipes);
             } else {
                 res.setStatus(401);

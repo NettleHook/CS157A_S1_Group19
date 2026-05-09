@@ -5,27 +5,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.Database;
 
 public class BookmarkService {
 
-    public static List<String> getBookmarks(int userId) throws SQLException {
+    public static List<Map<String, Object>> getBookmarks(int userId) throws SQLException {
         String query = """
-            SELECT rs.name 
+            SELECT rs.id, rs.name 
             FROM bookmarked_recipes br
             JOIN recipe_summaries rs ON br.recipe_id = rs.id
             WHERE br.user_id = ?
         """;
 
-        List<String> bookmarks = new ArrayList<>();
+        List<Map<String, Object>> bookmarks = new ArrayList<>();
         try (Connection con = Database.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(query)) {
                 stmt.setInt(1, userId);
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
-                        bookmarks.add(rs.getString("name"));
+                        Map<String, Object> recipe = new HashMap<>();
+                        recipe.put("id", rs.getInt("id"));
+                        recipe.put("name", rs.getString("name"));
+                        bookmarks.add(recipe);
                     }
                 }
             }

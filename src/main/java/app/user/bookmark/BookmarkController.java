@@ -3,6 +3,7 @@ package app.user.bookmark;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +23,7 @@ public class BookmarkController {
             UserSession userSession = AuthService.getUserSession(sessionId);
             if (userSession!= null) {
                 int userId = userSession.getUserId();
-                List<String> bookmarks = BookmarkService.getBookmarks(userId);
+                List<Map<String, Object>> bookmarks = BookmarkService.getBookmarks(userId);
 
                 res.setStatus(200);
                 res.setContentType("application/json");
