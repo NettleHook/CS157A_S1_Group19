@@ -60,3 +60,15 @@ async function registerDiets() {
         propogateDiets(0)
     }
 }
+
+async function propagateCategories() {
+    const res = await fetch('api/categories');
+    if (res.ok) {
+        const response = await res.json();
+        const div = document.getElementById('category-div');
+        div.innerHTML = response.data.map(cat => `
+            <input type="radio" id="${cat.id}" name="food-cat" value="${cat.id}">
+            <label for="${cat.id}">${cat.text}</label>
+        `).join('');
+    }
+}

@@ -33,12 +33,7 @@
                 </label>
                 <div class="food-cat" id="food-cat">
                     <label for="food-cat">Category:</label>
-                    <div>
-                        <% for(Constants.Option option : Constants.CATEGORIES) { %>
-                        <input type="radio" id="<%= option.id() %>" name="food-cat" value="<%= option.id() %>">
-                        <label for="<%= option.id() %>"><%= option.text() %></label>
-                        <% } %>
-                    </div>
+                    <div id="category-div"></div>
                 </div>
                 <div class="serving-size-div">
                     <label for="serving-size">Serving Size:</label>
@@ -87,6 +82,6 @@
             }
         </script>
         <script src="js/diet_search.js"></script>
-        <script>propogateDiets(1);</script>
+        <script>propogateDiets(1); propagateCategories();</script>
     </body>
 </html>
