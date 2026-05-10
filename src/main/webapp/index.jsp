@@ -13,6 +13,7 @@
     <body>
         <t:layout pageTitle="Index">
         </t:layout>
+        <main id="main" class="main">
             <form class="recipe-search" id="recipe-search" action="search.jsp" method="GET">
                 <div class="ingredients" id="ingredients">
                     <label for="ingredients">Ingredients:</label>
@@ -68,6 +69,7 @@
                 </div>
                 <input type="submit" value="Submit">
             </form>
+            </main>
         <script>
             function addIngredient() {
                 const container = document.getElementById('ingredients');
