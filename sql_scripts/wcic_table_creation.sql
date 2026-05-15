@@ -1,6 +1,3 @@
-CREATE TABLE guests (
-    session_id VARCHAR(255) PRIMARY KEY
-);
 
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
@@ -123,16 +120,6 @@ CREATE TABLE user_ingredient_lists (
     FOREIGN KEY (unit_id) REFERENCES units(id)
 );
 
-CREATE TABLE guest_ingredient_lists (
-    session_id VARCHAR(255) NOT NULL,
-    ingredient_id VARCHAR(255) NOT NULL,
-    unit_id INT NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL,
-    PRIMARY KEY (session_id, ingredient_id),
-    FOREIGN KEY (session_id) REFERENCES guests(session_id) ON DELETE CASCADE,
-    FOREIGN KEY (ingredient_id) REFERENCES ingredients(name),
-    FOREIGN KEY (unit_id) REFERENCES units(id)
-);
 CREATE TABLE feedback_categories(
 	id INT NOT NULL AUTO_INCREMENT,
     category VARCHAR(255) NOT NULL,
