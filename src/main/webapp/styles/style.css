@@ -53,7 +53,7 @@ button:hover, input[type="submit"]:hover{
 }
 
 .results{
-    width: 100%;
+    width: 90%;
 }
 .recipe-search, .recipe-upload {
     display: flex;

@@ -1,6 +1,8 @@
 # What Can I Cook?
 
-A recipe search app!
+A recipe search app! Search by ingredients, food category, calories, serving size, and diet! Don't see anything you like? You can also upload a new recipe.
+
+Recipes you want to save can be liked or bookmarked for easy reference later.
 
 ### Currently implemented:
 #### Search and results:
@@ -52,9 +54,9 @@ Make sure user profile grants access to the following:
 - User can add registered diets. Search filtering will automatically be selecting for these diets
 
 #### Liking and Bookmarking Recipes
-- Backend support for bookmarking has been added
 - Users can bookmark recipes they want to save for later.
 - Users can like recipes
+- Both bookmarks and liking recipes can be used to quickly access recipes through the user profile
 
 #### Ingredient Tracker
 - Users can keep a list of ingredients, this could be things they usually have or what is currently in their fridge
@@ -67,14 +69,3 @@ Make sure user profile grants access to the following:
   - reporting inappropriate recipes
   - requests to delete recipes
   - bug reports
-
------
-### To be implemented:
-
-#### Liking and Bookmarking Recipes
-- Liked recipes can later be accessed through the Liked Recipes page in the account profile
-- Both bookmarks and liking recipes can be used to quickly access recipes
-
-
-
-
